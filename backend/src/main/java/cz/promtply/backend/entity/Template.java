@@ -1,5 +1,6 @@
 package cz.promtply.backend.entity;
 
+import cz.promtply.backend.enums.TemplateType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -45,8 +46,17 @@ public class Template {
     @Column(name = "subject")
     private String subject;
 
-    @Column(name = "template", length = Integer.MAX_VALUE)
-    private String template;
+    @Column(name = "text_raw", length = Integer.MAX_VALUE)
+    private String textRaw;
+
+    @Column(name = "html_raw", length = Integer.MAX_VALUE)
+    private String htmlRaw;
+
+    @Column(name = "markdown_raw", length = Integer.MAX_VALUE)
+    private String markdownRaw;
+
+    @Column(name = "prefered_template_type", length = 25)
+    private TemplateType preferedTemplateType;
 
     @Column(name = "schema")
     @JdbcTypeCode(SqlTypes.JSON)

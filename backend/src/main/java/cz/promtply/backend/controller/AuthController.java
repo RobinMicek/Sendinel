@@ -36,7 +36,7 @@ public class AuthController {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid credentials");
         }
 
-        JwtDto jwt = new JwtDto(jwtUtil.generateToken(user.getEmail(), user.getRole(), false));
+        JwtDto jwt = new JwtDto(jwtUtil.generateToken(user.getEmail(), user.getRole().name(), false));
         return ResponseEntity.ok(jwt);
     }
 
@@ -59,7 +59,7 @@ public class AuthController {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid TOTP code");
         }
 
-        JwtDto jwt = new JwtDto(jwtUtil.generateToken(email, user.getRole(), true));
+        JwtDto jwt = new JwtDto(jwtUtil.generateToken(email, user.getRole().name(), true));
         return ResponseEntity.ok(jwt);
     }
 }

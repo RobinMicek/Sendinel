@@ -1,10 +1,14 @@
 package cz.promtply.backend.entity;
 
+import cz.promtply.backend.enums.UserRoles;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -41,7 +45,15 @@ public class User {
     private String passwordHash;
 
     @Column(name = "role", length = 25)
-    private String role;
+    private UserRoles role;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "created_by")
+    private User createdBy;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "updated_by")
+    private User updatedBy;
 
     @ColumnDefault("now()")
     @Column(name = "created_on", nullable = false)

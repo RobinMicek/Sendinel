@@ -23,7 +23,7 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(name = "clients_tokens")
-@SQLDelete(sql = "UPDATE clientToken SET deleted_on = CURRENT_TIMESTAMP WHERE id = ?")
+@SQLDelete(sql = "UPDATE clients_tokens SET deleted_on = CURRENT_TIMESTAMP WHERE id = ?")
 @Where(clause = "deleted_on IS NULL")
 public class ClientToken {
     @Id

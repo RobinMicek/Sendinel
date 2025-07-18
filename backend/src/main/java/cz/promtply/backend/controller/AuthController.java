@@ -1,8 +1,8 @@
 package cz.promtply.backend.controller;
 
-import cz.promtply.backend.dto.auth.JwtDto;
-import cz.promtply.backend.dto.auth.LoginDto;
-import cz.promtply.backend.dto.auth.TotpDto;
+import cz.promtply.backend.dto.auth.JwtResponseDto;
+import cz.promtply.backend.dto.auth.LoginRequestDto;
+import cz.promtply.backend.dto.auth.TotpRequestDto;
 import cz.promtply.backend.entity.User;
 import cz.promtply.backend.service.UserService;
 import cz.promtply.backend.util.JwtUtil;
@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
@@ -29,37 +31,39 @@ public class AuthController {
     private final PasswordEncoder passwordEncoder;
 
     @PostMapping("/login")
-    public ResponseEntity<JwtDto> login(@RequestBody @Valid LoginDto dto) {
+    public ResponseEntity<JwtResponseDto> login(@RequestBody @Valid LoginRequestDto dto) {
         User user = userService.getUserByEmail(dto.getEmail()).orElseThrow(() -> new RuntimeException("User not found"));
 
         if (!passwordEncoder.matches(dto.getPassword(), user.getPasswordHash())) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid credentials");
         }
 
-        JwtDto jwt = new JwtDto(jwtUtil.generateToken(user.getEmail(), user.getRole().name(), false));
+        JwtResponseDto jwt = new JwtResponseDto(jwtUtil.generateToken(user.getId(), user.getRole().name(), false));
         return ResponseEntity.ok(jwt);
     }
 
     @PostMapping("/totp")
-    public ResponseEntity<JwtDto> verifyTotp(@RequestHeader("Authorization") String authHeader, @RequestBody @Valid TotpDto dto) {
+    public ResponseEntity<JwtResponseDto> verifyTotp(@RequestHeader("Authorization") String authHeader, @RequestBody @Valid TotpRequestDto dto) {
         String token = authHeader.replace("Bearer ", "");
-        String email = jwtUtil.getEmail(token);
+        UUID userId = jwtUtil.getUserId(token);
 
         if (jwtUtil.isTotpVerified(token)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "TOTP already verified");
         }
 
-        User user = userService.getUserByEmail(email)
+        User user = userService.getUserById(userId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not found"));
-        System.out.println(user.getTotp());
+        
         if (user.getTotp() == null) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "TOTP is not configured");
 
-        boolean valid = TotpUtil.verifyTotp(user.getTotp().getSecret(), dto.getCode());
+        if (!user.getTotp().isActivated()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "TOTP is not activated");
+
+        boolean valid = TotpUtil.verifyTotp(user.getTotp().getSecret(), Integer.parseInt(dto.getCode()));
         if (!valid) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid TOTP code");
         }
 
-        JwtDto jwt = new JwtDto(jwtUtil.generateToken(email, user.getRole().name(), true));
+        JwtResponseDto jwt = new JwtResponseDto(jwtUtil.generateToken(user.getId(), user.getRole().name(), true));
         return ResponseEntity.ok(jwt);
     }
 }

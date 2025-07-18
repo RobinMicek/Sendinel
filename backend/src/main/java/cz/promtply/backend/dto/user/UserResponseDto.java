@@ -10,13 +10,13 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDto {
+public class UserResponseDto {
     private UUID id;
     private String firstname;
     private String lastname;
     private String email;
     private String role;
-    private Instant created_on;
-    private Instant updated_on;
-    private Instant deleted_on;
+    private Instant createdOn;
+    private Instant updatedOn;
+    private Instant deletedOn;
 }

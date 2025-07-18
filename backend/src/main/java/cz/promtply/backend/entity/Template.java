@@ -29,7 +29,7 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(name = "templates")
-@SQLDelete(sql = "UPDATE template SET deleted_on = CURRENT_TIMESTAMP WHERE id = ?")
+@SQLDelete(sql = "UPDATE templates SET deleted_on = CURRENT_TIMESTAMP WHERE id = ?")
 @Where(clause = "deleted_on IS NULL")
 public class Template {
     @Id

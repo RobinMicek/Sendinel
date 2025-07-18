@@ -25,7 +25,7 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(name = "senders")
-@SQLDelete(sql = "UPDATE sender SET deleted_on = CURRENT_TIMESTAMP WHERE id = ?")
+@SQLDelete(sql = "UPDATE senders SET deleted_on = CURRENT_TIMESTAMP WHERE id = ?")
 @Where(clause = "deleted_on IS NULL")
 public class Sender {
     @Id

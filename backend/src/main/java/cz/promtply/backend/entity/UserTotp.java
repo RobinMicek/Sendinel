@@ -12,8 +12,6 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -22,8 +20,6 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(name = "users_totp")
-@SQLDelete(sql = "UPDATE userTotp SET deleted_on = CURRENT_TIMESTAMP WHERE id = ?")
-@Where(clause = "deleted_on IS NULL")
 public class UserTotp {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -41,8 +37,9 @@ public class UserTotp {
     @Column(name = "updated_on", nullable = false)
     private Instant updatedOn;
 
-    @Column(name = "deleted_on")
-    private Instant deletedOn;
+    @ColumnDefault("false")
+    @Column(name = "activated", nullable = false)
+    private boolean activated;
 
     @ColumnDefault("now()")
     @Column(name = "created_on", nullable = false)

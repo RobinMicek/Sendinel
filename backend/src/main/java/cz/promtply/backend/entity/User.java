@@ -24,7 +24,7 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(name = "users")
-@SQLDelete(sql = "UPDATE user SET deleted_on = CURRENT_TIMESTAMP WHERE id = ?")
+@SQLDelete(sql = "UPDATE users SET deleted_on = CURRENT_TIMESTAMP WHERE id = ?")
 @Where(clause = "deleted_on IS NULL")
 public class User {
     @Id
@@ -38,7 +38,7 @@ public class User {
     @Column(name = "lastname", length = 25)
     private String lastname;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true, length = 100)
     private String email;
 
     @Column(name = "password_hash", length = 128)

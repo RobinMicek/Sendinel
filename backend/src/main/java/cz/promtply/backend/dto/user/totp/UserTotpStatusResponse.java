@@ -1,4 +1,4 @@
-package cz.promtply.backend.dto.auth;
+package cz.promtply.backend.dto.user.totp;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class JwtDto {
-    private String jwtToken;
+public class UserTotpStatusResponse {
+    private boolean exists;
+    private boolean activated;
 }

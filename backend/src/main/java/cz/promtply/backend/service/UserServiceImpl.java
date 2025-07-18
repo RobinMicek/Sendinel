@@ -1,10 +1,17 @@
 package cz.promtply.backend.service;
 
+import cz.promtply.backend.dto.user.UseCreateRequestDto;
+import cz.promtply.backend.dto.user.UserUpdateRequestDto;
 import cz.promtply.backend.entity.User;
+import cz.promtply.backend.exceptions.ResourceNotFoundException;
 import cz.promtply.backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -14,10 +21,29 @@ import java.util.UUID;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public User createUser(User user) {
-        return null;
+        user.setCreatedOn(Instant.now());
+        user.setUpdatedOn(Instant.now());
+
+        return userRepository.save(user);
+    }
+
+    @Override
+    public User createUserFromDto(UseCreateRequestDto useCreateRequestDto, User createdBy) {
+        User user = new User();
+        user.setFirstname(useCreateRequestDto.getFirstname());
+        user.setLastname(useCreateRequestDto.getLastname());
+        user.setEmail(useCreateRequestDto.getEmail());
+        user.setPasswordHash(passwordEncoder.encode(useCreateRequestDto.getPassword()));
+        user.setRole(useCreateRequestDto.getRole());
+
+        user.setCreatedBy(createdBy);
+        user.setUpdatedBy(createdBy);
+
+        return createUser(user);
     }
 
     @Override
@@ -36,18 +62,68 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Page<User> getUsers(Pageable pageable) {
+        return userRepository.findAll(pageable);
+    }
+
+    @Override
     public User updateUser(UUID id, User user) {
-        return null;
+        User existingUser = userRepository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("User not found with id " + id)
+        );
+
+        existingUser.setFirstname(user.getFirstname());
+        existingUser.setLastname(user.getLastname());
+        existingUser.setEmail(user.getEmail());
+        existingUser.setRole(user.getRole());
+        existingUser.setUpdatedOn(Instant.now());
+
+        return userRepository.save(existingUser);
+    }
+
+    @Override
+    public User updateUserFromDto(UUID id, UserUpdateRequestDto userUpdateRequestDto, User updatedBy) {
+        User user = new User();
+        user.setFirstname(userUpdateRequestDto.getFirstname());
+        user.setLastname(userUpdateRequestDto.getLastname());
+        user.setEmail(userUpdateRequestDto.getEmail());
+        user.setRole(userUpdateRequestDto.getRole());
+
+        user.setUpdatedBy(updatedBy);
+
+        return updateUser(id, user);
     }
 
     @Override
     public void deleteUser(User user) {
-        userRepository.save(user);
+        userRepository.delete(user);
     }
 
     @Override
     public void deleteUser(UUID id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("User not found"));
+        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
         deleteUser(user);
+    }
+
+    @Override
+    public void deleteUser(UUID id, User deletedBy) {
+        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        user.setUpdatedBy(deletedBy);
+
+        deleteUser(user);
+    }
+
+    @Override
+    public boolean hasTotp(UUID id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        return user.getTotp() != null;
+    }
+
+    @Override
+    public boolean hasTotpActivated(UUID id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        return user.getTotp() != null && user.getTotp().isActivated();
     }
 }

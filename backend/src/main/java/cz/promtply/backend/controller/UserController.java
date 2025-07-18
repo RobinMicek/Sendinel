@@ -1,0 +1,118 @@
+package cz.promtply.backend.controller;
+
+import com.google.zxing.WriterException;
+import cz.promtply.backend.dto.auth.TotpRequestDto;
+import cz.promtply.backend.dto.user.UseCreateRequestDto;
+import cz.promtply.backend.dto.user.UserResponseDto;
+import cz.promtply.backend.dto.user.UserUpdateRequestDto;
+import cz.promtply.backend.dto.user.totp.UserTotpCreateResponse;
+import cz.promtply.backend.dto.user.totp.UserTotpStatusResponse;
+import cz.promtply.backend.entity.User;
+import cz.promtply.backend.entity.UserTotp;
+import cz.promtply.backend.service.UserService;
+import cz.promtply.backend.service.UserTotpService;
+import cz.promtply.backend.util.MapperUtil;
+import cz.promtply.backend.util.TotpUtil;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.io.IOException;
+import java.util.UUID;
+
+@RestController
+@RequestMapping("/user")
+@RequiredArgsConstructor
+public class UserController extends BaseUserLoggedInController {
+
+    private final UserService userService;
+    private final UserTotpService userTotpService;
+    private final TotpUtil totpUtil;
+
+    @GetMapping // Use PageRequestDTO and fix sorting
+    public ResponseEntity<Page<UserResponseDto>> getUsers(Pageable pageable) {
+        Page<User> userPage = userService.getUsers(pageable);
+
+        // Map Page<User> to Page<UserResponseDto>
+        Page<UserResponseDto> dtoPage = userPage.map(user -> MapperUtil.toDto(user, UserResponseDto.class));
+
+        return ResponseEntity.ok(dtoPage);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserResponseDto> getUser(@PathVariable UUID id) {
+        User user = userService.getUserById(id).orElse(null);
+
+        return ResponseEntity.ok(MapperUtil.toDto(user, UserResponseDto.class));
+    }
+
+    @PostMapping
+    public ResponseEntity<UserResponseDto> createUser(@Valid @RequestBody UseCreateRequestDto useCreateRequestDto) {
+        User user = userService.createUserFromDto(useCreateRequestDto, getLoggedInUser());
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(MapperUtil.toDto(user, UserResponseDto.class));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UserResponseDto> updateUser(@PathVariable UUID id, @Valid @RequestBody UserUpdateRequestDto userUpdateRequestDto) {
+        User user = userService.updateUserFromDto(id, userUpdateRequestDto, getLoggedInUser());
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(MapperUtil.toDto(user, UserResponseDto.class));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable UUID id) {
+        userService.deleteUser(id, getLoggedInUser());
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/totp")
+    public ResponseEntity<UserTotpStatusResponse> getTotpStatus() {
+        UserTotpStatusResponse response = new UserTotpStatusResponse(
+                userService.hasTotp(getLoggedInUser().getId()),
+                userService.hasTotpActivated(getLoggedInUser().getId())
+        );
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/totp")
+    public ResponseEntity<UserTotpCreateResponse> createTotp() throws IOException, WriterException {
+        UserTotp userTotp = userTotpService.generateTotp(getLoggedInUser());
+
+        String qrCode = totpUtil.generateQRCodeBase64(getLoggedInUser().getEmail(), userTotp.getSecret());
+
+        return ResponseEntity.ok(
+                new UserTotpCreateResponse(
+                        userTotp.getSecret(),
+                        qrCode
+                )
+        );
+    }
+
+    @DeleteMapping("/totp")
+    public ResponseEntity<Void> deleteTotp() {
+        userTotpService.deleteTotp(getLoggedInUser());
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/totp/activate")
+    public ResponseEntity<Void> activateTotp(@Valid @RequestBody TotpRequestDto totpRequestDto) {
+        userTotpService.activateTotp(totpRequestDto.getCode(), getLoggedInUser());
+
+        return ResponseEntity.noContent().build();
+    }
+}

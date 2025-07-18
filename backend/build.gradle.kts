@@ -34,6 +34,8 @@ dependencies {
 	implementation("io.jsonwebtoken:jjwt-api:0.11.5")
 	implementation("com.warrenstrange:googleauth:1.5.0")
 	implementation("org.modelmapper:modelmapper:2.4.2")
+	implementation("com.google.zxing:core:3.5.2")
+	implementation("com.google.zxing:javase:3.5.2")
 
 	compileOnly("org.projectlombok:lombok")
 

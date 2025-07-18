@@ -4,17 +4,14 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
-import jakarta.annotation.PostConstruct;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @Component
 public class JwtUtil {
@@ -31,14 +28,14 @@ public class JwtUtil {
         this.expiration = expiration;
     }
 
-    public String generateToken(String email, String role, boolean totpVerified) {
+    public String generateToken(UUID userId, String role, boolean totpVerified) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("role", role);
         claims.put("totp", totpVerified);
 
         return Jwts.builder()
                 .setClaims(claims)
-                .setSubject(email)
+                .setSubject(String.valueOf(userId))
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(key, SignatureAlgorithm.HS256)
@@ -57,7 +54,7 @@ public class JwtUtil {
         return parseToken(token).get("totp", Boolean.class);
     }
 
-    public String getEmail(String token) {
-        return parseToken(token).getSubject();
+    public UUID getUserId(String token) {
+        return UUID.fromString(parseToken(token).getSubject());
     }
 }

@@ -13,10 +13,10 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.SQLUpdate;
 import org.hibernate.annotations.Where;
 
 import java.time.Instant;
+import java.util.Date;
 import java.util.UUID;
 
 @Getter
@@ -31,6 +31,12 @@ public class ClientToken {
     @Column(name = "id", nullable = false)
     private UUID id;
 
+    @Column(name = "name", length = 50)
+    private String name;
+
+    @Column(name = "description")
+    private String description;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "client_id", nullable = false)
     private Client client;
@@ -42,6 +48,10 @@ public class ClientToken {
     @JoinColumn(name = "created_by")
     private User createdBy;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "deleted_by")
+    private User deletedBy;
+
     @ColumnDefault("now()")
     @Column(name = "created_on", nullable = false)
     private Instant createdOn;
@@ -50,6 +60,6 @@ public class ClientToken {
     private Instant deletedOn;
 
     @Column(name = "expiration")
-    private Instant expiration;
+    private Date expiration;
 
 }

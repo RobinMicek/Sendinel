@@ -37,6 +37,7 @@ dependencies {
 	implementation("com.google.zxing:core:3.5.2")
 	implementation("com.google.zxing:javase:3.5.2")
 	implementation("org.springframework.boot:spring-boot-starter-hateoas")
+	implementation("org.bouncycastle:bcprov-jdk15on:1.70")
 
 	compileOnly("org.projectlombok:lombok")
 

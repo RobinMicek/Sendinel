@@ -1,0 +1,3 @@
+ALTER TABLE users_totp
+ALTER
+COLUMN secret TYPE VARCHAR(256) USING (secret::VARCHAR(256));

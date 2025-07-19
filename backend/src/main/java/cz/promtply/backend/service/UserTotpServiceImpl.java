@@ -53,14 +53,25 @@ public class UserTotpServiceImpl implements UserTotpService {
     }
 
     @Override
-    public UserTotp generateTotp(User user) {
+    public String generateAndCreateTotp(User user) {
         String secret = totpUtil.generateKey();
 
         UserTotp userTotp = new UserTotp();
         userTotp.setUser(user);
-        userTotp.setSecret(secret);
 
-        return createUserTotp(userTotp);
+        // Encrypt the secret
+        String encryptedSecret;
+        try {
+            encryptedSecret = totpUtil.encrypt(secret);
+        } catch (Exception e) {
+            throw new SecurityException("Failed to encrypt TOTP secret", e);
+        }
+
+        userTotp.setSecret(encryptedSecret);
+
+        createUserTotp(userTotp);
+
+        return secret;
     }
 
     @Override
@@ -73,7 +84,7 @@ public class UserTotpServiceImpl implements UserTotpService {
             throw new AlreadyExistsException("TOTP already activated for user id " + user.getId());
         }
 
-        boolean valid = TotpUtil.verifyTotp(user.getTotp().getSecret(), Integer.parseInt(code));
+        boolean valid = verifyTotp(code, user);
         if (!valid) {
             throw new SecurityException("Invalid TOTP code");
         }
@@ -83,5 +94,21 @@ public class UserTotpServiceImpl implements UserTotpService {
         userTotp.setUpdatedOn(Instant.now());
 
         userTotpRepository.save(userTotp);
+    }
+
+    @Override
+    public boolean verifyTotp(String code, User user) {
+        if (!userTotpRepository.existsByUserId(user.getId())) {
+            throw new ResourceNotFoundException("TOTP not found for user id " + user.getId());
+        }
+
+        String decryptedSecret;
+        try {
+            decryptedSecret = totpUtil.decrypt(user.getTotp().getSecret());
+        } catch (Exception e) {
+            throw new SecurityException("Failed to decrypt TOTP secret", e);
+        }
+
+        return TotpUtil.verifyTotp(decryptedSecret, Integer.parseInt(code));
     }
 }

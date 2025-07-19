@@ -9,6 +9,7 @@ public interface UserTotpService {
     UserTotp getByUserId(UUID userId);
     void deleteTotp(User user);
     UserTotp createUserTotp(UserTotp userTotp);
-    UserTotp generateTotp(User user);
+    String generateAndCreateTotp(User user);
     void activateTotp(String code, User user);
+    boolean verifyTotp(String code, User user);
 }

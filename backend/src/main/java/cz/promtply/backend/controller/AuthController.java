@@ -5,6 +5,7 @@ import cz.promtply.backend.dto.auth.LoginRequestDto;
 import cz.promtply.backend.dto.auth.TotpRequestDto;
 import cz.promtply.backend.entity.User;
 import cz.promtply.backend.service.UserService;
+import cz.promtply.backend.service.UserTotpService;
 import cz.promtply.backend.util.JwtUtil;
 import cz.promtply.backend.util.TotpUtil;
 import jakarta.validation.Valid;
@@ -27,6 +28,7 @@ import java.util.UUID;
 public class AuthController {
 
     private final UserService userService;
+    private final UserTotpService userTotpService;
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
 
@@ -58,7 +60,7 @@ public class AuthController {
 
         if (!user.getTotp().isActivated()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "TOTP is not activated");
 
-        boolean valid = TotpUtil.verifyTotp(user.getTotp().getSecret(), Integer.parseInt(dto.getCode()));
+        boolean valid = userTotpService.verifyTotp(dto.getCode(), user);
         if (!valid) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid TOTP code");
         }

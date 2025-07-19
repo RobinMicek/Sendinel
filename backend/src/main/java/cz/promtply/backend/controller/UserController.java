@@ -91,13 +91,12 @@ public class UserController extends BaseUserLoggedInController {
 
     @PostMapping("/totp")
     public ResponseEntity<UserTotpCreateResponseDto> createTotp() throws IOException, WriterException {
-        UserTotp userTotp = userTotpService.generateTotp(getLoggedInUser());
-
-        String qrCode = totpUtil.generateQRCodeBase64(getLoggedInUser().getEmail(), userTotp.getSecret());
+        String secret = userTotpService.generateAndCreateTotp(getLoggedInUser());
+        String qrCode = totpUtil.generateQRCodeBase64(getLoggedInUser().getEmail(), secret);
 
         return ResponseEntity.ok(
                 new UserTotpCreateResponseDto(
-                        userTotp.getSecret(),
+                        secret,
                         qrCode
                 )
         );

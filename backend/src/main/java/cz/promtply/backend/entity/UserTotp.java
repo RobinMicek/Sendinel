@@ -30,7 +30,7 @@ public class UserTotp {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(name = "secret", length = Integer.MAX_VALUE)
+    @Column(name = "secret", length = 256)
     private String secret;
 
     @ColumnDefault("now()")

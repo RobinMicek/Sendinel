@@ -2,6 +2,7 @@ package cz.promtply.backend.controller;
 
 import cz.promtply.backend.dto.PageResponseDto;
 import cz.promtply.backend.dto.sender.SenderRequestDto;
+import cz.promtply.backend.dto.sender.SenderResponseBasicsDto;
 import cz.promtply.backend.dto.sender.SenderResponseDto;
 import cz.promtply.backend.entity.Sender;
 import cz.promtply.backend.service.SenderService;
@@ -22,7 +23,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/sender")
@@ -39,6 +42,19 @@ public class SenderController extends BaseUserLoggedInController {
         Page<SenderResponseDto> dtoPage = senderPage.map(sender -> MapperUtil.toDto(sender, SenderResponseDto.class));
 
         return ResponseEntity.ok(MapperUtil.fromPage(dtoPage));
+    }
+
+    // For dropdowns
+    @GetMapping("/list")
+    public ResponseEntity<List<SenderResponseBasicsDto>> getSendersList() {
+        List<Sender> senders = senderService.getAllSenders();
+
+        // Map List<Sender> to List<SenderResponseDto>
+        List<SenderResponseBasicsDto> response = senders.stream()
+                .map(sender -> MapperUtil.toDto(sender, SenderResponseBasicsDto.class))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")

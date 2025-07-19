@@ -1,12 +1,13 @@
 package cz.promtply.backend.controller;
 
 import com.google.zxing.WriterException;
+import cz.promtply.backend.dto.PageResponseDto;
 import cz.promtply.backend.dto.auth.TotpRequestDto;
-import cz.promtply.backend.dto.user.UseCreateRequestDto;
+import cz.promtply.backend.dto.user.UserCreateRequestDto;
 import cz.promtply.backend.dto.user.UserResponseDto;
 import cz.promtply.backend.dto.user.UserUpdateRequestDto;
-import cz.promtply.backend.dto.user.totp.UserTotpCreateResponse;
-import cz.promtply.backend.dto.user.totp.UserTotpStatusResponse;
+import cz.promtply.backend.dto.user.totp.UserTotpCreateResponseDto;
+import cz.promtply.backend.dto.user.totp.UserTotpStatusResponseDto;
 import cz.promtply.backend.entity.User;
 import cz.promtply.backend.entity.UserTotp;
 import cz.promtply.backend.service.UserService;
@@ -40,14 +41,14 @@ public class UserController extends BaseUserLoggedInController {
     private final UserTotpService userTotpService;
     private final TotpUtil totpUtil;
 
-    @GetMapping // Use PageRequestDTO and fix sorting
-    public ResponseEntity<Page<UserResponseDto>> getUsers(Pageable pageable) {
+    @GetMapping
+    public ResponseEntity<PageResponseDto<UserResponseDto>> getUsers(Pageable pageable) {
         Page<User> userPage = userService.getUsers(pageable);
 
         // Map Page<User> to Page<UserResponseDto>
         Page<UserResponseDto> dtoPage = userPage.map(user -> MapperUtil.toDto(user, UserResponseDto.class));
 
-        return ResponseEntity.ok(dtoPage);
+        return ResponseEntity.ok(MapperUtil.fromPage(dtoPage));
     }
 
     @GetMapping("/{id}")
@@ -58,8 +59,8 @@ public class UserController extends BaseUserLoggedInController {
     }
 
     @PostMapping
-    public ResponseEntity<UserResponseDto> createUser(@Valid @RequestBody UseCreateRequestDto useCreateRequestDto) {
-        User user = userService.createUserFromDto(useCreateRequestDto, getLoggedInUser());
+    public ResponseEntity<UserResponseDto> createUser(@Valid @RequestBody UserCreateRequestDto userCreateRequestDto) {
+        User user = userService.createUserFromDto(userCreateRequestDto, getLoggedInUser());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(MapperUtil.toDto(user, UserResponseDto.class));
     }
@@ -79,8 +80,8 @@ public class UserController extends BaseUserLoggedInController {
     }
 
     @GetMapping("/totp")
-    public ResponseEntity<UserTotpStatusResponse> getTotpStatus() {
-        UserTotpStatusResponse response = new UserTotpStatusResponse(
+    public ResponseEntity<UserTotpStatusResponseDto> getTotpStatus() {
+        UserTotpStatusResponseDto response = new UserTotpStatusResponseDto(
                 userService.hasTotp(getLoggedInUser().getId()),
                 userService.hasTotpActivated(getLoggedInUser().getId())
         );
@@ -89,13 +90,13 @@ public class UserController extends BaseUserLoggedInController {
     }
 
     @PostMapping("/totp")
-    public ResponseEntity<UserTotpCreateResponse> createTotp() throws IOException, WriterException {
+    public ResponseEntity<UserTotpCreateResponseDto> createTotp() throws IOException, WriterException {
         UserTotp userTotp = userTotpService.generateTotp(getLoggedInUser());
 
         String qrCode = totpUtil.generateQRCodeBase64(getLoggedInUser().getEmail(), userTotp.getSecret());
 
         return ResponseEntity.ok(
-                new UserTotpCreateResponse(
+                new UserTotpCreateResponseDto(
                         userTotp.getSecret(),
                         qrCode
                 )

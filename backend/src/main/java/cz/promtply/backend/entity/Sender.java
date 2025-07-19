@@ -1,5 +1,7 @@
 package cz.promtply.backend.entity;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import cz.promtply.backend.enums.SenderTypes;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -13,8 +15,10 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
+import org.hibernate.type.SqlTypes;
 
 import java.time.Instant;
 import java.util.LinkedHashSet;
@@ -37,13 +41,14 @@ public class Sender {
     private String name;
 
     @Column(name = "type", length = 25)
-    private String type;
+    private SenderTypes type;
 
     @Column(name = "description")
     private String description;
 
-    @Column(name = "configuration", length = Integer.MAX_VALUE)
-    private String configuration;
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name = "configuration", columnDefinition = "jsonb")
+    private JsonNode configuration;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by")

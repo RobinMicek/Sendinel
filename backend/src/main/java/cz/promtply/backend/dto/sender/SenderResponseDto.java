@@ -1,7 +1,8 @@
-package cz.promtply.backend.dto.user;
+package cz.promtply.backend.dto.sender;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import cz.promtply.backend.dto.UpdatedByResponseDto;
-import cz.promtply.backend.enums.UserRoles;
+import cz.promtply.backend.enums.SenderTypes;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,12 +13,11 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserResponseDto {
+public class SenderResponseDto {
     private UUID id;
-    private String firstname;
-    private String lastname;
-    private String email;
-    private UserRoles role;
+    private String name;
+    private SenderTypes type;
+    private JsonNode configuration;
     private UpdatedByResponseDto createdBy;
     private UpdatedByResponseDto updatedBy;
     private Instant createdOn;

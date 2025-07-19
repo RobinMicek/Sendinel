@@ -3,7 +3,6 @@ package cz.promtply.backend.controller;
 import cz.promtply.backend.dto.exception.ExceptionDto;
 import cz.promtply.backend.util.MapperUtil;
 import org.apache.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

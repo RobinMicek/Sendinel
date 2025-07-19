@@ -1,6 +1,6 @@
 package cz.promtply.backend.service;
 
-import cz.promtply.backend.dto.user.UseCreateRequestDto;
+import cz.promtply.backend.dto.user.UserCreateRequestDto;
 import cz.promtply.backend.dto.user.UserUpdateRequestDto;
 import cz.promtply.backend.entity.User;
 import cz.promtply.backend.exceptions.ResourceNotFoundException;
@@ -32,13 +32,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User createUserFromDto(UseCreateRequestDto useCreateRequestDto, User createdBy) {
+    public User createUserFromDto(UserCreateRequestDto userCreateRequestDto, User createdBy) {
         User user = new User();
-        user.setFirstname(useCreateRequestDto.getFirstname());
-        user.setLastname(useCreateRequestDto.getLastname());
-        user.setEmail(useCreateRequestDto.getEmail());
-        user.setPasswordHash(passwordEncoder.encode(useCreateRequestDto.getPassword()));
-        user.setRole(useCreateRequestDto.getRole());
+        user.setFirstname(userCreateRequestDto.getFirstname());
+        user.setLastname(userCreateRequestDto.getLastname());
+        user.setEmail(userCreateRequestDto.getEmail());
+        user.setPasswordHash(passwordEncoder.encode(userCreateRequestDto.getPassword()));
+        user.setRole(userCreateRequestDto.getRole());
 
         user.setCreatedBy(createdBy);
         user.setUpdatedBy(createdBy);
@@ -76,6 +76,8 @@ public class UserServiceImpl implements UserService {
         existingUser.setLastname(user.getLastname());
         existingUser.setEmail(user.getEmail());
         existingUser.setRole(user.getRole());
+
+        existingUser.setUpdatedBy(user.getUpdatedBy());
         existingUser.setUpdatedOn(Instant.now());
 
         return userRepository.save(existingUser);
@@ -100,14 +102,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(UUID id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        deleteUser(user);
-    }
-
-    @Override
     public void deleteUser(UUID id, User deletedBy) {
-        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found with id " + id));
         user.setUpdatedBy(deletedBy);
 
         deleteUser(user);
@@ -115,14 +111,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean hasTotp(UUID id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found with id " + id));
 
         return user.getTotp() != null;
     }
 
     @Override
     public boolean hasTotpActivated(UUID id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found with id " + id));
 
         return user.getTotp() != null && user.getTotp().isActivated();
     }

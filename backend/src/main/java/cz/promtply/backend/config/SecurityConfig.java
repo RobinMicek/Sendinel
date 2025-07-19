@@ -1,8 +1,7 @@
-package cz.promtply.backend.security;
+package cz.promtply.backend.config;
 
 import cz.promtply.backend.filter.JwtFilter;
 import cz.promtply.backend.util.JwtUtil;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

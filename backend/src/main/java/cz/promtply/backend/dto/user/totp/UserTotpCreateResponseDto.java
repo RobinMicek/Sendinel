@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserTotpStatusResponse {
-    private boolean exists;
-    private boolean activated;
+public class UserTotpCreateResponseDto {
+    private String secret;
+    private String qrBase64;
 }

@@ -36,6 +36,7 @@ dependencies {
 	implementation("org.modelmapper:modelmapper:2.4.2")
 	implementation("com.google.zxing:core:3.5.2")
 	implementation("com.google.zxing:javase:3.5.2")
+	implementation("org.springframework.boot:spring-boot-starter-hateoas")
 
 	compileOnly("org.projectlombok:lombok")
 

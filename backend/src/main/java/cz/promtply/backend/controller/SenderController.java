@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.UUID;
 
@@ -42,7 +43,9 @@ public class SenderController extends BaseUserLoggedInController {
 
     @GetMapping("/{id}")
     public ResponseEntity<SenderResponseDto> getSender(@PathVariable UUID id) {
-        Sender sender = senderService.getSenderById(id).orElse(null);
+        Sender sender = senderService.getSenderById(id).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Sender does not exist")
+        );
 
         return ResponseEntity.ok(MapperUtil.toDto(sender, SenderResponseDto.class));
     }

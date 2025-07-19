@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -53,7 +54,9 @@ public class UserController extends BaseUserLoggedInController {
 
     @GetMapping("/{id}")
     public ResponseEntity<UserResponseDto> getUser(@PathVariable UUID id) {
-        User user = userService.getUserById(id).orElse(null);
+        User user = userService.getUserById(id).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User does not exist")
+        );
 
         return ResponseEntity.ok(MapperUtil.toDto(user, UserResponseDto.class));
     }

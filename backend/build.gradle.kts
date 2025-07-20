@@ -39,6 +39,8 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-hateoas")
 	implementation("org.bouncycastle:bcprov-jdk15on:1.70")
 	implementation("org.apache.commons:commons-compress:1.26.0")
+	implementation("com.github.erosb:everit-json-schema:1.14.6")
+	implementation("org.json:json:20240303")
 
 	compileOnly("org.projectlombok:lombok")
 

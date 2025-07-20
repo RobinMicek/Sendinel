@@ -27,5 +27,4 @@ public class TemplateResponseDto {
     private Instant createdOn;
     private Instant updatedOn;
     private Instant DeletedOn;
-
 }

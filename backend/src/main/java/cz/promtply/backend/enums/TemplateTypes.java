@@ -1,6 +1,6 @@
 package cz.promtply.backend.enums;
 
-public enum TemplateType {
+public enum TemplateTypes {
     TEXT,
     HTML,
     MARKDOWN

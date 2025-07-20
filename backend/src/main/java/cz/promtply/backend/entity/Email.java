@@ -1,5 +1,7 @@
 package cz.promtply.backend.entity;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import cz.promtply.backend.enums.EmailPriorities;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -17,9 +19,8 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import java.time.Instant;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -32,8 +33,8 @@ public class Email {
     @Column(name = "id", nullable = false)
     private UUID id;
 
-    @Column(name = "to")
-    private String to;
+    @Column(name = "to_address")
+    private String toAddress;
 
     @Column(name = "track_code")
     private String trackCode;
@@ -42,12 +43,12 @@ public class Email {
     @JoinColumn(name = "template", nullable = false)
     private Template template;
 
-    @Column(name = "template_variables")
     @JdbcTypeCode(SqlTypes.JSON)
-    private Map<String, Object> templateVariables;
+    @Column(name = "template_variables", columnDefinition = "jsonb")
+    private JsonNode templateVariables;
 
     @Column(name = "priority", length = 25)
-    private String priority;
+    private EmailPriorities priority;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sent_by")
@@ -62,6 +63,6 @@ public class Email {
     private Instant createdOn;
 
     @OneToMany(mappedBy = "email")
-    private Set<EmailStatus> emailStatuses = new LinkedHashSet<>();
+    private List<EmailStatus> emailStatuses = new LinkedList<>();
 
 }

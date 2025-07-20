@@ -1,6 +1,6 @@
 package cz.promtply.backend.entity;
 
-import cz.promtply.backend.enums.UserRoles;
+import cz.promtply.backend.enums.UserRolesEnum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -45,7 +45,7 @@ public class User {
     private String passwordHash;
 
     @Column(name = "role", length = 25)
-    private UserRoles role;
+    private UserRolesEnum role;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by")

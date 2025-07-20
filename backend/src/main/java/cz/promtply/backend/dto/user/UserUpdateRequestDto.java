@@ -1,7 +1,7 @@
 package cz.promtply.backend.dto.user;
 
 import cz.promtply.backend.dto.constraint.EnumValue;
-import cz.promtply.backend.enums.UserRoles;
+import cz.promtply.backend.enums.UserRolesEnum;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -21,6 +21,6 @@ public class UserUpdateRequestDto {
     @Email
     private String email;
 
-    @EnumValue(enumClass = UserRoles.class)
-    private UserRoles role;
+    @EnumValue(enumClass = UserRolesEnum.class)
+    private UserRolesEnum role;
 }

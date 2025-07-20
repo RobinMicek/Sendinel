@@ -1,6 +1,6 @@
 package cz.promtply.backend.entity;
 
-import cz.promtply.backend.enums.EmailStatuses;
+import cz.promtply.backend.enums.EmailStatusesEnum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -32,7 +32,7 @@ public class EmailStatus {
     private Email email;
 
     @Column(name = "status", length = 25)
-    private EmailStatuses status;
+    private EmailStatusesEnum status;
 
     @ColumnDefault("now()")
     @Column(name = "created_on", nullable = false)

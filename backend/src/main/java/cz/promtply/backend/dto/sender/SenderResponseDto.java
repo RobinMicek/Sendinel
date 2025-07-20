@@ -2,7 +2,7 @@ package cz.promtply.backend.dto.sender;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import cz.promtply.backend.dto.UpdatedByResponseDto;
-import cz.promtply.backend.enums.SenderTypes;
+import cz.promtply.backend.enums.SenderTypesEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,7 +16,7 @@ import java.util.UUID;
 public class SenderResponseDto {
     private UUID id;
     private String name;
-    private SenderTypes type;
+    private SenderTypesEnum type;
     private JsonNode configuration;
     private UpdatedByResponseDto createdBy;
     private UpdatedByResponseDto updatedBy;

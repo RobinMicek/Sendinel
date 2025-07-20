@@ -2,7 +2,7 @@ package cz.promtply.backend.dto.constraint.validator;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import cz.promtply.backend.dto.constraint.SenderConfiguration;
-import cz.promtply.backend.enums.SenderTypes;
+import cz.promtply.backend.enums.SenderTypesEnum;
 import cz.promtply.backend.models.SenderConfigurationField;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
@@ -10,13 +10,13 @@ import jakarta.validation.ConstraintValidatorContext;
 import java.lang.reflect.Method;
 import java.util.Map;
 
-// Annotated object need to have fields "type" and "configuration"
+// Annotated object needs to have fields "type" and "configuration"
 public class SenderConfigurationValidator implements ConstraintValidator<SenderConfiguration, Object> {
 
     @Override
     public boolean isValid(Object obj, ConstraintValidatorContext context) {
         try {
-            SenderTypes type = (SenderTypes) getProperty(obj, "type");
+            SenderTypesEnum type = (SenderTypesEnum) getProperty(obj, "type");
             JsonNode config = (JsonNode) getProperty(obj, "configuration");
 
             if (type == null || config == null) {

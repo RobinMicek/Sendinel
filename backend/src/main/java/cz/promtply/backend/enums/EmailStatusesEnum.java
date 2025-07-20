@@ -1,6 +1,6 @@
 package cz.promtply.backend.enums;
 
-public enum EmailStatuses {
+public enum EmailStatusesEnum {
     // TODO: Replace with actual statuses
     CREATED,
     ENQUEUED,

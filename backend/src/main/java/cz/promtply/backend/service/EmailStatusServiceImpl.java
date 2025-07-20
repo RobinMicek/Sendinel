@@ -2,7 +2,7 @@ package cz.promtply.backend.service;
 
 import cz.promtply.backend.entity.Email;
 import cz.promtply.backend.entity.EmailStatus;
-import cz.promtply.backend.enums.EmailStatuses;
+import cz.promtply.backend.enums.EmailStatusesEnum;
 import cz.promtply.backend.repository.EmailRepository;
 import cz.promtply.backend.repository.EmailStatusRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,7 @@ public class EmailStatusServiceImpl implements EmailStatusService {
     }
 
     @Override
-    public EmailStatus createStatus(EmailStatuses newStatus, Email email) {
+    public EmailStatus createStatus(EmailStatusesEnum newStatus, Email email) {
         EmailStatus emailStatus = new EmailStatus();
         emailStatus.setStatus(newStatus);
         emailStatus.setEmail(email);

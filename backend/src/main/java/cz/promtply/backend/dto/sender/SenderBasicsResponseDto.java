@@ -1,6 +1,6 @@
 package cz.promtply.backend.dto.sender;
 
-import cz.promtply.backend.enums.SenderTypes;
+import cz.promtply.backend.enums.SenderTypesEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,5 +14,5 @@ public class SenderBasicsResponseDto {
     private UUID id;
     private String name;
     private String description;
-    private SenderTypes type;
+    private SenderTypesEnum type;
 }

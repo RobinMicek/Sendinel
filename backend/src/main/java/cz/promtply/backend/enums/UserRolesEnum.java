@@ -1,6 +1,6 @@
 package cz.promtply.backend.enums;
 
-public enum UserRoles {
+public enum UserRolesEnum {
     USER,
     EDITOR,
     MANAGER,

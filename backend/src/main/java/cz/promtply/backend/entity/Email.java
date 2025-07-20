@@ -1,7 +1,7 @@
 package cz.promtply.backend.entity;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import cz.promtply.backend.enums.EmailPriorities;
+import cz.promtply.backend.enums.EmailPrioritiesEnum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -48,7 +48,7 @@ public class Email {
     private JsonNode templateVariables;
 
     @Column(name = "priority", length = 25)
-    private EmailPriorities priority;
+    private EmailPrioritiesEnum priority;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sent_by")

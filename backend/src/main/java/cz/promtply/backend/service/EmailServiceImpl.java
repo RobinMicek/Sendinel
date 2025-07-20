@@ -4,8 +4,8 @@ import cz.promtply.backend.dto.email.EmailRequestDto;
 import cz.promtply.backend.entity.Client;
 import cz.promtply.backend.entity.Email;
 import cz.promtply.backend.entity.Template;
-import cz.promtply.backend.enums.EmailPriorities;
-import cz.promtply.backend.enums.EmailStatuses;
+import cz.promtply.backend.enums.EmailPrioritiesEnum;
+import cz.promtply.backend.enums.EmailStatusesEnum;
 import cz.promtply.backend.exceptions.ResourceNotFoundException;
 import cz.promtply.backend.exceptions.SchemaDoesNotMatchException;
 import cz.promtply.backend.repository.EmailRepository;
@@ -58,7 +58,7 @@ public class EmailServiceImpl implements EmailService {
         email.setTemplateVariables(emailRequestDto.getTemplateVariables());
 
         // Fallback if priority is not set
-        email.setPriority(emailRequestDto.getPriority() != null ? emailRequestDto.getPriority() : EmailPriorities.NORMAL);
+        email.setPriority(emailRequestDto.getPriority() != null ? emailRequestDto.getPriority() : EmailPrioritiesEnum.NORMAL);
 
         email.setRequestedBy(requestedBy);
         email.setSentBy(requestedBy.getSender());
@@ -69,7 +69,7 @@ public class EmailServiceImpl implements EmailService {
         Email savedEmail = createEmail(email);
 
         // Create email status
-        emailStatusService.createStatus(EmailStatuses.CREATED, savedEmail);
+        emailStatusService.createStatus(EmailStatusesEnum.CREATED, savedEmail);
 
         // Re-fetch saved email (now includes the CREATED status)
         return getEmailById(savedEmail.getId()).orElseThrow(() -> new ResourceNotFoundException("Unable to re-fetch the email with id " + savedEmail.getId()));

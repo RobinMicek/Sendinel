@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import cz.promtply.backend.dto.client.ClientBasicsResponseDto;
 import cz.promtply.backend.dto.sender.SenderBasicsResponseDto;
 import cz.promtply.backend.dto.template.TemplateBasicsResponseDto;
-import cz.promtply.backend.enums.EmailPriorities;
+import cz.promtply.backend.enums.EmailPrioritiesEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,7 +22,7 @@ public class EmailResponseDto {
     private String trackCode;
     private TemplateBasicsResponseDto template;
     private JsonNode templateVariables;
-    private EmailPriorities priority;
+    private EmailPrioritiesEnum priority;
     private SenderBasicsResponseDto sentBy;
     private ClientBasicsResponseDto requestedBy;
     private Instant createdOn;

@@ -1,6 +1,6 @@
 package cz.promtply.backend.dto.email;
 
-import cz.promtply.backend.enums.EmailStatuses;
+import cz.promtply.backend.enums.EmailStatusesEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,6 +13,6 @@ import java.util.UUID;
 @NoArgsConstructor
 public class EmailStatusResponseDto {
     private UUID id;
-    private EmailStatuses status;
+    private EmailStatusesEnum status;
     private Instant createdOn;
 }

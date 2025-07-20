@@ -3,7 +3,7 @@ package cz.promtply.backend.dto.sender;
 import com.fasterxml.jackson.databind.JsonNode;
 import cz.promtply.backend.dto.constraint.EnumValue;
 import cz.promtply.backend.dto.constraint.SenderConfiguration;
-import cz.promtply.backend.enums.SenderTypes;
+import cz.promtply.backend.enums.SenderTypesEnum;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -18,8 +18,8 @@ public class SenderRequestDto {
     @NotBlank
     private String name;
 
-    @EnumValue(enumClass = SenderTypes.class)
-    private SenderTypes type;
+    @EnumValue(enumClass = SenderTypesEnum.class)
+    private SenderTypesEnum type;
 
     @NotNull
     private String description;

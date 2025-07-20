@@ -1,7 +1,7 @@
 package cz.promtply.backend.dto.user;
 
 import cz.promtply.backend.dto.UpdatedByResponseDto;
-import cz.promtply.backend.enums.UserRoles;
+import cz.promtply.backend.enums.UserRolesEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,7 +17,7 @@ public class UserResponseDto {
     private String firstname;
     private String lastname;
     private String email;
-    private UserRoles role;
+    private UserRolesEnum role;
     private UpdatedByResponseDto createdBy;
     private UpdatedByResponseDto updatedBy;
     private Instant createdOn;

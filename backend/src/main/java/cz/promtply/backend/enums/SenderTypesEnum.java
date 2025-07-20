@@ -8,7 +8,7 @@ import java.util.Map;
 
 @Getter
 @AllArgsConstructor
-public enum SenderTypes {
+public enum SenderTypesEnum {
     SMTP(Map.of(
             "smtpHost", new SenderConfigurationField(true, String.class, false),
             "smtpPort", new SenderConfigurationField(true, Integer.class, false),

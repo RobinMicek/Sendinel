@@ -1,7 +1,7 @@
 package cz.promtply.backend.entity;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import cz.promtply.backend.enums.SenderTypes;
+import cz.promtply.backend.enums.SenderTypesEnum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -41,7 +41,7 @@ public class Sender {
     private String name;
 
     @Column(name = "type", length = 25)
-    private SenderTypes type;
+    private SenderTypesEnum type;
 
     @Column(name = "description")
     private String description;

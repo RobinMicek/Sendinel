@@ -2,7 +2,7 @@ package cz.promtply.backend.dto.email;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import cz.promtply.backend.dto.constraint.EnumValue;
-import cz.promtply.backend.enums.EmailPriorities;
+import cz.promtply.backend.enums.EmailPrioritiesEnum;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -26,6 +26,6 @@ public class EmailRequestDto {
     @NotNull
     private JsonNode templateVariables;
 
-    @EnumValue(enumClass = EmailPriorities.class)
-    private EmailPriorities priority;
+    @EnumValue(enumClass = EmailPrioritiesEnum.class)
+    private EmailPrioritiesEnum priority;
 }

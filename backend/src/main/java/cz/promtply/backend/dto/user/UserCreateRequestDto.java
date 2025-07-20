@@ -1,7 +1,7 @@
 package cz.promtply.backend.dto.user;
 
 import cz.promtply.backend.dto.constraint.EnumValue;
-import cz.promtply.backend.enums.UserRoles;
+import cz.promtply.backend.enums.UserRolesEnum;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -22,8 +22,8 @@ public class UserCreateRequestDto {
     @Email
     private String email;
 
-    @EnumValue(enumClass = UserRoles.class)
-    private UserRoles role;
+    @EnumValue(enumClass = UserRolesEnum.class)
+    private UserRolesEnum role;
 
     @NotBlank
     @Size(min = 5, message = "Password must be at least 5 characters long")

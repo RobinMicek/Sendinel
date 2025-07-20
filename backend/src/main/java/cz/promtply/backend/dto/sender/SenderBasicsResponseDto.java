@@ -10,8 +10,9 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SenderResponseBasicsDto {
+public class SenderBasicsResponseDto {
     private UUID id;
     private String name;
+    private String description;
     private SenderTypes type;
 }

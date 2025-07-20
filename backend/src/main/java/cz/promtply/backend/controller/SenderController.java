@@ -2,7 +2,7 @@ package cz.promtply.backend.controller;
 
 import cz.promtply.backend.dto.PageResponseDto;
 import cz.promtply.backend.dto.sender.SenderRequestDto;
-import cz.promtply.backend.dto.sender.SenderResponseBasicsDto;
+import cz.promtply.backend.dto.sender.SenderBasicsResponseDto;
 import cz.promtply.backend.dto.sender.SenderResponseDto;
 import cz.promtply.backend.entity.Sender;
 import cz.promtply.backend.service.SenderService;
@@ -46,12 +46,12 @@ public class SenderController extends BaseUserLoggedInController {
 
     // For dropdowns
     @GetMapping("/list")
-    public ResponseEntity<List<SenderResponseBasicsDto>> getSendersList() {
+    public ResponseEntity<List<SenderBasicsResponseDto>> getSendersList() {
         List<Sender> senders = senderService.getAllSendersObfuscated();
 
-        // Map List<Sender> to List<SenderResponseDto>
-        List<SenderResponseBasicsDto> response = senders.stream()
-                .map(sender -> MapperUtil.toDto(sender, SenderResponseBasicsDto.class))
+        // Map List<Sender> to List<SenderBasicsResponseDto>
+        List<SenderBasicsResponseDto> response = senders.stream()
+                .map(sender -> MapperUtil.toDto(sender, SenderBasicsResponseDto.class))
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(response);

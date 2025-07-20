@@ -20,7 +20,9 @@ public interface ClientTokenService {
     void deleteToken(ClientToken clientToken);
     void deleteToken(UUID id);
     void deleteToken(UUID id, User deleteBy);
+
     boolean verifyToken(Client client, String token);
     boolean isExpired(ClientToken clientToken);
     boolean isExpired(Date expiration);
+    Optional<Client> getClientByToken(String token);
 }

@@ -1,5 +1,7 @@
-package cz.promtply.backend.controller;
+package cz.promtply.backend.controller.internal;
 
+import cz.promtply.backend.config.Constants;
+import cz.promtply.backend.controller.InternalControllerBase;
 import cz.promtply.backend.dto.PageResponseDto;
 import cz.promtply.backend.dto.client.ClientRequestDto;
 import cz.promtply.backend.dto.client.ClientResponseDto;
@@ -32,9 +34,9 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/client")
+@RequestMapping(Constants.INTERNAL_API_ROUTE_PREFIX + "/client")
 @RequiredArgsConstructor
-public class ClientController extends BaseUserLoggedInController {
+public class ClientController extends InternalControllerBase {
 
     private final ClientService clientService;
     private final ClientTokenService clientTokenService;

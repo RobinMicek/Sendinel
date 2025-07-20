@@ -1,8 +1,10 @@
-package cz.promtply.backend.controller;
+package cz.promtply.backend.controller.internal;
 
+import cz.promtply.backend.config.Constants;
+import cz.promtply.backend.controller.InternalControllerBase;
 import cz.promtply.backend.dto.PageResponseDto;
-import cz.promtply.backend.dto.sender.SenderRequestDto;
 import cz.promtply.backend.dto.sender.SenderBasicsResponseDto;
+import cz.promtply.backend.dto.sender.SenderRequestDto;
 import cz.promtply.backend.dto.sender.SenderResponseDto;
 import cz.promtply.backend.entity.Sender;
 import cz.promtply.backend.service.SenderService;
@@ -28,9 +30,9 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/sender")
+@RequestMapping(Constants.INTERNAL_API_ROUTE_PREFIX + "/sender")
 @RequiredArgsConstructor
-public class SenderController extends BaseUserLoggedInController {
+public class SenderController extends InternalControllerBase {
 
     private final SenderService senderService;
 

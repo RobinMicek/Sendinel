@@ -2,6 +2,9 @@ package cz.promtply.backend.config;
 
 public class Constants {
 
+    public static final String INTERNAL_API_ROUTE_PREFIX = "/internal"; // e.g. /internal
+    public static final String EXTERNAL_API_ROUTE_PREFIX = "/external"; // e.g. /external
+
     public static final String OBFUSCATION_MASK = "********";
 
     public static final String EXPORT_FILE_EXTENSION = ".export";

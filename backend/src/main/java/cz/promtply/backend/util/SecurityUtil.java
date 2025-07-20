@@ -9,7 +9,7 @@ import java.util.UUID;
 @Component
 public class SecurityUtil {
 
-    public static UUID getLoggedInUserId() {
+    public static UUID getLoggedInPrincipalId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated()) {
             Object principal = authentication.getPrincipal();

@@ -1,17 +1,26 @@
-package cz.promtply.backend.controller;
+package cz.promtply.backend.controller.internal;
 
+import com.google.zxing.WriterException;
+import cz.promtply.backend.config.Constants;
+import cz.promtply.backend.controller.InternalControllerBase;
 import cz.promtply.backend.dto.auth.JwtResponseDto;
 import cz.promtply.backend.dto.auth.LoginRequestDto;
 import cz.promtply.backend.dto.auth.TotpRequestDto;
+import cz.promtply.backend.dto.user.totp.UserTotpCreateResponseDto;
+import cz.promtply.backend.dto.user.totp.UserTotpStatusResponseDto;
 import cz.promtply.backend.entity.User;
+import cz.promtply.backend.enums.UserRolesEnum;
 import cz.promtply.backend.service.UserService;
 import cz.promtply.backend.service.UserTotpService;
 import cz.promtply.backend.util.JwtUtil;
+import cz.promtply.backend.util.TotpUtil;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -19,16 +28,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.IOException;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping(Constants.INTERNAL_API_ROUTE_PREFIX + "/auth")
 @RequiredArgsConstructor
-public class AuthController {
+public class AuthController extends InternalControllerBase {
 
     private final UserService userService;
     private final UserTotpService userTotpService;
     private final JwtUtil jwtUtil;
+    private final TotpUtil totpUtil;
     private final PasswordEncoder passwordEncoder;
 
     @PostMapping("/login")
@@ -39,11 +50,48 @@ public class AuthController {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid credentials");
         }
 
-        JwtResponseDto jwt = new JwtResponseDto(jwtUtil.generateToken(user.getId(), user.getRole().name(), false));
+        JwtResponseDto jwt = new JwtResponseDto(jwtUtil.generateToken(user.getId(), UserRolesEnum.NON_TOTP.name(), false));
         return ResponseEntity.ok(jwt);
     }
 
+    @GetMapping("/totp")
+    public ResponseEntity<UserTotpStatusResponseDto> getTotpStatus() {
+        UserTotpStatusResponseDto response = new UserTotpStatusResponseDto(
+                userService.hasTotp(getLoggedInUser().getId()),
+                userService.hasTotpActivated(getLoggedInUser().getId())
+        );
+
+        return ResponseEntity.ok(response);
+    }
+
     @PostMapping("/totp")
+    public ResponseEntity<UserTotpCreateResponseDto> createTotp() throws IOException, WriterException {
+        String secret = userTotpService.generateAndCreateTotp(getLoggedInUser());
+        String qrCode = totpUtil.generateQRCodeBase64(getLoggedInUser().getEmail(), secret);
+
+        return ResponseEntity.ok(
+                new UserTotpCreateResponseDto(
+                        secret,
+                        qrCode
+                )
+        );
+    }
+
+    @DeleteMapping("/totp")
+    public ResponseEntity<Void> deleteTotp() {
+        userTotpService.deleteTotp(getLoggedInUser());
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/totp/activate")
+    public ResponseEntity<Void> activateTotp(@Valid @RequestBody TotpRequestDto totpRequestDto) {
+        userTotpService.activateTotp(totpRequestDto.getCode(), getLoggedInUser());
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/totp/verify")
     public ResponseEntity<JwtResponseDto> verifyTotp(@RequestHeader("Authorization") String authHeader, @RequestBody @Valid TotpRequestDto dto) {
         String token = authHeader.replace("Bearer ", "");
         UUID userId = jwtUtil.getUserId(token);
@@ -54,7 +102,7 @@ public class AuthController {
 
         User user = userService.getUserById(userId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not found"));
-        
+
         if (user.getTotp() == null) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "TOTP is not configured");
 
         if (!user.getTotp().isActivated()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "TOTP is not activated");

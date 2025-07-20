@@ -1,6 +1,7 @@
-package cz.promtply.backend.controller;
+package cz.promtply.backend.controller.internal;
 
 import cz.promtply.backend.config.Constants;
+import cz.promtply.backend.controller.InternalControllerBase;
 import cz.promtply.backend.dto.PageResponseDto;
 import cz.promtply.backend.dto.template.TemplateBasicsResponseDto;
 import cz.promtply.backend.dto.template.TemplateRequestDto;
@@ -41,9 +42,9 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/template")
+@RequestMapping(Constants.INTERNAL_API_ROUTE_PREFIX + "/template")
 @RequiredArgsConstructor
-public class TemplateController extends BaseUserLoggedInController {
+public class TemplateController extends InternalControllerBase {
 
     private final TemplateService templateService;
 

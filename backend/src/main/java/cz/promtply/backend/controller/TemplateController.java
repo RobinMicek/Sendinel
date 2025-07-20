@@ -1,17 +1,22 @@
 package cz.promtply.backend.controller;
 
+import cz.promtply.backend.config.Constants;
 import cz.promtply.backend.dto.PageResponseDto;
 import cz.promtply.backend.dto.template.TemplateBasicsResponseDto;
 import cz.promtply.backend.dto.template.TemplateRequestDto;
 import cz.promtply.backend.dto.template.TemplateResponseDto;
+import cz.promtply.backend.dto.template.export.TemplateExportRequestDto;
 import cz.promtply.backend.entity.Template;
 import cz.promtply.backend.service.TemplateService;
 import cz.promtply.backend.util.MapperUtil;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,9 +25,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -85,6 +98,41 @@ public class TemplateController extends BaseUserLoggedInController {
         templateService.deleteTemplate(id, getLoggedInUser());
 
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/export")
+    public ResponseEntity<InputStreamResource> exportTemplates(@Valid @RequestBody TemplateExportRequestDto templateExportRequestDto) throws IOException {
+        File export = templateService.createExport(templateExportRequestDto.getIds(), templateExportRequestDto.isOverwriteExisting());
+        InputStreamResource resource = new InputStreamResource(new FileInputStream(export));
+
+        String filename = "templates_" + Instant.now().toString().replaceAll(":", "-") +  Constants.EXPORT_FILE_EXTENSION;
+        String filenameEncoded = URLEncoder.encode(filename, StandardCharsets.UTF_8).replaceAll("\\+", "%20");
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\"; filename*=UTF-8''" + filenameEncoded)
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .contentLength(export.length())
+                .body(resource);
+    }
+
+    @PostMapping("/import")
+    public ResponseEntity<String> importTemplates(@RequestParam("file") MultipartFile multipartFile) throws IOException {
+        // Save MultipartFile to a temporary file on disk
+        File tempFile = File.createTempFile("import-", "-" + multipartFile.getOriginalFilename());
+        multipartFile.transferTo(tempFile);
+
+        try {
+            templateService.importData(tempFile, getLoggedInUser());
+
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+        } finally {
+            // Delete the temp file after processing
+            if (tempFile.exists()) {
+                tempFile.delete();
+            }
+        }
     }
 
 }

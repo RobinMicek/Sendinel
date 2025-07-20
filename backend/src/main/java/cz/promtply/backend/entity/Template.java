@@ -25,8 +25,8 @@ import java.util.UUID;
 @SQLDelete(sql = "UPDATE templates SET deleted_on = CURRENT_TIMESTAMP WHERE id = ?")
 @Where(clause = "deleted_on IS NULL")
 public class Template {
+    // !!! DOES NOT AUTOMATICALLY GENERATE IDs, NEED TO CALL .setId() ON CREATION !!! - CURRENTLY GETS SET IN UserService.createTemplate(Template template)
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id", nullable = false)
     private UUID id;
 

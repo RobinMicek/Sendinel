@@ -45,7 +45,7 @@ public class SecurityConfig {
         int hashLength = 32; // 256 bits
         int parallelism = 1; // Number of threads used
         int memory = 131072; // 128MB
-        int iterations = 1;
+        int iterations = 2;
 
         return new Argon2PasswordEncoder(saltLength, hashLength, parallelism, memory, iterations);
     }

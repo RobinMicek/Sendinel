@@ -36,7 +36,7 @@ public class SenderController extends BaseUserLoggedInController {
 
     @GetMapping
     public ResponseEntity<PageResponseDto<SenderResponseDto>> getSenders(Pageable pageable) {
-        Page<Sender> senderPage = senderService.getSenders(pageable);
+        Page<Sender> senderPage = senderService.getSendersObfuscated(pageable);
 
         // Map Page<Sender> to Page<SenderResponseDto>
         Page<SenderResponseDto> dtoPage = senderPage.map(sender -> MapperUtil.toDto(sender, SenderResponseDto.class));
@@ -47,7 +47,7 @@ public class SenderController extends BaseUserLoggedInController {
     // For dropdowns
     @GetMapping("/list")
     public ResponseEntity<List<SenderResponseBasicsDto>> getSendersList() {
-        List<Sender> senders = senderService.getAllSenders();
+        List<Sender> senders = senderService.getAllSendersObfuscated();
 
         // Map List<Sender> to List<SenderResponseDto>
         List<SenderResponseBasicsDto> response = senders.stream()
@@ -59,7 +59,7 @@ public class SenderController extends BaseUserLoggedInController {
 
     @GetMapping("/{id}")
     public ResponseEntity<SenderResponseDto> getSender(@PathVariable UUID id) {
-        Sender sender = senderService.getSenderById(id).orElseThrow(
+        Sender sender = senderService.getSenderByIdObfuscated(id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Sender does not exist")
         );
 

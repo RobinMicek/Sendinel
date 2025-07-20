@@ -10,11 +10,11 @@ public class SenderConfigurationField {
     private final boolean required;
     private final Class<?> type;
 
-    public boolean isRequired() {
-        return required;
-    }
+    /**
+     * If the value should be obfuscated when returned from the
+     * server.
+     * Only works with required=false and type=String.class.
+     */
+    private final boolean isSensitive;
 
-    public Class<?> getType() {
-        return type;
-    }
 }

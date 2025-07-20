@@ -7,7 +7,6 @@ import cz.promtply.backend.entity.User;
 import cz.promtply.backend.service.UserService;
 import cz.promtply.backend.service.UserTotpService;
 import cz.promtply.backend.util.JwtUtil;
-import cz.promtply.backend.util.TotpUtil;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

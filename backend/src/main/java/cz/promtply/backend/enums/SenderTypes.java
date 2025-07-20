@@ -10,11 +10,11 @@ import java.util.Map;
 @AllArgsConstructor
 public enum SenderTypes {
     SMTP(Map.of(
-            "smtpHost", new SenderConfigurationField(true, String.class),
-            "smtpPort", new SenderConfigurationField(true, Integer.class),
-            "username", new SenderConfigurationField(false, String.class),
-            "password", new SenderConfigurationField(false, String.class),
-            "fromAddress", new SenderConfigurationField(true, String.class)
+            "smtpHost", new SenderConfigurationField(true, String.class, false),
+            "smtpPort", new SenderConfigurationField(true, Integer.class, false),
+            "username", new SenderConfigurationField(false, String.class, false),
+            "password", new SenderConfigurationField(false, String.class, true),
+            "fromAddress", new SenderConfigurationField(true, String.class, false)
     ));
 
     private final Map<String, SenderConfigurationField> configurationSchema;

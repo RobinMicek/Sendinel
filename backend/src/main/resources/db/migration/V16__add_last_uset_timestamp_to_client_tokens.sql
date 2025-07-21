@@ -1,0 +1,2 @@
+ALTER TABLE clients_tokens
+    ADD last_used_on TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW();

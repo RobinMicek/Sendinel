@@ -142,6 +142,9 @@ public class ClientTokenServiceImpl implements ClientTokenService {
             throw new ResourceNotFoundException("Token is expired");
         }
 
+        clientToken.setLastUsedOn(Instant.now());
+        clientTokenRepository.save(clientToken);
+
         return Optional.of(clientToken.getClient());
     }
 

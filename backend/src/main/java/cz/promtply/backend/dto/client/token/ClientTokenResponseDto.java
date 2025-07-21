@@ -20,6 +20,7 @@ public class ClientTokenResponseDto {
     private boolean isExpired;
     private UpdatedByResponseDto createdBy;
     private UpdatedByResponseDto deletedBy;
+    private Instant lastUsedOn;
     private Instant createdOn;
     private Instant deletedOn;
 

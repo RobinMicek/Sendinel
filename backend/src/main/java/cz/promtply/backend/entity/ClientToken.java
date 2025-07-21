@@ -56,6 +56,10 @@ public class ClientToken {
     private User deletedBy;
 
     @ColumnDefault("now()")
+    @Column(name = "last_used_on")
+    private Instant lastUsedOn;
+
+    @ColumnDefault("now()")
     @Column(name = "created_on", nullable = false)
     private Instant createdOn;
 

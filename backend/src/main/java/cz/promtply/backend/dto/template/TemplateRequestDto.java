@@ -30,12 +30,6 @@ public class TemplateRequestDto {
     @NotNull
     private String htmlRaw;
 
-    @NotNull
-    private String markdownRaw;
-
-    @NotNull
-    private boolean preferMarkdown;
-
     @Email
     @NotNull
     private String replyTo;

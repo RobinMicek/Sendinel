@@ -8,4 +8,5 @@ import java.util.UUID;
 
 public interface EmailRepository extends JpaRepository<Email, Integer> {
     Optional<Email> findById(UUID id);
+    Optional<Email> findByTrackCode(String trackCode);
 }

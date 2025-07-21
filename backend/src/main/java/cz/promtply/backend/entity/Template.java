@@ -43,12 +43,6 @@ public class Template {
     @Column(name = "html_raw", columnDefinition = "TEXT")
     private String htmlRaw;
 
-    @Column(name = "markdown_raw", columnDefinition = "TEXT")
-    private String markdownRaw;
-
-    @Column(name = "prefer_markdown")
-    private boolean preferMarkdown;
-
     @Column(name = "schema", columnDefinition = "TEXT")
     private String schema;
 

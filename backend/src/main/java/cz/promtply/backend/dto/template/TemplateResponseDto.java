@@ -19,8 +19,6 @@ public class TemplateResponseDto {
     private String schema;
     private String textRaw;
     private String htmlRaw;
-    private String markdownRaw;
-    private boolean preferMarkdown;
     private String replyTo;
     private UpdatedByResponseDto createdBy;
     private UpdatedByResponseDto updatedBy;

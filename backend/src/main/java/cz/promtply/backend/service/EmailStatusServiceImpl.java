@@ -3,7 +3,6 @@ package cz.promtply.backend.service;
 import cz.promtply.backend.entity.Email;
 import cz.promtply.backend.entity.EmailStatus;
 import cz.promtply.backend.enums.EmailStatusesEnum;
-import cz.promtply.backend.repository.EmailRepository;
 import cz.promtply.backend.repository.EmailStatusRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,7 +15,6 @@ import java.util.List;
 public class EmailStatusServiceImpl implements EmailStatusService {
 
     private final EmailStatusRepository emailStatusRepository;
-    private final EmailRepository emailRepository;
 
     @Override
     public List<EmailStatus> getByEmail(Email email) {

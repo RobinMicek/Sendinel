@@ -5,5 +5,6 @@ public enum EmailStatusesEnum {
     CREATED,
     ENQUEUED,
     SENT,
-    DELIVERED;
+    DELIVERED,
+    OPENED;
 }

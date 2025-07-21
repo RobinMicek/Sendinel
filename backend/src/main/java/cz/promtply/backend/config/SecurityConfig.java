@@ -25,6 +25,19 @@ public class SecurityConfig {
 
     @Bean
     @Order(1)
+    public SecurityFilterChain trackinfFilterChain(HttpSecurity http) throws Exception {
+        http
+                .securityMatcher(Constants.TRACKING_API_ROUTE_PREFIX + "/**")
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(authz -> authz
+                        .anyRequest().permitAll()
+                );
+
+        return http.build();
+    }
+
+    @Bean
+    @Order(2)
     public SecurityFilterChain clientTokenFilterChain(HttpSecurity http) throws Exception {
         http
                 .securityMatcher(Constants.EXTERNAL_API_ROUTE_PREFIX + "/**")
@@ -38,7 +51,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    @Order(2)
+    @Order(3)
     public SecurityFilterChain jwtFilterChain(HttpSecurity http) throws Exception {
         http
                 .securityMatcher(Constants.INTERNAL_API_ROUTE_PREFIX + "/**")

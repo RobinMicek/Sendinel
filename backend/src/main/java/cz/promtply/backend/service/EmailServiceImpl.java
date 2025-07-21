@@ -8,7 +8,9 @@ import cz.promtply.backend.enums.EmailPrioritiesEnum;
 import cz.promtply.backend.enums.EmailStatusesEnum;
 import cz.promtply.backend.exceptions.ResourceNotFoundException;
 import cz.promtply.backend.exceptions.SchemaDoesNotMatchException;
+import cz.promtply.backend.models.email.EmailJobRequestModel;
 import cz.promtply.backend.repository.EmailRepository;
+import cz.promtply.backend.util.EmailRenderUtil;
 import cz.promtply.backend.util.JsonSchemaValidator;
 import cz.promtply.backend.util.TokenUtil;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +18,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
@@ -81,8 +84,80 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
+    public Optional<Email> getEmailByTrackCode(String trackCode) {
+        return emailRepository.findByTrackCode(trackCode);
+    }
+
+    @Override
     public Page<Email> getEmails(Pageable pageable) {
         return emailRepository.findAll(pageable);
+    }
+
+    @Override
+    public void trackEmailOpened(String trackCode) {
+        getEmailByTrackCode(trackCode).ifPresent(
+                email -> emailStatusService.createStatus(EmailStatusesEnum.OPENED, email)
+        );
+    }
+
+    @Override
+    public EmailJobRequestModel getJobRequestModel(Email email) {
+        EmailJobRequestModel emailJobRequest = new EmailJobRequestModel();
+
+        // Set info
+        emailJobRequest.setEmailId(email.getId());
+        emailJobRequest.setToAddress(email.getToAddress());
+        emailJobRequest.setReplyTo(email.getTemplate().getReplyTo());
+        emailJobRequest.setPriority(email.getPriority());
+        emailJobRequest.setSenderType(email.getSentBy().getType());
+        emailJobRequest.setSenderConfiguration(email.getSentBy().getConfiguration());
+
+        // Render templates
+        try {
+            emailJobRequest.setSubject(
+                EmailRenderUtil.renderTemplate(
+                    email.getTemplate().getSubject(),
+                    email.getTemplateVariables()
+                )
+            );
+
+            emailJobRequest.setRenderedTextBody(
+                EmailRenderUtil.renderTemplate(
+                    email.getTemplate().getTextRaw(),
+                    email.getTemplateVariables()
+                )
+            );
+
+            emailJobRequest.setRenderedHtmlBody(
+                EmailRenderUtil.renderTemplate(
+                    email.getTemplate().getHtmlRaw(),
+                    email.getTemplateVariables()
+                )
+            );
+
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to render template", e);
+        }
+
+        return emailJobRequest;
+    }
+
+    @Override
+    public File renderEmailToPDF(Email email) {
+        String textToRender = email.getTemplate().getTextRaw();
+
+        // Try to render HTML template, but use text template as fallback if no HTML is present
+        if (email.getTemplate().getHtmlRaw() != null && !email.getTemplate().getHtmlRaw().isEmpty()) {
+            textToRender = email.getTemplate().getHtmlRaw();
+        }
+
+        try {
+            String renderedTemplate = EmailRenderUtil.renderTemplate(textToRender, email.getTemplateVariables());
+
+            return EmailRenderUtil.renderHTMLtoPDF(renderedTemplate);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to render PDF", e);
+        }
     }
 
 }

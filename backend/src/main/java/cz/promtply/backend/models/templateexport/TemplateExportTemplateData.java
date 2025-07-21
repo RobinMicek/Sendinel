@@ -18,8 +18,6 @@ public class TemplateExportTemplateData {
     private String schema;
     private String textRaw;
     private String htmlRaw;
-    private String markdownRaw;
-    private boolean preferMarkdown;
     private Instant createdOn;
     private Instant updatedOn;
     private Instant deletedOn;

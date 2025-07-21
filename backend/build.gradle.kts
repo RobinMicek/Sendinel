@@ -41,6 +41,9 @@ dependencies {
 	implementation("org.apache.commons:commons-compress:1.26.0")
 	implementation("com.github.erosb:everit-json-schema:1.14.6")
 	implementation("org.json:json:20240303")
+	implementation("com.github.jknack:handlebars:4.3.1")
+	implementation("com.openhtmltopdf:openhtmltopdf-core:1.0.10")
+	implementation("com.openhtmltopdf:openhtmltopdf-pdfbox:1.0.10")
 
 	compileOnly("org.projectlombok:lombok")
 

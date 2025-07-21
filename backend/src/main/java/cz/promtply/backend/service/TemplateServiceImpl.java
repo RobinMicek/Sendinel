@@ -68,8 +68,6 @@ public class TemplateServiceImpl implements TemplateService {
         template.setSchema(templateRequestDto.getSchema());
         template.setTextRaw(templateRequestDto.getTextRaw());
         template.setHtmlRaw(templateRequestDto.getHtmlRaw());
-        template.setMarkdownRaw(templateRequestDto.getMarkdownRaw());
-        template.setPreferMarkdown(templateRequestDto.isPreferMarkdown());
         template.setReplyTo(templateRequestDto.getReplyTo());
 
         template.setCreatedBy(createdBy);
@@ -106,8 +104,6 @@ public class TemplateServiceImpl implements TemplateService {
         existingTemplate.setSchema(template.getSchema());
         existingTemplate.setTextRaw(template.getTextRaw());
         existingTemplate.setHtmlRaw(template.getHtmlRaw());
-        existingTemplate.setMarkdownRaw(template.getMarkdownRaw());
-        existingTemplate.setPreferMarkdown(template.isPreferMarkdown());
         existingTemplate.setReplyTo(template.getReplyTo());
 
         existingTemplate.setUpdatedBy(template.getUpdatedBy());
@@ -125,8 +121,6 @@ public class TemplateServiceImpl implements TemplateService {
         template.setSchema(templateRequestDto.getSchema());
         template.setTextRaw(templateRequestDto.getTextRaw());
         template.setHtmlRaw(templateRequestDto.getHtmlRaw());
-        template.setMarkdownRaw(templateRequestDto.getMarkdownRaw());
-        template.setPreferMarkdown(templateRequestDto.isPreferMarkdown());
 
         template.setUpdatedBy(updatedBy);
 
@@ -174,8 +168,6 @@ public class TemplateServiceImpl implements TemplateService {
                     template.getSchema(),
                     template.getTextRaw(),
                     template.getHtmlRaw(),
-                    template.getMarkdownRaw(),
-                    template.isPreferMarkdown(),
                     template.getCreatedOn(),
                     template.getUpdatedOn(),
                     template.getDeletedOn()
@@ -272,8 +264,6 @@ public class TemplateServiceImpl implements TemplateService {
             newTemplate.setSchema(importedTemplate.getSchema());
             newTemplate.setTextRaw(importedTemplate.getTextRaw());
             newTemplate.setHtmlRaw(importedTemplate.getHtmlRaw());
-            newTemplate.setMarkdownRaw(importedTemplate.getMarkdownRaw());
-            newTemplate.setPreferMarkdown(importedTemplate.isPreferMarkdown());
             newTemplate.setCreatedBy(importedBy);
             newTemplate.setUpdatedBy(importedBy);
             newTemplate.setCreatedOn(importedTemplate.getCreatedOn());

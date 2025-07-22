@@ -25,12 +25,13 @@ public class EmailTrackingController extends TrackingControllerBase {
 
     private final EmailService emailService;
 
-    // Base64-encoded 1x1 transparent GIF
-    private static final byte[] PIXEL_GIF = Base64.getDecoder().decode(
-            "R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
+    // Base64-encoded 1x1 transparent PNG
+    private static final byte[] PIXEL_PNG = Base64.getDecoder().decode(
+            "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGNgYAAAAAMAASsJTYQAAAAASUVORK5CYII="
     );
 
-    @GetMapping(value = "/open", produces = MediaType.IMAGE_GIF_VALUE)
+
+    @GetMapping(value = "/open", produces = MediaType.IMAGE_PNG_VALUE)
     public void trackEmailOpen(@RequestParam("trackCode") String trackCode, HttpServletResponse response) throws IOException {
         if (!trackOpenedEmails) {
             response.sendError(HttpServletResponse.SC_FORBIDDEN);
@@ -41,9 +42,10 @@ public class EmailTrackingController extends TrackingControllerBase {
             emailService.trackEmailOpened(trackCode);
         } catch (Exception ignored) {} // Ignore if fails
 
-        response.setContentType(MediaType.IMAGE_GIF_VALUE);
-        response.setContentLength(PIXEL_GIF.length);
-        response.getOutputStream().write(PIXEL_GIF);
+        response.setContentType(MediaType.IMAGE_PNG_VALUE);
+        response.setContentLength(PIXEL_PNG.length);
+        response.getOutputStream().write(PIXEL_PNG);
     }
+
 
 }

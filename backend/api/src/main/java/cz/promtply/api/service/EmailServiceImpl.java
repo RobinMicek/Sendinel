@@ -4,6 +4,7 @@ import cz.promtply.api.dto.email.EmailRequestDto;
 import cz.promtply.api.entity.Client;
 import cz.promtply.api.entity.Email;
 import cz.promtply.api.entity.Template;
+import cz.promtply.shared.config.Constants;
 import cz.promtply.shared.enums.EmailPrioritiesEnum;
 import cz.promtply.shared.enums.EmailStatusesEnum;
 import cz.promtply.api.exceptions.ResourceNotFoundException;
@@ -14,6 +15,7 @@ import cz.promtply.api.util.EmailRenderUtil;
 import cz.promtply.api.util.JsonSchemaValidator;
 import cz.promtply.api.util.TokenUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -31,6 +33,12 @@ public class EmailServiceImpl implements EmailService {
     private final EmailStatusService emailStatusService;
     private final TemplateService templateService;
     private final JsonSchemaValidator jsonSchemaValidator;
+
+    @Value("${app.base-url}")
+    private String appPublicUrn;
+
+    @Value("${app.tracking.track-opened-emails}")
+    private boolean trackOpenedEmails;
 
     @Override
     public Email createEmail(Email email) {
@@ -128,9 +136,19 @@ public class EmailServiceImpl implements EmailService {
                 )
             );
 
+            // Add tracking image
+            String htmlBody = email.getTemplate().getHtmlRaw();
+            if (trackOpenedEmails) {
+                if (htmlBody.contains("</body>")) {
+                    htmlBody =  htmlBody.replace("</body>", generateTrackingHtmlImage(email) + "</body>");
+                } else {
+                    htmlBody = htmlBody.concat(generateTrackingHtmlImage(email));
+                }
+            }
+
             emailJobRequest.setRenderedHtmlBody(
                 EmailRenderUtil.renderTemplate(
-                    email.getTemplate().getHtmlRaw(),
+                    htmlBody,
                     email.getTemplateVariables()
                 )
             );
@@ -158,6 +176,13 @@ public class EmailServiceImpl implements EmailService {
         } catch (Exception e) {
             throw new RuntimeException("Failed to render PDF", e);
         }
+    }
+
+    private String generateTrackingHtmlImage(Email email) {
+        String url = String.format("%s/%s/email/open?trackCode=%s", appPublicUrn, Constants.TRACKING_API_ROUTE_PREFIX.replace("/", ""), email.getTrackCode());
+        System.out.println(email.getTrackCode());
+
+        return String.format("<img src=\"%s\" />", url);
     }
 
 }

@@ -1,5 +1,8 @@
 package cz.promtply.shared.config;
 
+import java.io.File;
+import java.util.Objects;
+
 public class Constants {
 
     public static final String INTERNAL_API_ROUTE_PREFIX = "/internal"; // e.g. /internal
@@ -18,6 +21,8 @@ public class Constants {
 
     public static final String EXPORT_FILE_EXTENSION = ".export";
     public static final String EXPORT_FILE_PART_EXTENSION = ".template";
+
+    public static final File PDF_EXPORT_DEFAULT_FONT = new File(Objects.requireNonNull(Constants.class.getResource("/static/fonts/DejaVuSans.ttf")).toString());
 
     private Constants() {}
 }

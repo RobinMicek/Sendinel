@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Template;
 import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
+import cz.promtply.shared.config.Constants;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -34,6 +35,8 @@ public class EmailRenderUtil {
 
         try (OutputStream os = new FileOutputStream(tempFile)) {
             PdfRendererBuilder builder = new PdfRendererBuilder();
+            builder.useFont(Constants.PDF_EXPORT_DEFAULT_FONT, "FallbackFont");
+            builder.useDefaultPageSize(210, 297, PdfRendererBuilder.PageSizeUnits.MM); // A4 format
             builder.withHtmlContent(html, null);
             builder.toStream(os);
             builder.run();

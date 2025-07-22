@@ -4,13 +4,17 @@ import cz.promtply.shared.enums.EmailStatusesEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EmailJobResponseModel {
+@ToString
+public class EmailJobResponse implements Serializable {
     private UUID emailId;
     private EmailStatusesEnum status;
+    private String note = null; // Not required
 }

@@ -14,5 +14,6 @@ import java.util.UUID;
 public class EmailStatusResponseDto {
     private UUID id;
     private EmailStatusesEnum status;
+    private String note;
     private Instant createdOn;
 }

@@ -3,7 +3,7 @@ package cz.promtply.api.service;
 import cz.promtply.api.dto.email.EmailRequestDto;
 import cz.promtply.api.entity.Client;
 import cz.promtply.api.entity.Email;
-import cz.promtply.shared.models.email.EmailJobRequestModel;
+import cz.promtply.shared.models.email.EmailJobRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -20,6 +20,6 @@ public interface EmailService {
 
     void trackEmailOpened(String trackCode);
 
-    EmailJobRequestModel getJobRequestModel(Email email);
+    EmailJobRequest getJobRequestModel(Email email);
     File renderEmailToPDF(Email email);
 }

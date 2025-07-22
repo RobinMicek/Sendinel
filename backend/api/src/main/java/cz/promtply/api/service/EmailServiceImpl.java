@@ -8,7 +8,7 @@ import cz.promtply.shared.enums.EmailPrioritiesEnum;
 import cz.promtply.shared.enums.EmailStatusesEnum;
 import cz.promtply.api.exceptions.ResourceNotFoundException;
 import cz.promtply.api.exceptions.SchemaDoesNotMatchException;
-import cz.promtply.shared.models.email.EmailJobRequestModel;
+import cz.promtply.shared.models.email.EmailJobRequest;
 import cz.promtply.api.repository.EmailRepository;
 import cz.promtply.api.util.EmailRenderUtil;
 import cz.promtply.api.util.JsonSchemaValidator;
@@ -101,8 +101,8 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public EmailJobRequestModel getJobRequestModel(Email email) {
-        EmailJobRequestModel emailJobRequest = new EmailJobRequestModel();
+    public EmailJobRequest getJobRequestModel(Email email) {
+        EmailJobRequest emailJobRequest = new EmailJobRequest();
 
         // Set info
         emailJobRequest.setEmailId(email.getId());

@@ -1,7 +1,7 @@
 package cz.promtply.api.controller.internal;
 
 import com.google.zxing.WriterException;
-import cz.promtply.api.config.Constants;
+import cz.promtply.shared.config.Constants;
 import cz.promtply.api.controller.InternalControllerBase;
 import cz.promtply.api.dto.auth.JwtResponseDto;
 import cz.promtply.api.dto.auth.LoginRequestDto;

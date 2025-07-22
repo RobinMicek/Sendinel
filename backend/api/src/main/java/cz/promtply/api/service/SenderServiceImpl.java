@@ -3,7 +3,7 @@ package cz.promtply.api.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import cz.promtply.api.config.Constants;
+import cz.promtply.shared.config.Constants;
 import cz.promtply.api.dto.sender.SenderRequestDto;
 import cz.promtply.api.entity.Sender;
 import cz.promtply.api.entity.User;

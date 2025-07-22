@@ -1,3 +1,3 @@
 rootProject.name = "backend"
 
-include("api", "shared")
+include("api", "shared", "worker")

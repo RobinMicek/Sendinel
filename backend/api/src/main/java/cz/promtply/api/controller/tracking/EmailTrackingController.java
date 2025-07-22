@@ -1,9 +1,8 @@
 package cz.promtply.api.controller.tracking;
 
-import cz.promtply.api.config.Constants;
+import cz.promtply.shared.config.Constants;
 import cz.promtply.api.controller.TrackingControllerBase;
 import cz.promtply.api.service.EmailService;
-import cz.promtply.api.service.EmailStatusService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;

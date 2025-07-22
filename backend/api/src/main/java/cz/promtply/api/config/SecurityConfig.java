@@ -1,5 +1,6 @@
 package cz.promtply.api.config;
 
+import cz.promtply.shared.config.Constants;
 import cz.promtply.shared.enums.UserRolesEnum;
 import cz.promtply.api.filter.ApiKeyFilter;
 import cz.promtply.api.filter.JwtFilter;

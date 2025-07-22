@@ -1,10 +1,11 @@
 package cz.promtply.api.controller.external;
 
-import cz.promtply.api.config.Constants;
+import cz.promtply.shared.config.Constants;
 import cz.promtply.api.controller.ExternalControllerBase;
 import cz.promtply.api.dto.email.EmailRequestDto;
 import cz.promtply.api.dto.email.EmailResponseDto;
 import cz.promtply.api.entity.Email;
+import cz.promtply.api.rabbitmq.EmailJobProducer;
 import cz.promtply.api.service.EmailService;
 import cz.promtply.api.util.MapperUtil;
 import jakarta.validation.Valid;
@@ -22,10 +23,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class ClientApiController extends ExternalControllerBase {
 
     private final EmailService emailService;
+    private final EmailJobProducer emailJobProducer;
 
     @PostMapping("/email")
     public ResponseEntity<EmailResponseDto> createEmail(@Valid @RequestBody EmailRequestDto emailRequestDto) {
         Email email = emailService.createEmailFromDto(emailRequestDto, getLoggedInClient());
+
+        // Sent email job to queue
+        try {
+            emailJobProducer.sendEmailJobRequest(email);
+        } catch (Exception ignored) {}
 
         return ResponseEntity.status(HttpStatus.CREATED).body(MapperUtil.toDto(email, EmailResponseDto.class));
     }

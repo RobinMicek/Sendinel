@@ -34,6 +34,9 @@ public class EmailStatus {
     @Column(name = "status", length = 25)
     private EmailStatusesEnum status;
 
+    @Column(name = "note", columnDefinition = "TEXT")
+    private String note;
+
     @ColumnDefault("now()")
     @Column(name = "created_on", nullable = false)
     private Instant createdOn;

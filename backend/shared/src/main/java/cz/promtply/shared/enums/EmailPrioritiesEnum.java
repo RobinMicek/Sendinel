@@ -1,8 +1,15 @@
 package cz.promtply.shared.enums;
 
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
 public enum EmailPrioritiesEnum {
-    // TODO: Replace with actual priorities
-    LOW,
-    NORMAL,
-    HIGH
+    LOWEST(0),
+    LOW(1),
+    NORMAL(2),
+    HIGH(3),
+    HIGHEST(4);
+
+    private final int rabbitMQQueuePriority; // Indexing from zero
+
 }

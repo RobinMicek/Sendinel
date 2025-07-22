@@ -2,8 +2,8 @@ package cz.promtply.api.service;
 
 import cz.promtply.api.entity.Email;
 import cz.promtply.api.entity.EmailStatus;
-import cz.promtply.shared.enums.EmailStatusesEnum;
 import cz.promtply.api.repository.EmailStatusRepository;
+import cz.promtply.shared.enums.EmailStatusesEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,12 +22,29 @@ public class EmailStatusServiceImpl implements EmailStatusService {
     }
 
     @Override
-    public EmailStatus createStatus(EmailStatusesEnum newStatus, Email email) {
-        EmailStatus emailStatus = new EmailStatus();
-        emailStatus.setStatus(newStatus);
-        emailStatus.setEmail(email);
+    public EmailStatus createStatus(EmailStatus emailStatus) {
         emailStatus.setCreatedOn(Instant.now());
 
         return emailStatusRepository.save(emailStatus);
     }
+
+    @Override
+    public EmailStatus createStatus(EmailStatusesEnum newStatus, Email email) {
+        EmailStatus emailStatus = new EmailStatus();
+        emailStatus.setStatus(newStatus);
+        emailStatus.setEmail(email);
+
+        return createStatus(emailStatus);
+    }
+
+    @Override
+    public EmailStatus createStatus(EmailStatusesEnum newStatus, String note, Email email) {
+        EmailStatus emailStatus = new EmailStatus();
+        emailStatus.setStatus(newStatus);
+        emailStatus.setNote(note);
+        emailStatus.setEmail(email);
+
+        return createStatus(emailStatus);
+    }
+
 }

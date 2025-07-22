@@ -1,10 +1,18 @@
 package cz.promtply.shared.enums;
 
 public enum EmailStatusesEnum {
-    // TODO: Replace with actual statuses
     CREATED,
     ENQUEUED,
+
+    INVALID_CONFIGURATION,
+    UNAUTHORIZED,
+
+    FAILED,
     SENT,
+
+    DEFERRED,
+    BOUNCED,
     DELIVERED,
+
     OPENED;
 }

@@ -30,6 +30,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
+	implementation("org.springframework.boot:spring-boot-starter-amqp")
 	implementation("org.postgresql:postgresql:42.7.7")
 	implementation("org.flywaydb:flyway-core:11.10.2")
 	implementation("org.flywaydb:flyway-database-postgresql:11.10.2")

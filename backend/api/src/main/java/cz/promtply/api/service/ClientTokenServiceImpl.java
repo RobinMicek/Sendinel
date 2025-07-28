@@ -11,11 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.time.Instant;
-import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -59,20 +55,18 @@ public class ClientTokenServiceImpl implements ClientTokenService {
 
         String token = TokenUtil.generateToken();
         String tokenHash = passwordEncoder.encode(token);
-        String tokenFingerprint = generateTokenFingerprint(token);
 
         ClientToken clientToken = new ClientToken();
         clientToken.setName(clientTokenRequestDto.getName());
         clientToken.setDescription(clientTokenRequestDto.getDescription());
         clientToken.setExpiration(clientTokenRequestDto.getExpiration());
         clientToken.setTokenHash(tokenHash);
-        clientToken.setTokenFingerprint(tokenFingerprint);
         clientToken.setClient(client);
         clientToken.setCreatedBy(createdBy);
 
-        createClientToken(clientToken);
+        ClientToken savedClientToken = createClientToken(clientToken);
 
-        return token;
+        return TokenUtil.combineToken(savedClientToken.getId(), token);
     }
 
     @Override
@@ -103,21 +97,6 @@ public class ClientTokenServiceImpl implements ClientTokenService {
     }
 
     @Override
-    public boolean verifyToken(Client client, String token) {
-        String tokenHash = passwordEncoder.encode(token);
-
-        for (ClientToken clientToken : clientTokenRepository.findByClientId(client.getId())) {
-            boolean tokenMatch = tokenHash.equals(clientToken.getTokenHash());
-
-            if (tokenMatch && !isExpired(clientToken)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    @Override
     public boolean isExpired(ClientToken clientToken) {
         return clientToken.getExpiration().before(new Date(Instant.now().toEpochMilli()));
     }
@@ -128,11 +107,12 @@ public class ClientTokenServiceImpl implements ClientTokenService {
     }
 
     @Override
-    public Optional<Client> getClientByToken(String token) {
-        String tokenFingerprint = generateTokenFingerprint(token);
+    public Optional<Client> getClientByToken(String combinedToken) {
+        UUID tokenId = TokenUtil.extractTokenId(combinedToken);
+        String token = TokenUtil.extractSecret(combinedToken);
 
-        ClientToken clientToken = clientTokenRepository.findByTokenFingerprint(tokenFingerprint)
-                .orElseThrow(() -> new ResourceNotFoundException("Client does not exist"));
+        ClientToken clientToken = clientTokenRepository.findById(tokenId)
+                .orElseThrow(() -> new ResourceNotFoundException("Client token does not exist"));
 
         if (!passwordEncoder.matches(token, clientToken.getTokenHash())) {
             throw new RuntimeException("Mismatch between token fingerprint and hash");
@@ -146,16 +126,5 @@ public class ClientTokenServiceImpl implements ClientTokenService {
         clientTokenRepository.save(clientToken);
 
         return Optional.of(clientToken.getClient());
-    }
-
-
-    private String generateTokenFingerprint(String token) {
-        try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] hash = digest.digest(token.getBytes(StandardCharsets.UTF_8));
-            return Base64.getEncoder().encodeToString(hash);
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
-        }
     }
 }

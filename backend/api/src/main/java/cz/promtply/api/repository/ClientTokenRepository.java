@@ -11,5 +11,4 @@ public interface ClientTokenRepository extends JpaRepository<ClientToken, Intege
     Optional<ClientToken> findById(UUID id);
     Optional<ClientToken> findFirstByClientId(UUID id);
     List<ClientToken> findByClientId(UUID id);
-    Optional<ClientToken> findByTokenFingerprint(String tokenFingerprint);
 }

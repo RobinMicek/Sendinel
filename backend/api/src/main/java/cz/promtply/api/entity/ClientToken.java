@@ -44,9 +44,6 @@ public class ClientToken {
     @Column(name = "token_hash", length = 128, nullable = false)
     private String tokenHash;
 
-    @Column(name = "token_fingerprint", length = 128, nullable = false)
-    private String tokenFingerprint;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by")
     private User createdBy;

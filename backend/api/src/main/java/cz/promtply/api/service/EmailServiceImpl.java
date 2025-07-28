@@ -180,7 +180,6 @@ public class EmailServiceImpl implements EmailService {
 
     private String generateTrackingHtmlImage(Email email) {
         String url = String.format("%s/%s/email/open?trackCode=%s", appPublicUrn, Constants.TRACKING_API_ROUTE_PREFIX.replace("/", ""), email.getTrackCode());
-        System.out.println(email.getTrackCode());
 
         return String.format("<img src=\"%s\" />", url);
     }

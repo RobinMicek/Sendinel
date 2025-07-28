@@ -4,17 +4,19 @@ import cz.promtply.api.dto.email.EmailRequestDto;
 import cz.promtply.api.entity.Client;
 import cz.promtply.api.entity.Email;
 import cz.promtply.api.entity.Template;
-import cz.promtply.shared.config.Constants;
-import cz.promtply.shared.enums.EmailPrioritiesEnum;
-import cz.promtply.shared.enums.EmailStatusesEnum;
 import cz.promtply.api.exceptions.ResourceNotFoundException;
 import cz.promtply.api.exceptions.SchemaDoesNotMatchException;
-import cz.promtply.shared.models.email.EmailJobRequest;
 import cz.promtply.api.repository.EmailRepository;
 import cz.promtply.api.util.EmailRenderUtil;
 import cz.promtply.api.util.JsonSchemaValidator;
 import cz.promtply.api.util.TokenUtil;
+import cz.promtply.shared.config.Constants;
+import cz.promtply.shared.enums.EmailPrioritiesEnum;
+import cz.promtply.shared.enums.EmailStatusesEnum;
+import cz.promtply.shared.models.email.EmailJobRequest;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,6 +33,7 @@ public class EmailServiceImpl implements EmailService {
 
     private final EmailRepository emailRepository;
     private final EmailStatusService emailStatusService;
+    private final RabbitTemplate rabbitTemplate;
     private final TemplateService templateService;
     private final JsonSchemaValidator jsonSchemaValidator;
 
@@ -158,6 +161,26 @@ public class EmailServiceImpl implements EmailService {
         }
 
         return emailJobRequest;
+    }
+
+    @Transactional
+    @Override
+    public Email createEmailFromDtoAndSendJob(EmailRequestDto emailRequestDto, Client requestedBy) {
+        Email email = createEmailFromDto(emailRequestDto, requestedBy);
+
+        // Create status ENQUEUED, needs to be before sending the email job,
+        // because unlike actually sending the job this can be reverted
+        // (using transaction for this method)
+        emailStatusService.createStatus(EmailStatusesEnum.ENQUEUED, email);
+
+        // Sent email job to queue
+        rabbitTemplate.convertAndSend(
+                Constants.RABBIT_MQ_JOB_EXCHANGE_NAME,
+                Constants.RABBIT_MQ_JOB_REQUEST_ROUTING_KEY,
+                getJobRequestModel(email)
+        );
+
+        return email;
     }
 
     @Override

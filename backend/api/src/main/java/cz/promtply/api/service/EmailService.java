@@ -18,8 +18,9 @@ public interface EmailService {
     Email createEmail(Email email);
     Email createEmailFromDto(EmailRequestDto emailRequestDto, Client createdBy);
 
-    void trackEmailOpened(String trackCode);
-
     EmailJobRequest getJobRequestModel(Email email);
+    Email createEmailFromDtoAndSendJob(EmailRequestDto emailRequestDto, Client requestedBy);
+
+    void trackEmailOpened(String trackCode);
     File renderEmailToPDF(Email email);
 }

@@ -18,6 +18,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -55,6 +56,7 @@ public class AuthController extends InternalControllerBase {
     }
 
     @GetMapping("/totp")
+    @PreAuthorize("hasAuthority('AUTH_TOTP_READ')")
     public ResponseEntity<UserTotpStatusResponseDto> getTotpStatus() {
         UserTotpStatusResponseDto response = new UserTotpStatusResponseDto(
                 userService.hasTotp(getLoggedInUser().getId()),
@@ -65,6 +67,7 @@ public class AuthController extends InternalControllerBase {
     }
 
     @PostMapping("/totp")
+    @PreAuthorize("hasAuthority('AUTH_TOTP_CREATE')")
     public ResponseEntity<UserTotpCreateResponseDto> createTotp() throws IOException, WriterException {
         String secret = userTotpService.generateAndCreateTotp(getLoggedInUser());
         String qrCode = totpUtil.generateQRCodeBase64(getLoggedInUser().getEmail(), secret);
@@ -78,6 +81,7 @@ public class AuthController extends InternalControllerBase {
     }
 
     @DeleteMapping("/totp")
+    @PreAuthorize("hasAuthority('AUTH_TOTP_DELETE')")
     public ResponseEntity<Void> deleteTotp() {
         userTotpService.deleteTotp(getLoggedInUser());
 
@@ -85,6 +89,7 @@ public class AuthController extends InternalControllerBase {
     }
 
     @PostMapping("/totp/activate")
+    @PreAuthorize("hasAuthority('AUTH_TOTP_CREATE')")
     public ResponseEntity<Void> activateTotp(@Valid @RequestBody TotpRequestDto totpRequestDto) {
         userTotpService.activateTotp(totpRequestDto.getCode(), getLoggedInUser());
 

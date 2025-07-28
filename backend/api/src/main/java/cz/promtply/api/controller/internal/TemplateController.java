@@ -19,6 +19,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -49,6 +50,7 @@ public class TemplateController extends InternalControllerBase {
     private final TemplateService templateService;
 
     @GetMapping
+    @PreAuthorize("hasAuthority('TEMPLATES_READ')")
     public ResponseEntity<PageResponseDto<TemplateResponseDto>> getTemplates(Pageable pageable) {
         Page<Template> templatePage = templateService.getTemplates(pageable);
 
@@ -60,6 +62,7 @@ public class TemplateController extends InternalControllerBase {
 
     // For dropdowns
     @GetMapping("/list")
+    @PreAuthorize("hasAuthority('TEMPLATES_READ')")
     public ResponseEntity<List<TemplateBasicsResponseDto>> getSendersList() {
         List<Template> templates = templateService.getAllTemplates();
 
@@ -72,6 +75,7 @@ public class TemplateController extends InternalControllerBase {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('TEMPLATES_READ')")
     public ResponseEntity<TemplateResponseDto> getTemplate(@PathVariable UUID id) {
         Template template = templateService.getTemplateById(id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Template does not exist")
@@ -81,6 +85,7 @@ public class TemplateController extends InternalControllerBase {
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('TEMPLATES_CREATE')")
     public ResponseEntity<TemplateResponseDto> createClient(@Valid @RequestBody TemplateRequestDto templateRequestDto) {
         Template template = templateService.createTemplateFromDto(templateRequestDto, getLoggedInUser());
 
@@ -88,6 +93,7 @@ public class TemplateController extends InternalControllerBase {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('TEMPLATES_UPDATE')")
     public ResponseEntity<TemplateResponseDto> updateTemplate(@PathVariable UUID id, @Valid @RequestBody TemplateRequestDto templateRequestDto) {
         Template template = templateService.updateTemplateFromDto(id, templateRequestDto, getLoggedInUser());
 
@@ -95,6 +101,7 @@ public class TemplateController extends InternalControllerBase {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('TEMPLATES_DELETE')")
     public ResponseEntity<Void> deleteTemplate(@PathVariable UUID id) {
         templateService.deleteTemplate(id, getLoggedInUser());
 
@@ -102,6 +109,7 @@ public class TemplateController extends InternalControllerBase {
     }
 
     @PostMapping("/export")
+    @PreAuthorize("hasAuthority('TEMPLATES_READ')")
     public ResponseEntity<InputStreamResource> exportTemplates(@Valid @RequestBody TemplateExportRequestDto templateExportRequestDto) throws IOException {
         File export = templateService.createExport(templateExportRequestDto.getIds(), templateExportRequestDto.isOverwriteExisting());
         InputStreamResource resource = new InputStreamResource(new FileInputStream(export));
@@ -117,6 +125,7 @@ public class TemplateController extends InternalControllerBase {
     }
 
     @PostMapping("/import")
+    @PreAuthorize("hasAuthority('TEMPLATES_CREATE')")
     public ResponseEntity<String> importTemplates(@RequestParam("file") MultipartFile multipartFile) throws IOException {
         // Save MultipartFile to a temporary file on disk
         File tempFile = File.createTempFile("import-", "-" + multipartFile.getOriginalFilename());

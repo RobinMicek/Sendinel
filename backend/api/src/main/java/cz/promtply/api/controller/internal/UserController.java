@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,6 +36,7 @@ public class UserController extends InternalControllerBase {
     private final UserService userService;
 
     @GetMapping
+    @PreAuthorize("hasAuthority('USERS_READ')")
     public ResponseEntity<PageResponseDto<UserResponseDto>> getUsers(Pageable pageable) {
         Page<User> userPage = userService.getUsers(pageable);
 
@@ -45,6 +47,7 @@ public class UserController extends InternalControllerBase {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('USERS_READ')")
     public ResponseEntity<UserResponseDto> getUser(@PathVariable UUID id) {
         User user = userService.getUserById(id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User does not exist")
@@ -54,6 +57,7 @@ public class UserController extends InternalControllerBase {
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('USERS_CREATE')")
     public ResponseEntity<UserResponseDto> createUser(@Valid @RequestBody UserCreateRequestDto userCreateRequestDto) {
         User user = userService.createUserFromDto(userCreateRequestDto, getLoggedInUser());
 
@@ -61,6 +65,7 @@ public class UserController extends InternalControllerBase {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('USERS_UPDATE')")
     public ResponseEntity<UserResponseDto> updateUser(@PathVariable UUID id, @Valid @RequestBody UserUpdateRequestDto userUpdateRequestDto) {
         User user = userService.updateUserFromDto(id, userUpdateRequestDto, getLoggedInUser());
 
@@ -68,6 +73,7 @@ public class UserController extends InternalControllerBase {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('USERS_DELETE')")
     public ResponseEntity<Void> deleteUser(@PathVariable UUID id) {
         userService.deleteUser(id, getLoggedInUser());
 

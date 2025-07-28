@@ -17,6 +17,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,6 +41,7 @@ public class EmailController extends InternalControllerBase {
     private final ClientService clientService;
 
     @GetMapping
+    @PreAuthorize("hasAuthority('EMAILS_READ')")
     public ResponseEntity<PageResponseDto<EmailResponseDto>> getEmails(Pageable pageable) {
         Page<Email> emailPage = emailService.getEmails(pageable);
         emailPage.forEach(email -> {email.setEmailStatuses(emailStatusService.getByEmail(email));});
@@ -51,6 +53,7 @@ public class EmailController extends InternalControllerBase {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('EMAILS_READ')")
     public ResponseEntity<EmailResponseDto> getEmail(@PathVariable UUID id) {
         Email email = emailService.getEmailById(id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Email does not exist")
@@ -62,6 +65,7 @@ public class EmailController extends InternalControllerBase {
     }
 
     @GetMapping("/{id}/render")
+    @PreAuthorize("hasAuthority('EMAILS_READ')")
     public ResponseEntity<InputStreamResource> renderEmailToPDF(@PathVariable UUID id) throws IOException {
         Email email = emailService.getEmailById(id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Email does not exist with id " + id)

@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,6 +38,7 @@ public class SenderController extends InternalControllerBase {
     private final SenderService senderService;
 
     @GetMapping
+    @PreAuthorize("hasAuthority('SENDERS_READ')")
     public ResponseEntity<PageResponseDto<SenderResponseDto>> getSenders(Pageable pageable) {
         Page<Sender> senderPage = senderService.getSendersObfuscated(pageable);
 
@@ -48,6 +50,7 @@ public class SenderController extends InternalControllerBase {
 
     // For dropdowns
     @GetMapping("/list")
+    @PreAuthorize("hasAuthority('SENDERS_READ')")
     public ResponseEntity<List<SenderBasicsResponseDto>> getSendersList() {
         List<Sender> senders = senderService.getAllSendersObfuscated();
 
@@ -60,6 +63,7 @@ public class SenderController extends InternalControllerBase {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('SENDERS_READ')")
     public ResponseEntity<SenderResponseDto> getSender(@PathVariable UUID id) {
         Sender sender = senderService.getSenderByIdObfuscated(id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Sender does not exist")
@@ -69,6 +73,7 @@ public class SenderController extends InternalControllerBase {
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('SENDERS_CREATE')")
     public ResponseEntity<SenderResponseDto> createSender(@Valid @RequestBody SenderRequestDto senderRequestDto) {
         Sender sender = senderService.createSenderFromDto(senderRequestDto, getLoggedInUser());
 
@@ -76,6 +81,7 @@ public class SenderController extends InternalControllerBase {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('SENDERS_UPDATE')")
     public ResponseEntity<SenderResponseDto> updateSender(@PathVariable UUID id, @Valid @RequestBody SenderRequestDto senderRequestDto) {
         Sender sender = senderService.updateSenderFromDto(id, senderRequestDto, getLoggedInUser());
 
@@ -83,6 +89,7 @@ public class SenderController extends InternalControllerBase {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('SENDERS_DELETE')")
     public ResponseEntity<Void> deleteSender(@PathVariable UUID id) {
         senderService.deleteSender(id, getLoggedInUser());
 

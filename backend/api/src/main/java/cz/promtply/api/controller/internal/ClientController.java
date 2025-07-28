@@ -19,6 +19,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,6 +43,7 @@ public class ClientController extends InternalControllerBase {
     private final ClientTokenService clientTokenService;
 
     @GetMapping
+    @PreAuthorize("hasAuthority('CLIENTS_READ')")
     public ResponseEntity<PageResponseDto<ClientResponseDto>> getClients(Pageable pageable) {
         Page<Client> clientPage = clientService.getClients(pageable);
 
@@ -52,6 +54,7 @@ public class ClientController extends InternalControllerBase {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('CLIENT_READ')")
     public ResponseEntity<ClientResponseDto> getClient(@PathVariable UUID id) {
         Client client = clientService.getClientById(id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Client does not exist")
@@ -61,6 +64,7 @@ public class ClientController extends InternalControllerBase {
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('CLIENTS_CREATE')")
     public ResponseEntity<ClientResponseDto> createClient(@Valid @RequestBody ClientRequestDto clientRequestDto) {
         Client client = clientService.createClientFromDto(clientRequestDto, getLoggedInUser());
 
@@ -68,6 +72,7 @@ public class ClientController extends InternalControllerBase {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('CLIENTS_UPDATE')")
     public ResponseEntity<ClientResponseDto> updateClient(@PathVariable UUID id, @Valid @RequestBody ClientRequestDto clientRequestDto) {
         Client client = clientService.updateClientFromDto(id, clientRequestDto, getLoggedInUser());
 
@@ -75,6 +80,7 @@ public class ClientController extends InternalControllerBase {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('CLIENTS_DELETE')")
     public ResponseEntity<Void> deleteClient(@PathVariable UUID id) {
         clientService.deleteClient(id, getLoggedInUser());
 
@@ -82,6 +88,7 @@ public class ClientController extends InternalControllerBase {
     }
 
     @GetMapping("/{id}/token")
+    @PreAuthorize("hasAuthority('CLIENT_TOKENS_READ')")
     public ResponseEntity<List<ClientTokenResponseDto>> getClientTokens(@PathVariable UUID id) {
         List<ClientToken> clientTokenList = clientTokenService.getAllClientTokens(id);
 
@@ -98,6 +105,7 @@ public class ClientController extends InternalControllerBase {
     }
 
     @PostMapping("/{id}/token")
+    @PreAuthorize("hasAuthority('CLIENT_TOKENS_CREATE')")
     public ResponseEntity<ClientTokenValueResponseDto> createClientToken(@PathVariable UUID id, @Valid @RequestBody ClientTokenRequestDto clientTokenRequestDto) {
         String token = clientTokenService.generateAndCreateTokenFromDto(id, clientTokenRequestDto, getLoggedInUser());
 
@@ -105,6 +113,7 @@ public class ClientController extends InternalControllerBase {
     }
 
     @DeleteMapping("/{clientId}/token/{tokenId}")
+    @PreAuthorize("hasAuthority('CLIENT_TOKENS_DELETE')")
     public ResponseEntity<Void> deleteClientToken(@PathVariable UUID clientId, @PathVariable UUID tokenId) {
         clientTokenService.deleteToken(tokenId, getLoggedInUser());
 

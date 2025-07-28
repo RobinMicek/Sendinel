@@ -11,6 +11,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +25,7 @@ public class ClientApiController extends ExternalControllerBase {
     private final EmailService emailService;
 
     @PostMapping("/email")
+    @PreAuthorize("hasAuthority('EMAILS_CREATE')")
     public ResponseEntity<EmailResponseDto> createEmail(@Valid @RequestBody EmailRequestDto emailRequestDto) {
         Email email = emailService.createEmailFromDtoAndSendJob(emailRequestDto, getLoggedInClient());
 

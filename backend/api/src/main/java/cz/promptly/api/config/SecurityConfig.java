@@ -28,7 +28,7 @@ public class SecurityConfig {
 
     @Bean
     @Order(1)
-    public SecurityFilterChain trackinfFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain trackingFilterChain(HttpSecurity http) throws Exception {
         http
                 .securityMatcher(Constants.TRACKING_API_ROUTE_PREFIX + "/**")
                 .csrf(AbstractHttpConfigurer::disable)

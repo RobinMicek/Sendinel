@@ -1,4 +1,4 @@
-package cz.promtply.shared.models;
+package cz.promptly.shared.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

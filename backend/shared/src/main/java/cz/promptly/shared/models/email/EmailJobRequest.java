@@ -1,8 +1,8 @@
-package cz.promtply.shared.models.email;
+package cz.promptly.shared.models.email;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import cz.promtply.shared.enums.EmailPrioritiesEnum;
-import cz.promtply.shared.enums.SenderTypesEnum;
+import cz.promptly.shared.enums.EmailPrioritiesEnum;
+import cz.promptly.shared.enums.SenderTypesEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -1,6 +1,6 @@
-package cz.promtply.shared.models.email;
+package cz.promptly.shared.models.email;
 
-import cz.promtply.shared.enums.EmailStatusesEnum;
+import cz.promptly.shared.enums.EmailStatusesEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -1,6 +1,6 @@
-package cz.promtply.shared.enums;
+package cz.promptly.shared.enums;
 
-import cz.promtply.shared.models.SenderConfigurationField;
+import cz.promptly.shared.models.SenderConfigurationField;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

@@ -1,4 +1,4 @@
-package cz.promtply.shared.enums;
+package cz.promptly.shared.enums;
 
 public enum UserPermissionsEnum {
     AUTH_TOTP_READ,

@@ -1,4 +1,4 @@
-package cz.promtply.shared.enums;
+package cz.promptly.shared.enums;
 
 import lombok.AllArgsConstructor;
 

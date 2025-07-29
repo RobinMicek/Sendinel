@@ -1,8 +1,8 @@
 package cz.promptly.worker.senders;
 
 import cz.promptly.worker.rabbitmq.EmailStatusProducer;
-import cz.promtply.shared.enums.EmailStatusesEnum;
-import cz.promtply.shared.models.email.EmailJobRequest;
+import cz.promptly.shared.enums.EmailStatusesEnum;
+import cz.promptly.shared.models.email.EmailJobRequest;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -2,7 +2,7 @@ package cz.promptly.worker;
 
 import cz.promptly.worker.config.AppConfig;
 import cz.promptly.worker.rabbitmq.EmailStatusProducer;
-import cz.promtply.shared.config.Constants;
+import cz.promptly.shared.config.Constants;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -2,8 +2,8 @@ package cz.promptly.worker.senders;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import cz.promptly.worker.rabbitmq.EmailStatusProducer;
-import cz.promtply.shared.enums.EmailStatusesEnum;
-import cz.promtply.shared.models.email.EmailJobRequest;
+import cz.promptly.shared.enums.EmailStatusesEnum;
+import cz.promptly.shared.models.email.EmailJobRequest;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.mail.MailAuthenticationException;

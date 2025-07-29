@@ -1,6 +1,7 @@
-package cz.promptly.worker.config;
+package cz.promptly.api.config;
 
 import cz.promptly.shared.config.Constants;
+import cz.promptly.shared.enums.EmailPrioritiesEnum;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
@@ -13,12 +14,17 @@ import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Configuration
 public class RabbitMQConfig {
 
     @Bean
-    public Queue jobResponseQueue() {
-        return new Queue(Constants.RABBIT_MQ_JOB_RESPONSE_QUEUE_NAME, true);
+    public Queue jobRequestQueue() {
+        Map<String, Object> args = new HashMap<>();
+        args.put("x-max-priority", EmailPrioritiesEnum.values().length - 1); // Indexing from 0
+        return new Queue(Constants.RABBIT_MQ_JOB_REQUEST_QUEUE_NAME, true, false, false, args);
     }
 
     @Bean
@@ -27,8 +33,8 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    public Binding jobResponseBinding(Queue queue, DirectExchange exchange) {
-        return BindingBuilder.bind(queue).to(exchange).with(Constants.RABBIT_MQ_JOB_RESPONSE_ROUTING_KEY);
+    public Binding binding(Queue queue, DirectExchange exchange) {
+        return BindingBuilder.bind(queue).to(exchange).with(Constants.RABBIT_MQ_JOB_REQUEST_ROUTING_KEY);
     }
 
     @Bean

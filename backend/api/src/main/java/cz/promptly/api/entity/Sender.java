@@ -1,7 +1,7 @@
 package cz.promptly.api.entity;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import cz.promtply.shared.enums.SenderTypesEnum;
+import cz.promptly.shared.enums.SenderTypesEnum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

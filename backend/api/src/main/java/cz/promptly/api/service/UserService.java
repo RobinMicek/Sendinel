@@ -23,6 +23,7 @@ public interface UserService {
     void deleteUser(UUID id, User deletedBy);
 
     boolean hasTotp(UUID id);
-
     boolean hasTotpActivated(UUID id);
+
+    boolean isOobe();
 }

@@ -1,7 +1,7 @@
 package cz.promptly.api.entity;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import cz.promtply.shared.enums.EmailPrioritiesEnum;
+import cz.promptly.shared.enums.EmailPrioritiesEnum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

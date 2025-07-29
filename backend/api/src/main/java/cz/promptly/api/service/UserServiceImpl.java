@@ -122,4 +122,9 @@ public class UserServiceImpl implements UserService {
 
         return user.getTotp() != null && user.getTotp().isActivated();
     }
+
+    @Override
+    public boolean isOobe() {
+        return userRepository.count() == 0;
+    }
 }

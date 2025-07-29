@@ -54,7 +54,7 @@ public class ClientController extends InternalControllerBase {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('CLIENT_READ')")
+    @PreAuthorize("hasAuthority('CLIENTS_READ')")
     public ResponseEntity<ClientResponseDto> getClient(@PathVariable UUID id) {
         Client client = clientService.getClientById(id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Client does not exist")

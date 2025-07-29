@@ -60,20 +60,10 @@ public class SecurityConfig {
                 .securityMatcher(Constants.INTERNAL_API_ROUTE_PREFIX + "/**")
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authz -> authz
+                        .requestMatchers(Constants.INTERNAL_API_ROUTE_PREFIX + "/oobe/**").permitAll()
                         .requestMatchers(Constants.INTERNAL_API_ROUTE_PREFIX + "/auth/login").permitAll()
-
-                        .requestMatchers(Constants.INTERNAL_API_ROUTE_PREFIX + "/auth/**")
-                            .hasAnyRole(
-                                UserRolesEnum.NON_TOTP.name(),
-                                UserRolesEnum.USER.name(),
-                                UserRolesEnum.ADMIN.name()
-                            )
-
-                        .anyRequest()
-                            .hasAnyRole(
-                                UserRolesEnum.USER.name(),
-                                UserRolesEnum.ADMIN.name()
-                            )
+                        .requestMatchers(Constants.INTERNAL_API_ROUTE_PREFIX + "/auth/**").permitAll()
+                        .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class);
 

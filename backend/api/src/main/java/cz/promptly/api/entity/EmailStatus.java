@@ -1,6 +1,6 @@
 package cz.promptly.api.entity;
 
-import cz.promtply.shared.enums.EmailStatusesEnum;
+import cz.promptly.shared.enums.EmailStatusesEnum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

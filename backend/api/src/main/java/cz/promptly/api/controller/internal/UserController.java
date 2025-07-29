@@ -69,7 +69,7 @@ public class UserController extends InternalControllerBase {
     public ResponseEntity<UserResponseDto> updateUser(@PathVariable UUID id, @Valid @RequestBody UserUpdateRequestDto userUpdateRequestDto) {
         User user = userService.updateUserFromDto(id, userUpdateRequestDto, getLoggedInUser());
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(MapperUtil.toDto(user, UserResponseDto.class));
+        return ResponseEntity.ok().body(MapperUtil.toDto(user, UserResponseDto.class));
     }
 
     @DeleteMapping("/{id}")

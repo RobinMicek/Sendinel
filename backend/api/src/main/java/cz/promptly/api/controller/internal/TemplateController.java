@@ -97,7 +97,7 @@ public class TemplateController extends InternalControllerBase {
     public ResponseEntity<TemplateResponseDto> updateTemplate(@PathVariable UUID id, @Valid @RequestBody TemplateRequestDto templateRequestDto) {
         Template template = templateService.updateTemplateFromDto(id, templateRequestDto, getLoggedInUser());
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(MapperUtil.toDto(template, TemplateResponseDto.class));
+        return ResponseEntity.ok().body(MapperUtil.toDto(template, TemplateResponseDto.class));
     }
 
     @DeleteMapping("/{id}")
@@ -134,7 +134,7 @@ public class TemplateController extends InternalControllerBase {
         try {
             templateService.importData(tempFile, getLoggedInUser());
 
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         } finally {

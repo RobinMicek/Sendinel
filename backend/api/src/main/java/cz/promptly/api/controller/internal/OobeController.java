@@ -42,7 +42,7 @@ public class OobeController {
         userCreateRequestDto.setRole(UserRolesEnum.ADMIN); // First user is always admin
         User user = userService.createUserFromDto(userCreateRequestDto, null); // Has no createdBy
 
-        return ResponseEntity.ok(MapperUtil.toDto(user, UserResponseDto.class));
+        return ResponseEntity.status(HttpStatus.CREATED).body(MapperUtil.toDto(user, UserResponseDto.class));
     }
 
 }

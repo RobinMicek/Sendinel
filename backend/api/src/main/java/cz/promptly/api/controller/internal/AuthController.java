@@ -93,7 +93,7 @@ public class AuthController extends InternalControllerBase {
     public ResponseEntity<Void> activateTotp(@Valid @RequestBody TotpRequestDto totpRequestDto) {
         userTotpService.activateTotp(totpRequestDto.getCode(), getLoggedInUser());
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/totp/verify")

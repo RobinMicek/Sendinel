@@ -76,7 +76,7 @@ public class ClientController extends InternalControllerBase {
     public ResponseEntity<ClientResponseDto> updateClient(@PathVariable UUID id, @Valid @RequestBody ClientRequestDto clientRequestDto) {
         Client client = clientService.updateClientFromDto(id, clientRequestDto, getLoggedInUser());
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(MapperUtil.toDto(client, ClientResponseDto.class));
+        return ResponseEntity.ok().body(MapperUtil.toDto(client, ClientResponseDto.class));
     }
 
     @DeleteMapping("/{id}")
@@ -109,7 +109,7 @@ public class ClientController extends InternalControllerBase {
     public ResponseEntity<ClientTokenValueResponseDto> createClientToken(@PathVariable UUID id, @Valid @RequestBody ClientTokenRequestDto clientTokenRequestDto) {
         String token = clientTokenService.generateAndCreateTokenFromDto(id, clientTokenRequestDto, getLoggedInUser());
 
-        return ResponseEntity.ok(new ClientTokenValueResponseDto(token));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ClientTokenValueResponseDto(token));
     }
 
     @DeleteMapping("/{clientId}/token/{tokenId}")

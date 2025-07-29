@@ -85,7 +85,7 @@ public class SenderController extends InternalControllerBase {
     public ResponseEntity<SenderResponseDto> updateSender(@PathVariable UUID id, @Valid @RequestBody SenderRequestDto senderRequestDto) {
         Sender sender = senderService.updateSenderFromDto(id, senderRequestDto, getLoggedInUser());
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(MapperUtil.toDto(sender, SenderResponseDto.class));
+        return ResponseEntity.ok().body(MapperUtil.toDto(sender, SenderResponseDto.class));
     }
 
     @DeleteMapping("/{id}")

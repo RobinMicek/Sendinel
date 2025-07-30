@@ -11,6 +11,6 @@ import java.util.UUID;
 
 public interface SenderRepository extends JpaRepository<Sender, Integer> {
     Optional<Sender> findByIdAndDeletedOnIsNull(UUID id);
-    List<Sender> findByDeletedOnIsNull();
-    Page<Sender> findByDeletedOnIsNull(Pageable pageable);
+    List<Sender> findAllByDeletedOnIsNull();
+    Page<Sender> findAllByDeletedOnIsNull(Pageable pageable);
 }

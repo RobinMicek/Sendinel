@@ -58,12 +58,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getAllUsers() {
-        return userRepository.findByDeletedOnIsNull();
+        return userRepository.findAllByDeletedOnIsNull();
     }
 
     @Override
     public Page<User> getUsers(Pageable pageable) {
-        return userRepository.findByDeletedOnIsNull(pageable);
+        return userRepository.findAllByDeletedOnIsNull(pageable);
     }
 
     @Override

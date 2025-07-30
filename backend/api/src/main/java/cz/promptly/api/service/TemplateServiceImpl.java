@@ -83,12 +83,12 @@ public class TemplateServiceImpl implements TemplateService {
 
     @Override
     public List<Template> getAllTemplates() {
-        return templateRepository.findByDeletedOnIsNull();
+        return templateRepository.findAllByDeletedOnIsNull();
     }
 
     @Override
     public Page<Template> getTemplates(Pageable pageable) {
-        return templateRepository.findByDeletedOnIsNull(pageable);
+        return templateRepository.findAllByDeletedOnIsNull(pageable);
     }
 
     @Transactional(rollbackFor = Exception.class)

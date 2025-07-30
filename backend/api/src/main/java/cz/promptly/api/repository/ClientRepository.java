@@ -11,6 +11,6 @@ import java.util.UUID;
 
 public interface ClientRepository extends JpaRepository<Client, Integer> {
     Optional<Client> findByIdAndDeletedOnIsNull(UUID id);
-    List<Client> findByDeletedOnIsNull();
-    Page<Client> findByDeletedOnIsNull(Pageable pageable);
+    List<Client> findAllByDeletedOnIsNull();
+    Page<Client> findAllByDeletedOnIsNull(Pageable pageable);
 }

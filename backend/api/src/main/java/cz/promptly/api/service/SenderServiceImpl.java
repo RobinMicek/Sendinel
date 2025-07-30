@@ -64,12 +64,12 @@ public class SenderServiceImpl implements SenderService {
 
     @Override
     public List<Sender> getAllSenders() {
-        return senderRepository.findByDeletedOnIsNull();
+        return senderRepository.findAllByDeletedOnIsNull();
     }
 
     @Override
     public List<Sender> getAllSendersObfuscated() {
-        return senderRepository.findByDeletedOnIsNull().stream()
+        return senderRepository.findAllByDeletedOnIsNull().stream()
                 .map(this::obfuscateSenderConfig)
                 .collect(Collectors.toList());
     }
@@ -77,12 +77,12 @@ public class SenderServiceImpl implements SenderService {
 
     @Override
     public Page<Sender> getSenders(Pageable pageable) {
-        return senderRepository.findByDeletedOnIsNull(pageable);
+        return senderRepository.findAllByDeletedOnIsNull(pageable);
     }
 
     @Override
     public Page<Sender> getSendersObfuscated(Pageable pageable) {
-        return senderRepository.findByDeletedOnIsNull(pageable)
+        return senderRepository.findAllByDeletedOnIsNull(pageable)
                 .map(sender -> {
                     Map<String, SenderConfigurationField> schema = sender.getType().getConfigurationSchema();
                     JsonNode obfuscatedConfig = obfuscateSensitiveFields(sender.getConfiguration(), schema);

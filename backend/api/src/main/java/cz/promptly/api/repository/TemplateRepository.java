@@ -13,6 +13,6 @@ public interface TemplateRepository extends JpaRepository<Template, Integer> {
     Optional<Template> findByIdAndDeletedOnIsNull(UUID id);
     boolean existsByIdAndDeletedOnIsNull(UUID id);
     boolean existsById(UUID id);
-    List<Template> findByDeletedOnIsNull();
-    Page<Template> findByDeletedOnIsNull(Pageable pageable);
+    List<Template> findAllByDeletedOnIsNull();
+    Page<Template> findAllByDeletedOnIsNull(Pageable pageable);
 }

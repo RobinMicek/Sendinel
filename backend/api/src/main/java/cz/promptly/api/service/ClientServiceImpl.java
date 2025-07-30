@@ -51,12 +51,12 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public List<Client> getAllClients() {
-        return clientRepository.findByDeletedOnIsNull();
+        return clientRepository.findAllByDeletedOnIsNull();
     }
 
     @Override
     public Page<Client> getClients(Pageable pageable) {
-        return clientRepository.findByDeletedOnIsNull(pageable);
+        return clientRepository.findAllByDeletedOnIsNull(pageable);
     }
 
     @Override

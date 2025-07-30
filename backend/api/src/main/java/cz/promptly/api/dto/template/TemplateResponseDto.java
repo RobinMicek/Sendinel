@@ -1,6 +1,6 @@
 package cz.promptly.api.dto.template;
 
-import cz.promptly.api.dto.UpdatedByResponseDto;
+import cz.promptly.api.dto.user.UserBasicsResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,8 +20,8 @@ public class TemplateResponseDto {
     private String textRaw;
     private String htmlRaw;
     private String replyTo;
-    private UpdatedByResponseDto createdBy;
-    private UpdatedByResponseDto updatedBy;
+    private UserBasicsResponseDto createdBy;
+    private UserBasicsResponseDto updatedBy;
     private Instant createdOn;
     private Instant updatedOn;
     private Instant DeletedOn;

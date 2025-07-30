@@ -1,6 +1,6 @@
 package cz.promptly.api.dto.client.token;
 
-import cz.promptly.api.dto.UpdatedByResponseDto;
+import cz.promptly.api.dto.user.UserBasicsResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,8 +18,8 @@ public class ClientTokenResponseDto {
     private String description;
     private Date expiration;
     private boolean isExpired;
-    private UpdatedByResponseDto createdBy;
-    private UpdatedByResponseDto deletedBy;
+    private UserBasicsResponseDto createdBy;
+    private UserBasicsResponseDto deletedBy;
     private Instant lastUsedOn;
     private Instant createdOn;
     private Instant deletedOn;

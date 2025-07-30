@@ -17,7 +17,6 @@ import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
 import org.hibernate.type.SqlTypes;
 
 import java.time.Instant;
@@ -30,7 +29,6 @@ import java.util.UUID;
 @Entity
 @Table(name = "senders")
 @SQLDelete(sql = "UPDATE senders SET deleted_on = CURRENT_TIMESTAMP WHERE id = ?")
-@Where(clause = "deleted_on IS NULL")
 public class Sender {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

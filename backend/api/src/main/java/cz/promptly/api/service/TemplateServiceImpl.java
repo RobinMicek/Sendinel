@@ -78,23 +78,23 @@ public class TemplateServiceImpl implements TemplateService {
 
     @Override
     public Optional<Template> getTemplateById(UUID id) {
-        return templateRepository.findById(id);
+        return templateRepository.findByIdAndDeletedOnIsNull(id);
     }
 
     @Override
     public List<Template> getAllTemplates() {
-        return templateRepository.findAll();
+        return templateRepository.findByDeletedOnIsNull();
     }
 
     @Override
     public Page<Template> getTemplates(Pageable pageable) {
-        return templateRepository.findAll(pageable);
+        return templateRepository.findByDeletedOnIsNull(pageable);
     }
 
     @Transactional(rollbackFor = Exception.class)
     @Override
     public Template updateTemplate(UUID id, Template template) {
-        Template existingTemplate = templateRepository.findById(id).orElseThrow(
+        Template existingTemplate = templateRepository.findByIdAndDeletedOnIsNull(id).orElseThrow(
                 () -> new ResourceNotFoundException("Template not found with id " + id)
         );
 
@@ -134,13 +134,13 @@ public class TemplateServiceImpl implements TemplateService {
 
     @Override
     public void deleteTemplate(UUID id) {
-        Template template = templateRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Template not found with id " + id));
+        Template template = templateRepository.findByIdAndDeletedOnIsNull(id).orElseThrow(() -> new ResourceNotFoundException("Template not found with id " + id));
         deleteTemplate(template);
     }
 
     @Override
     public void deleteTemplate(UUID id, User deletedBy) {
-        Template template = templateRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Template not found with id " + id));
+        Template template = templateRepository.findByIdAndDeletedOnIsNull(id).orElseThrow(() -> new ResourceNotFoundException("Template not found with id " + id));
         template.setUpdatedBy(deletedBy);
 
         deleteTemplate(template);
@@ -270,7 +270,7 @@ public class TemplateServiceImpl implements TemplateService {
             newTemplate.setUpdatedOn(importedTemplate.getUpdatedOn());
             newTemplate.setDeletedOn(importedTemplate.getDeletedOn());
 
-            boolean idExists = templateRepository.existsByIdIncludingDeleted(importedTemplate.getId());
+            boolean idExists = templateRepository.existsById(importedTemplate.getId());
             if (idExists) {
                 if (!metadata.isOverwriteExisting()) {
                     throw new AlreadyExistsException("Template " + importedTemplate.getId() + " already exists and overwrite existing is disabled");

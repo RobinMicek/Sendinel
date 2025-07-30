@@ -46,22 +46,22 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public Optional<Client> getClientById(UUID id) {
-        return clientRepository.findById(id);
+        return clientRepository.findByIdAndDeletedOnIsNull(id);
     }
 
     @Override
     public List<Client> getAllClients() {
-        return clientRepository.findAll();
+        return clientRepository.findByDeletedOnIsNull();
     }
 
     @Override
     public Page<Client> getClients(Pageable pageable) {
-        return clientRepository.findAll(pageable);
+        return clientRepository.findByDeletedOnIsNull(pageable);
     }
 
     @Override
     public Client updateClient(UUID id, Client client) {
-        Client existingClient = clientRepository.findById(id).orElseThrow(
+        Client existingClient = clientRepository.findByIdAndDeletedOnIsNull(id).orElseThrow(
                 () -> new ResourceNotFoundException("Client not found with id " + id)
         );
 
@@ -103,13 +103,13 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public void deleteClient(UUID id) {
-        Client client = clientRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Client not found with id " + id));
+        Client client = clientRepository.findByIdAndDeletedOnIsNull(id).orElseThrow(() -> new ResourceNotFoundException("Client not found with id " + id));
         deleteClient(client);
     }
 
     @Override
     public void deleteClient(UUID id, User deletedBy) {
-        Client client = clientRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Client not found with id " + id));
+        Client client = clientRepository.findByIdAndDeletedOnIsNull(id).orElseThrow(() -> new ResourceNotFoundException("Client not found with id " + id));
         client.setUpdatedBy(deletedBy);
 
         deleteClient(client);

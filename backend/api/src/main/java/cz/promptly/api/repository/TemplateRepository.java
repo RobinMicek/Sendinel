@@ -1,16 +1,18 @@
 package cz.promptly.api.repository;
 
 import cz.promptly.api.entity.Template;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 public interface TemplateRepository extends JpaRepository<Template, Integer> {
-    Optional<Template> findById(UUID id);
+    Optional<Template> findByIdAndDeletedOnIsNull(UUID id);
+    boolean existsByIdAndDeletedOnIsNull(UUID id);
     boolean existsById(UUID id);
-
-    @Query("SELECT CASE WHEN COUNT(t) > 0 THEN true ELSE false END FROM Template t WHERE t.id = :id")
-    boolean existsByIdIncludingDeleted(UUID id);
+    List<Template> findByDeletedOnIsNull();
+    Page<Template> findByDeletedOnIsNull(Pageable pageable);
 }

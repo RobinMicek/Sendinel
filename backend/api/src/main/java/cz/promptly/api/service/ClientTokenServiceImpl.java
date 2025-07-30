@@ -27,17 +27,17 @@ public class ClientTokenServiceImpl implements ClientTokenService {
 
     @Override
     public Optional<ClientToken> getByClientId(UUID clientId) {
-        return clientTokenRepository.findFirstByClientId(clientId);
+        return clientTokenRepository.findFirstByClientIdAndDeletedOnIsNull(clientId);
     }
 
     @Override
     public List<ClientToken> getAllClientTokens(Client client) {
-        return clientTokenRepository.findByClientId(client.getId());
+        return getAllClientTokens(client.getId());
     }
 
     @Override
     public List<ClientToken> getAllClientTokens(UUID clientId) {
-        return clientTokenRepository.findByClientId(clientId);
+        return clientTokenRepository.findByClientIdAndDeletedOnIsNull(clientId);
     }
 
     @Override
@@ -84,13 +84,13 @@ public class ClientTokenServiceImpl implements ClientTokenService {
 
     @Override
     public void deleteToken(UUID id) {
-        ClientToken clientToken = clientTokenRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Client token does not exist with id " + id));
+        ClientToken clientToken = clientTokenRepository.findByIdAndDeletedOnIsNull(id).orElseThrow(() -> new ResourceNotFoundException("Client token does not exist with id " + id));
         deleteToken(clientToken);
     }
 
     @Override
     public void deleteToken(UUID id, User deleteBy) {
-        ClientToken clientToken = clientTokenRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Client token does not exist with id " + id));
+        ClientToken clientToken = clientTokenRepository.findByIdAndDeletedOnIsNull(id).orElseThrow(() -> new ResourceNotFoundException("Client token does not exist with id " + id));
         clientToken.setDeletedBy(deleteBy);
 
         deleteToken(clientToken);
@@ -111,7 +111,7 @@ public class ClientTokenServiceImpl implements ClientTokenService {
         UUID tokenId = TokenUtil.extractTokenId(combinedToken);
         String token = TokenUtil.extractSecret(combinedToken);
 
-        ClientToken clientToken = clientTokenRepository.findById(tokenId)
+        ClientToken clientToken = clientTokenRepository.findByIdAndDeletedOnIsNull(tokenId)
                 .orElseThrow(() -> new ResourceNotFoundException("Client token does not exist"));
 
         if (!passwordEncoder.matches(token, clientToken.getTokenHash())) {

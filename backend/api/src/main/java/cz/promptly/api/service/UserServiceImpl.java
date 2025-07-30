@@ -48,27 +48,27 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> getUserById(UUID id) {
-        return userRepository.findById(id);
+        return userRepository.findByIdAndDeletedOnIsNull(id);
     }
 
     @Override
     public Optional<User> getUserByEmail(String email) {
-        return userRepository.findByEmail(email);
+        return userRepository.findByEmailAndDeletedOnIsNull(email);
     }
 
     @Override
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+        return userRepository.findByDeletedOnIsNull();
     }
 
     @Override
     public Page<User> getUsers(Pageable pageable) {
-        return userRepository.findAll(pageable);
+        return userRepository.findByDeletedOnIsNull(pageable);
     }
 
     @Override
     public User updateUser(UUID id, User user) {
-        User existingUser = userRepository.findById(id).orElseThrow(
+        User existingUser = userRepository.findByIdAndDeletedOnIsNull(id).orElseThrow(
                 () -> new ResourceNotFoundException("User not found with id " + id)
         );
 
@@ -103,7 +103,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(UUID id, User deletedBy) {
-        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found with id " + id));
+        User user = userRepository.findByIdAndDeletedOnIsNull(id).orElseThrow(() -> new ResourceNotFoundException("User not found with id " + id));
         user.setUpdatedBy(deletedBy);
 
         deleteUser(user);
@@ -111,14 +111,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean hasTotp(UUID id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found with id " + id));
+        User user = userRepository.findByIdAndDeletedOnIsNull(id).orElseThrow(() -> new ResourceNotFoundException("User not found with id " + id));
 
         return user.getTotp() != null;
     }
 
     @Override
     public boolean hasTotpActivated(UUID id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found with id " + id));
+        User user = userRepository.findByIdAndDeletedOnIsNull(id).orElseThrow(() -> new ResourceNotFoundException("User not found with id " + id));
 
         return user.getTotp() != null && user.getTotp().isActivated();
     }

@@ -11,7 +11,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -21,7 +20,6 @@ import java.util.UUID;
 @Entity
 @Table(name = "templates")
 @SQLDelete(sql = "UPDATE templates SET deleted_on = CURRENT_TIMESTAMP WHERE id = ?")
-@Where(clause = "deleted_on IS NULL")
 public class Template {
     // !!! DOES NOT AUTOMATICALLY GENERATE IDs, NEED TO CALL .setId() ON CREATION !!! - CURRENTLY GETS SET IN UserService.createTemplate(Template template)
     @Id

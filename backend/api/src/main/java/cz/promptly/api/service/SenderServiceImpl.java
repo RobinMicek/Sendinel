@@ -53,23 +53,23 @@ public class SenderServiceImpl implements SenderService {
 
     @Override
     public Optional<Sender> getSenderById(UUID id) {
-        return senderRepository.findById(id);
+        return senderRepository.findByIdAndDeletedOnIsNull(id);
     }
 
     @Override
     public Optional<Sender> getSenderByIdObfuscated(UUID id) {
-        return senderRepository.findById(id).map(this::obfuscateSenderConfig);
+        return senderRepository.findByIdAndDeletedOnIsNull(id).map(this::obfuscateSenderConfig);
     }
 
 
     @Override
     public List<Sender> getAllSenders() {
-        return senderRepository.findAll();
+        return senderRepository.findByDeletedOnIsNull();
     }
 
     @Override
     public List<Sender> getAllSendersObfuscated() {
-        return senderRepository.findAll().stream()
+        return senderRepository.findByDeletedOnIsNull().stream()
                 .map(this::obfuscateSenderConfig)
                 .collect(Collectors.toList());
     }
@@ -77,12 +77,12 @@ public class SenderServiceImpl implements SenderService {
 
     @Override
     public Page<Sender> getSenders(Pageable pageable) {
-        return senderRepository.findAll(pageable);
+        return senderRepository.findByDeletedOnIsNull(pageable);
     }
 
     @Override
     public Page<Sender> getSendersObfuscated(Pageable pageable) {
-        return senderRepository.findAll(pageable)
+        return senderRepository.findByDeletedOnIsNull(pageable)
                 .map(sender -> {
                     Map<String, SenderConfigurationField> schema = sender.getType().getConfigurationSchema();
                     JsonNode obfuscatedConfig = obfuscateSensitiveFields(sender.getConfiguration(), schema);
@@ -94,7 +94,7 @@ public class SenderServiceImpl implements SenderService {
 
     @Override
     public Sender updateSender(UUID id, Sender sender) {
-        Sender existingSender = senderRepository.findById(id).orElseThrow(
+        Sender existingSender = senderRepository.findByIdAndDeletedOnIsNull(id).orElseThrow(
                 () -> new ResourceNotFoundException("Sender not found with id " + id)
         );
 
@@ -111,7 +111,7 @@ public class SenderServiceImpl implements SenderService {
 
     @Override
     public Sender updateSenderFromDto(UUID id, SenderRequestDto senderRequestDto, User updatedBy) {
-        Sender existingSender = senderRepository.findById(id).orElseThrow(
+        Sender existingSender = senderRepository.findByIdAndDeletedOnIsNull(id).orElseThrow(
                 () -> new ResourceNotFoundException("Sender not found with id " + id)
         );
 
@@ -173,13 +173,13 @@ public class SenderServiceImpl implements SenderService {
 
     @Override
     public void deleteSender(UUID id) {
-        Sender sender = senderRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Sender not found with id " + id));
+        Sender sender = senderRepository.findByIdAndDeletedOnIsNull(id).orElseThrow(() -> new ResourceNotFoundException("Sender not found with id " + id));
         deleteSender(sender);
     }
 
     @Override
     public void deleteSender(UUID id, User deletedBy) {
-        Sender sender = senderRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Sender not found with id " + id));
+        Sender sender = senderRepository.findByIdAndDeletedOnIsNull(id).orElseThrow(() -> new ResourceNotFoundException("Sender not found with id " + id));
         sender.setUpdatedBy(deletedBy);
 
         deleteSender(sender);

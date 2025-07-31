@@ -1,5 +1,6 @@
 package cz.promptly.api.controller.internal;
 
+import cz.promptly.api.service.AppSettingsService;
 import cz.promptly.shared.config.Constants;
 import cz.promptly.api.controller.InternalControllerBase;
 import cz.promptly.api.dto.PageResponseDto;
@@ -48,6 +49,7 @@ import java.util.stream.Collectors;
 public class TemplateController extends InternalControllerBase {
 
     private final TemplateService templateService;
+    private final AppSettingsService appSettingsService;
 
     @GetMapping
     @PreAuthorize("hasAuthority('TEMPLATES_READ')")
@@ -127,6 +129,10 @@ public class TemplateController extends InternalControllerBase {
     @PostMapping("/import")
     @PreAuthorize("hasAuthority('TEMPLATES_CREATE')")
     public ResponseEntity<String> importTemplates(@RequestParam("file") MultipartFile multipartFile) throws IOException {
+        if (!appSettingsService.getAppSettings().isAllowTemplateImports()) {
+            throw new RuntimeException("File upload is not allowed");
+        }
+
         // Save MultipartFile to a temporary file on disk
         File tempFile = File.createTempFile("import-", "-" + multipartFile.getOriginalFilename());
         multipartFile.transferTo(tempFile);

@@ -21,6 +21,8 @@ public enum UserRolesEnum {
 
     USER(
             List.of(
+                UserPermissionsEnum.APP_SETTINGS_READ,
+
                 UserPermissionsEnum.USERS_READ,
 
                 UserPermissionsEnum.SENDERS_READ,
@@ -44,6 +46,8 @@ public enum UserRolesEnum {
 
     ADMIN(
             List.of(
+                    UserPermissionsEnum.APP_SETTINGS_UPDATE,
+
                     UserPermissionsEnum.USERS_CREATE,
                     UserPermissionsEnum.USERS_UPDATE,
                     UserPermissionsEnum.USERS_DELETE,

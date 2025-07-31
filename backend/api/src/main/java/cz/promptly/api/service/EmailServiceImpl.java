@@ -36,12 +36,10 @@ public class EmailServiceImpl implements EmailService {
     private final RabbitTemplate rabbitTemplate;
     private final TemplateService templateService;
     private final JsonSchemaValidator jsonSchemaValidator;
+    private final AppSettingsService appSettingsService;
 
     @Value("${app.base-url}")
-    private String appPublicUrn;
-
-    @Value("${app.tracking.track-opened-emails}")
-    private boolean trackOpenedEmails;
+    private String appBaseUrl;
 
     @Override
     public Email createEmail(Email email) {
@@ -141,7 +139,7 @@ public class EmailServiceImpl implements EmailService {
 
             // Add tracking image
             String htmlBody = email.getTemplate().getHtmlRaw();
-            if (trackOpenedEmails) {
+            if (appSettingsService.getAppSettings().isTrackOpenedEmails()) {
                 if (htmlBody.contains("</body>")) {
                     htmlBody =  htmlBody.replace("</body>", generateTrackingHtmlImage(email) + "</body>");
                 } else {
@@ -202,7 +200,7 @@ public class EmailServiceImpl implements EmailService {
     }
 
     private String generateTrackingHtmlImage(Email email) {
-        String url = String.format("%s/%s/email/open?trackCode=%s", appPublicUrn, Constants.TRACKING_API_ROUTE_PREFIX.replace("/", ""), email.getTrackCode());
+        String url = String.format("%s/%s/email/open?trackCode=%s", appBaseUrl, Constants.TRACKING_API_ROUTE_PREFIX.replace("/", ""), email.getTrackCode());
 
         return String.format("<img src=\"%s\" />", url);
     }

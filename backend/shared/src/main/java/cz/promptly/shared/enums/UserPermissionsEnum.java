@@ -5,6 +5,9 @@ public enum UserPermissionsEnum {
     AUTH_TOTP_CREATE,
     AUTH_TOTP_DELETE,
 
+    APP_SETTINGS_READ,
+    APP_SETTINGS_UPDATE,
+
     USERS_READ,
     USERS_CREATE,
     USERS_UPDATE,

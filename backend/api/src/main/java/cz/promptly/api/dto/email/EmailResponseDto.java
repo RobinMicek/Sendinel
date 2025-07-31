@@ -19,7 +19,6 @@ import java.util.UUID;
 public class EmailResponseDto {
     private UUID id;
     private String toAddress;
-    private String trackCode;
     private TemplateBasicsResponseDto template;
     private JsonNode templateVariables;
     private EmailPrioritiesEnum priority;

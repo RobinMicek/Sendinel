@@ -7,6 +7,7 @@ import cz.promptly.api.filter.JwtFilter;
 import cz.promptly.api.service.ClientTokenService;
 import cz.promptly.api.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -16,6 +17,11 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -25,6 +31,9 @@ public class SecurityConfig {
 
     private final JwtUtil jwtUtil;
     private final ClientTokenService clientTokenService;
+
+    @Value("${app.cors.frontend-base-url}")
+    private String frontendBaseUrl;
 
     @Bean
     @Order(1)
@@ -58,6 +67,7 @@ public class SecurityConfig {
     public SecurityFilterChain jwtFilterChain(HttpSecurity http) throws Exception {
         http
                 .securityMatcher(Constants.INTERNAL_API_ROUTE_PREFIX + "/**")
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers(Constants.INTERNAL_API_ROUTE_PREFIX + "/oobe/**").permitAll()
@@ -68,6 +78,21 @@ public class SecurityConfig {
                 .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+
+        // Internal API
+        CorsConfiguration internalCors = new CorsConfiguration();
+        internalCors.setAllowedOrigins(List.of(frontendBaseUrl));
+        internalCors.setAllowedMethods(List.of("GET", "POST", "DELETE", "PUT", "OPTIONS"));
+        internalCors.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type"));
+        internalCors.setAllowCredentials(true);
+        source.registerCorsConfiguration(Constants.INTERNAL_API_ROUTE_PREFIX+ "/**", internalCors);
+
+        return source;
     }
 
     public JwtFilter jwtFilter() {

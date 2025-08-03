@@ -14,13 +14,16 @@ public enum UserRolesEnum {
     NON_TOTP(
             List.of(
                     UserPermissionsEnum.AUTH_TOTP_READ,
-                    UserPermissionsEnum.AUTH_TOTP_CREATE,
-                    UserPermissionsEnum.AUTH_TOTP_DELETE
+                    UserPermissionsEnum.AUTH_TOTP_CREATE
+                    // Do not add UserPermissionsEnum.AUTH_TOTP_DELETE,
+                    // user should be able to delete TOTP if not verified first
             )
     ),
 
     USER(
             List.of(
+                UserPermissionsEnum.AUTH_TOTP_DELETE,
+
                 UserPermissionsEnum.APP_SETTINGS_READ,
 
                 UserPermissionsEnum.USERS_READ,

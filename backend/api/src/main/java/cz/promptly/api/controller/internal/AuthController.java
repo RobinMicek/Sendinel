@@ -97,6 +97,7 @@ public class AuthController extends InternalControllerBase {
     }
 
     @PostMapping("/totp/verify")
+    @PreAuthorize("hasAuthority('AUTH_TOTP_READ')")
     public ResponseEntity<JwtResponseDto> verifyTotp(@RequestHeader("Authorization") String authHeader, @RequestBody @Valid TotpRequestDto dto) {
         String token = authHeader.replace("Bearer ", "");
         UUID userId = jwtUtil.getUserId(token);

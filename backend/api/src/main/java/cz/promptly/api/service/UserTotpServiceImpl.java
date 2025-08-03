@@ -42,8 +42,15 @@ public class UserTotpServiceImpl implements UserTotpService {
 
     @Override
     public UserTotp createUserTotp(UserTotp userTotp) {
-        if (userTotpRepository.existsByUserId(userTotp.getUser().getId())) {
+        UserTotp existingTotp = userTotpRepository.findByUserId(userTotp.getUser().getId());
+
+        if (existingTotp != null && existingTotp.isActivated()) {
             throw new AlreadyExistsException("TOTP already exists for user id " + userTotp.getUser().getId());
+        }
+
+        // If TOTP exists but is not yet activated allow to regenerate
+        if (existingTotp != null) {
+            deleteTotp(userTotp.getUser());
         }
 
         userTotp.setCreatedOn(Instant.now());

@@ -9,7 +9,9 @@
     import {onMount} from "svelte";
     import {Input} from "@/components/ui/input";
     import {Label} from "@/components/ui/label";
+    import {Skeleton} from "@/components/ui/skeleton";
     import {goto} from "$app/navigation";
+    import Loading from "@/components/loading/Loading.svelte";
 
     let totpStatus: UserTotpStatusResponseDto | undefined = undefined;
     let totpCreateInfo: UserTotpCreateResponseDto | undefined = undefined;
@@ -94,6 +96,10 @@
                     />
 
                     <Input id="secret" value={totpCreateInfo.secret} disabled></Input>
+
+                {:else}
+                    <Skeleton class="w-1/2 h-auto aspect-square" />
+                    <Skeleton class="w-full h-8" />
                 {/if}
 
                 <Button type="button" class="w-full" onclick={() => continueToActivation = true}>
@@ -129,6 +135,6 @@
             </form>
         {/if}
     {:else}
-        loading
+        <Loading />
     {/if}
 </div>

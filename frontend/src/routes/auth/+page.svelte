@@ -67,7 +67,7 @@
         <div class="flex flex-col gap-6 w-full">
             <div class="flex flex-col items-start gap-2">
                 <Label for="email">Email address</Label>
-                <Input id="email" type="email" placeholder="john.doe@promptly.cz" bind:value={emailInputValue} />
+                <Input id="email" type="email" placeholder="john.doe@sendinel.cz" bind:value={emailInputValue} />
             </div>
 
             <div class="flex flex-col items-start gap-2">

@@ -2,7 +2,7 @@ plugins {
 	java
 }
 
-group = "cz.promptly"
+group = "cz.sendinel"
 version = "0.0.1-SNAPSHOT"
 
 java {

@@ -7,7 +7,7 @@
 
 <svelte:head>
 	<link rel="icon" href={favicon} />
-	<title>Promptly</title>
+	<title>Sendinel</title>
 </svelte:head>
 
 <ModeWatcher />

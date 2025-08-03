@@ -56,6 +56,12 @@ public class UserController extends InternalControllerBase {
         return ResponseEntity.ok(MapperUtil.toDto(user, UserResponseDto.class));
     }
 
+    @GetMapping("/me")
+    @PreAuthorize("hasAuthority('USERS_READ')")
+    public ResponseEntity<UserResponseDto> getCurrentUser() {
+        return ResponseEntity.ok(MapperUtil.toDto(getLoggedInUser(), UserResponseDto.class));
+    }
+
     @PostMapping
     @PreAuthorize("hasAuthority('USERS_CREATE')")
     public ResponseEntity<UserResponseDto> createUser(@Valid @RequestBody UserCreateRequestDto userCreateRequestDto) {

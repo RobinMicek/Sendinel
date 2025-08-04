@@ -33,3 +33,17 @@ export function removeUserInfo(): void {
     localStorage.removeItem("authToken");
     localStorage.removeItem("userInfo")
 }
+
+export function getIsOobeDone(): boolean | null {
+    const value = localStorage.getItem("isOobeDone");
+
+    if (value === null) {
+        return null;
+    }
+
+    return value === "true";
+}
+
+export function setIsOobeDone(isOobe: boolean): void {
+    localStorage.setItem("isOobeDone", String(isOobe));
+}

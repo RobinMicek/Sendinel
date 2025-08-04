@@ -1,38 +1,55 @@
 <script lang="ts">
-    import SunIcon from "@lucide/svelte/icons/sun";
-    import MoonIcon from "@lucide/svelte/icons/moon";
-
-    import { onMount } from "svelte";
-
-    import { toggleMode } from "mode-watcher";
-    import { Button } from "$lib/components/ui/button/index.js";
+    import {onMount} from "svelte";
     import {goto} from "$app/navigation";
-    import type {UserResponseDto} from "@/backend-sdk";
-    import {getUser, removeUserInfo} from "@/utils/storage-util";
+    import Loading from "@/components/loading/Loading.svelte";
+    import {OobeControllerApi, type UserResponseDto} from "@/backend-sdk";
+    import {getIsOobeDone, getUser, setIsOobeDone} from "@/utils/storage-util";
+    import {triggerAlert} from "@/stores/alert";
 
-    let user: UserResponseDto = undefined;
-    onMount(() => {
+    async function getOobeStatus(): Promise<boolean | undefined> {
+        const oobeController: OobeControllerApi = new OobeControllerApi();
+
         try {
-            user = getUser();
-        } catch (error) {}
-    })
+            const response = await oobeController.isOobe();
+            return response.data.oobe;
+        } catch (error) {
+            triggerAlert("Failed to get OOBE status", error, "error");
+        }
+    }
+
+    function route(): void {
+        if (!getIsOobeDone()) {
+            goto("/auth/oobe");
+            return;
+        }
+
+        try {
+            const user: UserResponseDto = getUser();
+            triggerAlert(
+                "Logged in",
+                `Logged in as: ${user.firstname} ${user.lastname}`,
+                "success"
+            );
+        } catch {
+            goto("/auth");
+        }
+    }
+
+    onMount(() => {
+        const init = async () => {
+            if (getIsOobeDone() == null) {
+                const status = await getOobeStatus();
+                setIsOobeDone(!status);
+            }
+            route();
+        };
+
+        init();
+    });
+
 
 </script>
 
-<Button onclick={toggleMode} variant="outline" size="icon">
-    <SunIcon
-            class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 !transition-all dark:-rotate-90 dark:scale-0"
-    />
-    <MoonIcon
-            class="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 !transition-all dark:rotate-0 dark:scale-100"
-    />
-    <span class="sr-only">Toggle theme</span>
-</Button>
-
-
-{#if user}
-    <h1>Logged in user: {user.firstname} {user.lastname}</h1>
-    <Button onclick={removeUserInfo}>Logout</Button>
-{:else}
-    <Button onclick={() => goto("/auth")}>Login</Button>
-{/if}
+<div class="w-screen h-screen flex justify-center items-center">
+    <Loading />
+</div>

@@ -57,7 +57,6 @@
         }
     }
 
-
 </script>
 
 <div class="flex items-center justify-center p-10">

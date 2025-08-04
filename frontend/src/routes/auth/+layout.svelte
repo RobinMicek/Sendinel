@@ -5,7 +5,7 @@
 
 <div class="bg-background flex h-screen w-screen flex-col items-center justify-center">
     logo here
-    <Card.Root class="overflow-hidden p-0 w-2/5 h-1/2">
+    <Card.Root class="overflow-hidden p-0 w-3/5 2xl:w-1/2 h-2/3 2xl:h-3/5">
         <Card.Content class="grid p-0 md:grid-cols-2 h-full">
 
             <slot />

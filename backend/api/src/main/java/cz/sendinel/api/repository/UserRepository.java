@@ -14,4 +14,5 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     Optional<User> findByIdAndDeletedOnIsNull(UUID id);
     List<User> findAllByDeletedOnIsNull();
     Page<User> findAllByDeletedOnIsNull(Pageable pageable);
+    int countByDeletedOnIsNull();
 }

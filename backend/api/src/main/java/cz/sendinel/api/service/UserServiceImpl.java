@@ -125,6 +125,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean isOobe() {
-        return userRepository.count() == 0;
+        return userRepository.countByDeletedOnIsNull() == 0;
     }
 }

@@ -9,8 +9,7 @@
 		"preview": "vite preview",
 		"prepare": "svelte-kit sync || echo ''",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-		"generate:backend-sdk": "openapi-generator-cli generate -i ./backend-api-spec.json -g typescript-axios -o ./src/lib/backend-sdk"
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
 	},
 	"devDependencies": {
 		"@internationalized/date": "^3.8.1",
@@ -33,6 +32,7 @@
 		"vite": "^7.0.4"
 	},
 	"dependencies": {
+		"@inlang/paraglide-js": "^2.0.0",
 		"axios": "^1.11.0",
 		"mode-watcher": "^1.1.0"
 	}

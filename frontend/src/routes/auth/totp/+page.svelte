@@ -1,6 +1,7 @@
 <script lang="ts">
     import {Button} from "@/components/ui/button";
     import * as InputOTP from "$lib/components/ui/input-otp/index.js";
+    import { m } from "@/paraglide/messages";
 
     let totpCodeInputValue: string = "";
 </script>
@@ -9,7 +10,7 @@
     <form class="flex flex-col items-center justify-between w-full h-full">
         <h1 class="text-2xl font-semibold text-center">2nd-Factor</h1>
 
-        <p class="text-center opacity-50">Please insert verification code from your authenticator app</p>
+        <p class="text-center opacity-50">{m.insert_code_from_authenticator_app()}</p>
 
         <InputOTP.Root maxlength={6} bind:value={totpCodeInputValue}>
             {#snippet children({ cells })}
@@ -28,6 +29,6 @@
         </InputOTP.Root>
 
 
-        <Button type="submit" class="w-full">Submit</Button>
+        <Button type="submit" class="w-full">{m.submit()}</Button>
     </form>
 </div>

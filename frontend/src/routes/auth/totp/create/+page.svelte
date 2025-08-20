@@ -5,6 +5,7 @@
     import {Input} from "@/components/ui/input";
     import {Skeleton} from "@/components/ui/skeleton";
     import Loading from "@/components/loading/Loading.svelte";
+    import { m } from "@/paraglide/messages";
     
     let totpStatus: UserTotpStatusResponse | undefined = undefined;
     let totpCreateInfo: UserTotpCreateResponse | undefined = undefined;
@@ -21,7 +22,7 @@
             <div class="flex flex-col items-center justify-between w-full h-full">
                 <h1 class="text-2xl font-semibold text-center">Create 2nd-Factor</h1>
 
-                <p class="text-center opacity-50">Scan this QR code with your authenticator app</p>
+                <p class="text-center opacity-50">{m.scan_totp_qr_code()}</p>
 
                 {#if totpCreateInfo}
                     <img
@@ -47,7 +48,7 @@
             <form class="flex flex-col items-center justify-between w-full h-full">
                 <h1 class="text-2xl font-semibold text-center">Create 2nd-Factor</h1>
 
-                <p class="text-center opacity-50">Activate your TOTP by inserting verification code from your authenticator app</p>
+                <p class="text-center opacity-50">{m.activate_totp_by_verification_code_from_authenticator_app()}</p>
 
                 <InputOTP.Root maxlength={6} bind:value={totpCodeInputValue}>
                     {#snippet children({ cells })}
@@ -66,7 +67,7 @@
                 </InputOTP.Root>
 
 
-                <Button type="submit" class="w-full">Submit</Button>
+                <Button type="submit" class="w-full">{m.submit()}</Button>
             </form>
         {/if}
     {:else}

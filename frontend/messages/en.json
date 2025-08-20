@@ -1,0 +1,13 @@
+{
+	"$schema": "https://inlang.com/schema/inlang-message-format",
+	
+	"welcome_back": "Welcome back",
+	"submit": "Submit",
+	"login": "Log In",
+	"email_address": "Email Address",
+	"password": "Password",
+	"insert_code_from_authenticator_app": "Please insert verification code from your authenticator app",
+	"scan_totp_qr_code": "Scan this QR code with your authenticator app",
+	"activate_totp_by_verification_code_from_authenticator_app": "Scan this QR code with your authenticator app"
+
+}

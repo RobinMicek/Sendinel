@@ -1,82 +1,17 @@
 <script lang="ts">
-    import {AuthControllerApi} from "@/backend-sdk";
-    import type {TotpRequestDto, UserTotpCreateResponseDto, UserTotpStatusResponseDto} from "@/backend-sdk";
-    import {getToken, setToken, setUser} from "@/utils/storage-util";
+    import type {UserTotpCreateResponse, UserTotpStatusResponse} from "@/types/dtos/user";
     import {Button} from "@/components/ui/button";
-    import {triggerAlert} from "@/stores/alert";
-    import {UnauthenticatedError} from "@/exceptions/unauthenticated-error";
     import * as InputOTP from "$lib/components/ui/input-otp/index.js";
-    import {onMount} from "svelte";
     import {Input} from "@/components/ui/input";
-    import {Label} from "@/components/ui/label";
     import {Skeleton} from "@/components/ui/skeleton";
-    import {goto} from "$app/navigation";
     import Loading from "@/components/loading/Loading.svelte";
-
-    let totpStatus: UserTotpStatusResponseDto | undefined = undefined;
-    let totpCreateInfo: UserTotpCreateResponseDto | undefined = undefined;
+    
+    let totpStatus: UserTotpStatusResponse | undefined = undefined;
+    let totpCreateInfo: UserTotpCreateResponse | undefined = undefined;
 
     let continueToActivation: boolean = false;
     let totpCodeInputValue: string = "";
 
-    const authController: AuthControllerApi = new AuthControllerApi();
-
-    async function getTotpStatus(): Promise<void> {
-        try {
-            const response = await authController.getTotpStatus({
-                headers: {
-                    Authorization: getToken()
-                }
-            });
-            totpStatus = response.data;
-
-            if (totpStatus.exists && totpStatus.activated) {
-                triggerAlert("2nd-Factor is already configured for this account", null, "info")
-                goto("/auth/totp");
-                return;
-            }
-
-            await getTotpCreateInfo();
-        } catch (error) {
-            triggerAlert("Failed to get TOTP status", error, "error");
-            throw new UnauthenticatedError("Failed to get TOTP status");
-        }
-    }
-
-    async function getTotpCreateInfo(): Promise<void> {
-        try {
-            const response = await authController.createTotp({
-                headers: {
-                    Authorization: getToken()
-                }
-            });
-            totpCreateInfo = response.data;
-        } catch (error) {
-            triggerAlert("Failed to create TOTP", error, "error");
-        }
-    }
-
-    async function activateTotp(): Promise<void> {
-        const totpRequest: TotpRequestDto = {
-            code: totpCodeInputValue
-        }
-
-        try {
-            const response = await authController.activateTotp(totpRequest, {
-                headers: {
-                    Authorization: getToken()
-                }
-            })
-            triggerAlert("TOTP activated", null, "success")
-            goto("/auth/totp");
-        } catch(error) {
-            triggerAlert("Failed to activate TOTP", error, "error")
-        }
-    }
-
-    onMount(() => {
-        getTotpStatus();
-    });
 </script>
 
 
@@ -109,7 +44,7 @@
 
 
         {:else}
-            <form class="flex flex-col items-center justify-between w-full h-full" on:submit|preventDefault={activateTotp}>
+            <form class="flex flex-col items-center justify-between w-full h-full">
                 <h1 class="text-2xl font-semibold text-center">Create 2nd-Factor</h1>
 
                 <p class="text-center opacity-50">Activate your TOTP by inserting verification code from your authenticator app</p>

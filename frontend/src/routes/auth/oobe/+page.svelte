@@ -1,13 +1,8 @@
 <script lang="ts">
-    import {OobeControllerApi, type UserCreateRequestDto} from "@/backend-sdk";
-    import {setIsOobeDone} from "@/utils/storage-util";
     import {Input} from "@/components/ui/input";
     import {Button} from "@/components/ui/button";
     import {Label} from "@/components/ui/label";
-    import {triggerAlert} from "@/stores/alert";
-    import Loading from "@/components/loading/Loading.svelte"
-    import {goto} from "$app/navigation";
-    import {onMount} from "svelte";
+    import Loading from "@/components/loading/Loading.svelte";
 
     let isOobeStatusChecked: boolean = false;
 
@@ -15,54 +10,11 @@
     let lastnameInputValue: string = "";
     let emailInputValue: string = "";
     let passwordInputValue: string = "";
-
-    const oobeController: OobeControllerApi = new OobeControllerApi();
-
-    async function handleOobe(): Promise<void> {
-        const requestBody: UserCreateRequestDto = {
-            firstname: firstnameInputValue,
-            lastname: lastnameInputValue,
-            role: "ADMIN",
-            email: emailInputValue,
-            password: passwordInputValue
-        };
-
-        try {
-            const response = await oobeController.createFirstUser(requestBody);
-            setIsOobeDone(true);
-            triggerAlert("Administrator account successfully created", null, "success");
-            goto("/auth");
-        } catch (error) {
-            triggerAlert("Failed to create an administrator account", error, "error");
-        }
-    }
-
-    async function checkOobeStatus(): Promise<void> {
-        try {
-            const response = await oobeController.isOobe();
-            if (!response.data.oobe) {
-                triggerAlert("OOBE is already done", null, "error");
-                goto("/auth");
-            }
-
-            isOobeStatusChecked = true;
-        } catch (error) {
-            triggerAlert("Failed to get OOBE status", error, "error");
-        }
-    }
-
-    onMount(() => {
-        const init = async () => {
-            await checkOobeStatus();
-        }
-
-        init();
-    })
 </script>
 
 <div class="flex items-center justify-center p-10">
     {#if isOobeStatusChecked}
-        <form class="flex flex-col items-center justify-between w-full h-full" on:submit|preventDefault={handleOobe}>
+        <form class="flex flex-col items-center justify-between w-full h-full">
             <h1 class="text-2xl font-semibold text-center">Welcome to Sendinel</h1>
 
             <p class="text-center opacity-50">Start by creating your first administrator account</p>

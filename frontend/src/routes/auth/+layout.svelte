@@ -1,7 +1,6 @@
 <script lang="ts">
     import * as Card from "@/components/ui/card";
-    import appLogoDark from "@/assets/images/logo/logo-dark.png";
-    import appLogoLight from "@/assets/images/logo/logo-light.png";
+    import appLogo from "@/assets/images/logo/logo.png";
     import pictureDark from '@/assets/images/auth/auth-dark.png';
     import pictureLight from '@/assets/images/auth/auth-light.png';
     import githubLogoDark from "@/assets/images/icons/github/github-mark-dark.png";
@@ -14,7 +13,7 @@
 
     <div class="m-5 flex items-center gap-4">
         <img
-            src={mode.current == "light" ? appLogoDark: appLogoLight}
+            src={appLogo}
             alt="App logo"
             class="h-16"
         />

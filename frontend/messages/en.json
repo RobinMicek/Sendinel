@@ -40,6 +40,7 @@
 	"switch_to_light": "Switch to light",
 	"account_preferences": "Account preferences",
 	"logout": "Log Out",
-	"powered_by_app": "Powered by {app_name} ({version_number})"
+	"powered_by_app": "Powered by {app_name} ({version_number})",
+	"error": "Error"
 
 }

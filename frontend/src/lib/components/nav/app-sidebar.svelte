@@ -1,6 +1,5 @@
 <script lang="ts" module>
-	import appLogoDark from "@/assets/images/logo/logo-dark.png";
-	import appLogoLight from "@/assets/images/logo/logo-light.png";
+	import appLogo from "@/assets/images/logo/logo.png";
 	import Mail from "@lucide/svelte/icons/mail";
 	import NotebookText from "@lucide/svelte/icons/notebook-text";
 	import Send from "@lucide/svelte/icons/send";
@@ -73,7 +72,6 @@
 	import * as Sidebar from "$lib/components/ui/sidebar/index.js";
 	import CommandIcon from "@lucide/svelte/icons/command";
 	import type { ComponentProps } from "svelte";
-    import { mode } from "mode-watcher";
     import { userStore } from "@/stores/store-factory";
     import { m } from "@/paraglide/messages";
 
@@ -92,7 +90,7 @@
 							>
 								<CommandIcon class="size-4" />
 								<img 
-									src={mode.current == "light" ? appLogoLight : appLogoDark } 
+									src={appLogo}
 									alt="App logo"
 								/>
 							</div>

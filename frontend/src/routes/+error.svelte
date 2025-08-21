@@ -1,22 +1,21 @@
 <script lang="ts">
-    import appLogoDark from "@/assets/images/logo/logo-dark.png"
-    import appLogoLight from "@/assets/images/logo/logo-light.png"
+    import appLogo from "@/assets/images/logo/logo.png"
     import { Button } from "@/components/ui/button"
 
 	import { page } from '$app/state';
-    import { mode } from "mode-watcher";
     import { goto } from "$app/navigation";
+    import { m } from "@/paraglide/messages";
 </script>
 
 <div class="w-screen h-screen flex flex-col justify-center items-center gap-16">
     <img 
-        src={mode.current == "light" ? appLogoDark : appLogoLight} 
+        src={appLogo}
         alt="App logo"
         class="h-16"
     />
     
     <div class="flex flex-col items-center">
-        <h1 class="font-semibold text-4xl">ERROR</h1>    
+        <h1 class="font-semibold text-4xl uppercase">{m.error()}</h1>
         <p>{page.error?.message}</p>
     </div>
 

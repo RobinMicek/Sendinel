@@ -8,5 +8,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OobeStatusResponseDto {
-    private boolean isOobe;
+    private boolean oobeStatus;
 }

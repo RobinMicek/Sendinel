@@ -28,7 +28,7 @@ public class OobeController {
     @GetMapping
     public ResponseEntity<OobeStatusResponseDto> isOobe() {
         OobeStatusResponseDto response = new OobeStatusResponseDto();
-        response.setOobe(userService.isOobe());
+        response.setOobeStatus(userService.isOobe());
 
         return ResponseEntity.ok(response);
     }

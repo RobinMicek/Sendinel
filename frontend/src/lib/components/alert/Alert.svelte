@@ -1,5 +1,5 @@
 <script lang="ts">
-    import alerts from '@/stores/alert'; // or $lib/stores/alert if that's your alias
+    import alerts from '@/stores/alert-store';
     import { fly } from 'svelte/transition';
 
     import * as Alert from "$lib/components/ui/alert/index.js";

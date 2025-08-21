@@ -1,16 +1,22 @@
 import axios from 'axios';
-import { tokenStore } from '@/stores/userinfo';
+import { tokenStore } from '@/stores/auth-store';
+import { BACKEND_API_BASE_URL } from '@/config';
 
 abstract class APIService {
 	api = axios.create({
-		baseURL: '/backend'
+		baseURL: BACKEND_API_BASE_URL
 	});
 
-	bearerToken = "Bearer " + tokenStore.get()
+	//constructor() {
+	//	if (typeof process !== 'undefined' && process?.env?.DEVELOPMENT_BACKEND_URL) {
+	//		this.api.defaults.baseURL = process.env.DEVELOPMENT_BACKEND_URL;
+	//	}
+	//}
 
-	constructor() {
-		if (typeof process !== 'undefined' && process?.env?.DEVELOPMENT_BACKEND_URL) {
-			this.api.defaults.baseURL = process.env.DEVELOPMENT_BACKEND_URL;
+	getHeaders () {
+		return {
+			"Authorization": "Bearer " + tokenStore.get(),
+			"Content-Type": "application/json"
 		}
 	}
 }

@@ -3,48 +3,77 @@
     import {Button} from "@/components/ui/button";
     import {Label} from "@/components/ui/label";
     import Loading from "@/components/loading/Loading.svelte";
+    import { m } from "@/paraglide/messages";
+    import AuthService from "@/services/auth-service";
+    import type { UserCreateRequest } from "@/types/dtos/user";
+    import { goto } from "$app/navigation";
+    import { triggerAlert } from "@/stores/alert-store";
+    import { oobeStatusStore } from "@/stores/auth-store";
 
-    let isOobeStatusChecked: boolean = false;
+    const authService = new AuthService()
 
-    let firstnameInputValue: string = "";
-    let lastnameInputValue: string = "";
-    let emailInputValue: string = "";
-    let passwordInputValue: string = "";
+    let isLoading = false
+
+    let oobeRequest: UserCreateRequest = {
+        "firstname": "",
+        "lastname": "",
+        "email": "",
+        "password": "",
+        "role": "ADMIN" // This is required, but ignored and always set as ADMIN on the backend
+    }
+
+    async function handleOobe(oobeRequest: UserCreateRequest) {
+        isLoading = true
+        try {
+            const response = await authService.oobeCreateUser(oobeRequest)
+
+            // Change the cached value
+            oobeStatusStore.set(false)
+
+            triggerAlert(m.first_user_successfully_created(), "", "success")
+            goto("/auth/login")
+        } catch (e) {
+            triggerAlert(m.failed_to_create_first_user(), "", "error")
+        } finally {
+            isLoading = false
+        }
+    }
 </script>
 
 <div class="flex items-center justify-center p-10">
-    {#if isOobeStatusChecked}
-        <form class="flex flex-col items-center justify-between w-full h-full">
-            <h1 class="text-2xl font-semibold text-center">Welcome to Sendinel</h1>
+    {#if isLoading}
+        <Loading />
 
-            <p class="text-center opacity-50">Start by creating your first administrator account</p>
+    {:else}
+        <form class="flex flex-col items-center justify-between w-full h-full" on:submit={() => handleOobe(oobeRequest)}>
+            <h1 class="text-2xl font-semibold text-center">{m.welcome_to_sendinel()}</h1>
+
+            <p class="text-center opacity-50">{m.start_by_creating_admin_account()}</p>
 
             <div class="flex flex-col gap-6 w-full">
                 <div class="flex flex-col items-start gap-2">
-                    <Label for="firstname">Firstname</Label>
-                    <Input id="firstname" type="text" placeholder="John" bind:value={firstnameInputValue} />
+                    <Label for="firstname">{m.firstname()}</Label>
+                    <Input id="firstname" type="text" placeholder="John" bind:value={oobeRequest.firstname} />
                 </div>
 
                 <div class="flex flex-col items-start gap-2">
-                    <Label for="lastname">Lastname</Label>
-                    <Input id="lastname" type="texts" placeholder="Doe" bind:value={lastnameInputValue} />
+                    <Label for="lastname">{m.lastname()}</Label>
+                    <Input id="lastname" type="texts" placeholder="Doe" bind:value={oobeRequest.lastname} />
                 </div>
 
                 <div class="flex flex-col items-start gap-2">
-                    <Label for="email">Email address</Label>
-                    <Input id="email" type="email" placeholder="john.doe@sendinel.cz" bind:value={emailInputValue} />
+                    <Label for="email">{m.email_address()}</Label>
+                    <Input id="email" type="email" placeholder="john.doe@sendinel.cz" bind:value={oobeRequest.email} />
                 </div>
 
                 <div class="flex flex-col items-start gap-2">
-                    <Label for="password">Password</Label>
-                    <Input id="password" type="password" placeholder="*******" bind:value={passwordInputValue} />
+                    <Label for="password">{m.password()}</Label>
+                    <Input id="password" type="password" placeholder="*******" bind:value={oobeRequest.password} />
                 </div>
             </div>
 
             <Button type="submit" class="w-full">Log In</Button>
         </form>
-
-    {:else}
-        <Loading />
+        
     {/if}
 </div>

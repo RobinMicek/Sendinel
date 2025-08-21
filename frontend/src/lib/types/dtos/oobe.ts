@@ -1,3 +1,3 @@
 export interface OobeStatusResponse {
-  isOobe: boolean;
+  oobeStatus: boolean;
 }

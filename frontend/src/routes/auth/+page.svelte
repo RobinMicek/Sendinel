@@ -5,7 +5,7 @@
     import {login, m} from "@/paraglide/messages"
     import type { LoginRequest } from "@/types/dtos/auth";
     import AuthService from "@/services/auth-service";
-    import { tokenStore } from "@/stores/auth-store";
+    import { tokenStore } from "@/stores/store-factory";
     import { goto } from "$app/navigation";
     import { triggerAlert } from "@/stores/alert-store";
     import Loading from "@/components/loading/Loading.svelte";

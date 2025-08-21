@@ -1,7 +1,7 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
 	
-	"welcome_to_sendinel": "Welcome to Sendinel",
+	"welcome_to_app": "Welcome to {app_name}",
 	"welcome_back": "Welcome back",
 	"submit": "Submit",
 	"continue": "Continue",
@@ -27,6 +27,19 @@
 	"first_user_successfully_created": "First user successfully created",
 	"failed_to_create_first_user": "Failed to create first user",
 	"failed_to_get_oobe_status": "Failed to get OOBE status",
-	"failed_to_get_app_settings": "Failed to get app preferences"
+	"failed_to_get_app_settings": "Failed to get app preferences",
+	"emails": "Emails",
+	"templates": "Templates",
+	"senders": "Senders",
+	"clients": "Clients",
+	"users": "Users",
+	"configuration": "Configuration",
+	"application_settings": "Application Settings",
+	"help_me": "Help Me",
+	"switch_to_dark": "Switch to dark",
+	"switch_to_light": "Switch to light",
+	"account_preferences": "Account preferences",
+	"logout": "Log Out",
+	"powered_by_app": "Powered by {app_name} ({version_number})"
 
 }

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { tokenStore } from '@/stores/auth-store';
+import { tokenStore } from '@/stores/store-factory';
 import { BACKEND_API_BASE_URL } from '@/config';
 
 abstract class APIService {

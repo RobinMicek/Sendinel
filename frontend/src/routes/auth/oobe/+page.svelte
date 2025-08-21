@@ -8,7 +8,8 @@
     import type { UserCreateRequest } from "@/types/dtos/user";
     import { goto } from "$app/navigation";
     import { triggerAlert } from "@/stores/alert-store";
-    import { oobeStatusStore } from "@/stores/auth-store";
+    import { oobeStatusStore } from "@/stores/store-factory";
+    import { APP_NAME } from "@/config";
 
     const authService = new AuthService()
 
@@ -46,7 +47,7 @@
 
     {:else}
         <form class="flex flex-col items-center justify-between w-full h-full" on:submit={() => handleOobe(oobeRequest)}>
-            <h1 class="text-2xl font-semibold text-center">{m.welcome_to_sendinel()}</h1>
+            <h1 class="text-2xl font-semibold text-center">{m.welcome_to_app({app_name: APP_NAME})}</h1>
 
             <p class="text-center opacity-50">{m.start_by_creating_admin_account()}</p>
 

@@ -1,6 +1,10 @@
+export const APP_NAME = "Sendinel"
+export const APP_VERSION_NUMBER = "0.0.1-SNAPSHOT"
+
 // Without trailing slash
-export const BACKEND_API_BASE_URL = "https://localhost:5000/internal"
+export const BACKEND_API_BASE_URL = "http://localhost:5000/internal"
 
 export const GITHUB_PROJECT_URL = "https://github.com/RobinMicek/sendinel"
+export const DOCUMENTATION_URL = "https://chat.openai.com"
 
 export const APP_SETTINGS_CACHE_EXPIRATION = 60 * 60 * 1000 // 1 hour

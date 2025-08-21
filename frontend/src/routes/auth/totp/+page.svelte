@@ -6,7 +6,7 @@
     import AuthService from "@/services/auth-service";
     import { goto } from "$app/navigation";
     import { triggerAlert } from "@/stores/alert-store";
-    import { tokenStore, userStore } from "@/stores/auth-store";
+    import { tokenStore, userStore } from "@/stores/store-factory";
     import UserService from "@/services/user-service";
     import { onMount } from "svelte";
 
@@ -45,7 +45,7 @@
             userStore.set(userResponse)
 
             triggerAlert(m.totp_verified(), "", "success")
-            goto("/dashboard")
+            goto("/")
         } catch (e) {
             triggerAlert(m.failed_to_verify_totp(), "", "error")
         } finally {

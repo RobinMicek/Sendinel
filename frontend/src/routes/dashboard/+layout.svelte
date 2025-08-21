@@ -1,10 +1,9 @@
 <script lang="ts">
   import AppSidebar from "@/components/nav/app-sidebar.svelte";
-  import * as Breadcrumb from "$lib/components/ui/breadcrumb/index.js";
-  import { Separator } from "$lib/components/ui/separator/index.js";
+  import { Button } from "@/components/ui/button";
   import * as Sidebar from "$lib/components/ui/sidebar/index.js";
-    import { m } from "@/paraglide/messages";
-    import { APP_NAME, GITHUB_PROJECT_URL, APP_VERSION_NUMBER } from "@/config";
+  import { m } from "@/paraglide/messages";
+  import { APP_NAME, GITHUB_PROJECT_URL, APP_VERSION_NUMBER } from "@/config";
 </script>
 <Sidebar.Provider>
   <AppSidebar />
@@ -18,8 +17,10 @@
       <slot />
     </div>
 
-    <footer class="flex flex-col justify-center items-center m-2">
-      <a class="opacity-50 text-sm hover:underline" target="_blank" href={GITHUB_PROJECT_URL}>{m.powered_by_app({app_name: APP_NAME, version_number: APP_VERSION_NUMBER})}</a>
+    <footer class="flex flex-col justify-center items-center">
+      <a target="_blank" href={GITHUB_PROJECT_URL}>
+        <Button variant="link" class="hover:cursor-pointer">{m.powered_by_app({app_name: APP_NAME, version_number: APP_VERSION_NUMBER})}</Button>
+      </a>
     </footer>
   </Sidebar.Inset>
 </Sidebar.Provider>

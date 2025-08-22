@@ -39,7 +39,7 @@
                         isOpen = false
                     }}
                 >
-                    {m.do_not_show_again()}
+                    {m.close()}
                 </AlertDialog.Cancel>
                 
                 <a target="_blank" href={GITHUB_API_LATEST_RELEASE_URL}>

@@ -44,6 +44,6 @@
 	"error": "Error",
 	"new_version_available": "New version available",
 	"new_version_is_available": "New version ({new_version_number}) of {app_name} is available, you are currently running version {old_version_number}. To view more information click the '{show_button_name}' button below.",
-	"do_not_show_again": "Don't show again",
+	"close": "Close",
 	"show": "Show"
 }

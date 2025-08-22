@@ -4,10 +4,16 @@
   import * as Sidebar from "$lib/components/ui/sidebar/index.js";
   import { m } from "@/paraglide/messages";
   import { APP_NAME, GITHUB_PROJECT_URL, APP_VERSION_NUMBER } from "@/config";
+  import NewRelease from "@/components/new-release/new-release.svelte";
 </script>
+
 <Sidebar.Provider>
   <AppSidebar />
   <Sidebar.Inset>
+
+    <!-- Display info alert about new release -->
+    <NewRelease />
+
     <header class="flex h-16 shrink-0 items-center gap-2">
       <div class="flex items-center gap-2 px-4">
         <Sidebar.Trigger class="-ml-1" />

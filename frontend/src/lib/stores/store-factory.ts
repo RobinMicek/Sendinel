@@ -2,7 +2,7 @@ import { writable, get as getStoreValue } from "svelte/store";
 import { getLocalStorageItem, removeLocalStorageItem, setLocalStorageItem } from "@/utils/local-storage-util";
 import type { UserResponse } from "@/types/dtos/user";
 import type { AppSettingsResponse } from "@/types/dtos/app-settings";
-import { APP_SETTINGS_CACHE_EXPIRATION } from "@/config";
+import { APP_LATEST_RELEASE_CACHE_EXPIRATION, APP_SETTINGS_CACHE_EXPIRATION } from "@/config";
 
 /**
  * Create a persistent Svelte store backed by localStorage.
@@ -75,6 +75,9 @@ export const oobeStatusStore = persistentStore<boolean>("oobe", null);
 
 // App settings store
 export const appSettingsStore = persistentStore<AppSettingsResponse>("app-settings", null, APP_SETTINGS_CACHE_EXPIRATION);
+
+// Latest release store
+export const latestReleaseStore = persistentStore<LatestRelease>("latest-release", null, APP_LATEST_RELEASE_CACHE_EXPIRATION);
 
 // Clear all
 export function clearAuthInfo() {

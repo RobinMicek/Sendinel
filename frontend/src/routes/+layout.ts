@@ -4,6 +4,7 @@ import { appSettingsStore } from '@/stores/store-factory.js';
 import AuthService from '@/services/auth-service';
 import AppSettingsService from '@/services/app-settings-service';
 import { browser } from '$app/environment';
+import { isJwtExpired } from '@/utils/jwt-util.js';
 
 const authService = new AuthService();
 const appSettingsService = new AppSettingsService();
@@ -31,12 +32,14 @@ export async function load({ url }) {
         throw redirect(307, "/auth/oobe");
     }
     
-    // 3. If missing token/user → force /auth (but avoid loop)
-    if ((tokenStore.get() == null || userStore.get() == null) && !path.startsWith("/auth")) {
+    // 3. If missing token/user or token expired → force /auth (but avoid loop)
+    const token = tokenStore.get();
+    const user = userStore.get();
+    if ((token == null || user == null || isJwtExpired(token)) && !path.startsWith("/auth")) {
         throw redirect(307, "/auth");
     }
     
-    // 4. Ensure app settings are cached
+    // 4. Ensure app settings are cached - needs to be after successful auth
     if (appSettingsStore.get() == null) {
         try {
             const response = await appSettingsService.getSettings();

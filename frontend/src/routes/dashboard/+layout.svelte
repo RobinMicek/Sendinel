@@ -5,6 +5,7 @@
   import { m } from "@/paraglide/messages";
   import { APP_NAME, GITHUB_PROJECT_URL, APP_VERSION_NUMBER } from "@/config";
   import NewRelease from "@/components/new-release/new-release.svelte";
+    import { appSettingsStore } from "@/stores/store-factory";
 </script>
 
 <Sidebar.Provider>
@@ -12,7 +13,9 @@
   <Sidebar.Inset>
 
     <!-- Display info alert about new release -->
-    <NewRelease />
+    {#if $appSettingsStore?.displayNewVersionAlert}
+      <NewRelease />
+    {/if}
 
     <header class="flex h-16 shrink-0 items-center gap-2">
       <div class="flex items-center gap-2 px-4">

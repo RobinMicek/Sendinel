@@ -1,3 +1,5 @@
+import type { UserRolesEnum } from "../enums/user-roles-enum";
+
 // Basic user info
 export interface UserBasicsResponse {
   id: string; // UUID
@@ -11,7 +13,7 @@ export interface UserResponse {
   firstname: string;
   lastname: string;
   email: string;
-  role: string;
+  role: UserRolesEnum;
   createdBy: UserBasicsResponse;
   updatedBy: UserBasicsResponse;
   createdOn: string; // Instant
@@ -24,7 +26,7 @@ export interface UserCreateRequest {
   firstname: string;
   lastname: string;
   email: string;
-  role: string;
+  role: UserRolesEnum;
   password: string;
 }
 
@@ -32,7 +34,7 @@ export interface UserUpdateRequest {
   firstname: string;
   lastname: string;
   email: string;
-  role: string;
+  role: UserRolesEnum;
 }
 
 // TOTP-related DTOs

@@ -20,6 +20,6 @@
 	<title>{APP_NAME}</title>
 </svelte:head>
 
+<slot />
 <ModeWatcher />
 <Alert />
-<slot />

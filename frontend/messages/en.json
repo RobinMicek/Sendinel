@@ -34,7 +34,7 @@
 	"clients": "Clients",
 	"users": "Users",
 	"configuration": "Configuration",
-	"application_settings": "Application Settings",
+	"application_settings": "App Settings",
 	"help_me": "Help Me",
 	"switch_to_dark": "Switch to dark",
 	"switch_to_light": "Switch to light",
@@ -45,5 +45,16 @@
 	"new_version_available": "New version available",
 	"new_version_is_available": "New version ({new_version_number}) of {app_name} is available, you are currently running version {old_version_number}. To view more information click the '{show_button_name}' button below.",
 	"close": "Close",
-	"show": "Show"
+	"show": "Show",
+    "user_interface": "User Interface",
+    "save_changes": "Save Changes",
+    "configure_the_email_sending_flow": "Configure the email sending flow.",
+    "configure_how_the_user_interface_looks_and_functions": "Configure how to the user interface looks and functions.",
+    "track_opened_emails": "Track opened emails",
+    "allow_template_import": "Allow template import",
+    "display_new_version_alert": "Display alert when a new version of {app_name} becomes available",
+    "use_gravatar": "Use Gravatar",
+    "failed_to_update_application_settings": "Failed to update app settings",
+    "application_setting_successfully_updated": "App settings successfully updated"
+
 }

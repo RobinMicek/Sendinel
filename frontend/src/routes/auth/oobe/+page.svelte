@@ -10,6 +10,7 @@
     import { triggerAlert } from "@/stores/alert-store";
     import { oobeStatusStore } from "@/stores/store-factory";
     import { APP_NAME } from "@/config";
+    import { UserRolesEnum } from "@/types/enums/user-roles-enum";
 
     const authService = new AuthService()
 
@@ -20,7 +21,7 @@
         "lastname": "",
         "email": "",
         "password": "",
-        "role": "ADMIN" // This is required, but ignored and always set as ADMIN on the backend
+        "role": UserRolesEnum.ADMIN // This is required, but ignored and always set as ADMIN on the backend
     }
 
     async function handleOobe(oobeRequest: UserCreateRequest) {

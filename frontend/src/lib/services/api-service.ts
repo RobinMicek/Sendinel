@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { tokenStore } from '@/stores/store-factory';
-import { BACKEND_API_BASE_URL } from '@/config';
+import { preferedDatatablePageSizeStore, tokenStore } from '@/stores/store-factory';
+import { BACKEND_API_BASE_URL, DEFAULT_DATATABLE_PAGE_SIZE } from '@/config';
 
 abstract class APIService {
 	api = axios.create({
@@ -19,6 +19,12 @@ abstract class APIService {
 			"Content-Type": "application/json"
 		}
 	}
+
+    getPreferedDatatablePageSize() {
+        const preferedPageSize = preferedDatatablePageSizeStore.get()
+        if (preferedPageSize) return preferedPageSize
+        return DEFAULT_DATATABLE_PAGE_SIZE
+    }
 }
 
 export default APIService;

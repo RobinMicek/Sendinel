@@ -2,7 +2,7 @@ import { writable, get as getStoreValue } from "svelte/store";
 import { getLocalStorageItem, removeLocalStorageItem, setLocalStorageItem } from "@/utils/local-storage-util";
 import type { UserResponse } from "@/types/dtos/user";
 import type { AppSettingsResponse } from "@/types/dtos/app-settings";
-import { APP_LATEST_RELEASE_CACHE_EXPIRATION, APP_SETTINGS_CACHE_EXPIRATION } from "@/config";
+import { APP_LATEST_RELEASE_CACHE_EXPIRATION, APP_SETTINGS_CACHE_EXPIRATION, DEFAULT_DATATABLE_PAGE_SIZE } from "@/config";
 
 /**
  * Create a persistent Svelte store backed by localStorage.
@@ -78,6 +78,9 @@ export const appSettingsStore = persistentStore<AppSettingsResponse>("app-settin
 
 // Latest release store
 export const latestReleaseStore = persistentStore<LatestRelease>("latest-release", null, APP_LATEST_RELEASE_CACHE_EXPIRATION);
+
+// Prefered datatable page size store
+export const preferedDatatablePageSizeStore = persistentStore<number>("prefered-datatable-page-size", DEFAULT_DATATABLE_PAGE_SIZE);
 
 // Clear all
 export function clearAuthInfo() {

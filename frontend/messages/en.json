@@ -55,6 +55,11 @@
     "display_new_version_alert": "Display alert when a new version of {app_name} becomes available",
     "use_gravatar": "Use Gravatar",
     "failed_to_update_application_settings": "Failed to update app settings",
-    "application_setting_successfully_updated": "App settings successfully updated"
+    "application_setting_successfully_updated": "App settings successfully updated",
+    "user_accounts_that_access_app": "People that access {app_name}",
+    "role": "Role",
+    "page_size": "Page Size: {page_size}",
+    "no_results": "No results",
+    "new_user": "New User"
 
 }

@@ -2,9 +2,6 @@
 	import ChevronsUpDownIcon from "@lucide/svelte/icons/chevrons-up-down";
 	import LogOutIcon from "@lucide/svelte/icons/log-out";
 	import Settings2 from "@lucide/svelte/icons/settings-2";
-	import Sun from "@lucide/svelte/icons/sun";
-	import Moon from "@lucide/svelte/icons/moon";
-
 	import * as Avatar from "@/components/ui/avatar/index.js";
 	import * as DropdownMenu from "@/components/ui/dropdown-menu/index.js";
 	import * as Sidebar from "@/components/ui/sidebar/index.js";
@@ -75,21 +72,9 @@
 				</DropdownMenu.Label>
 				<DropdownMenu.Separator />
 				<DropdownMenu.Group>
-					<DropdownMenu.Item>
+					<DropdownMenu.Item onclick={() => {goto("/dashboard/account-preferences")}}>
 						<Settings2 />
 						{m.account_preferences()}
-					</DropdownMenu.Item>
-				</DropdownMenu.Group>
-				<DropdownMenu.Group>
-					<DropdownMenu.Item onclick={toggleMode}>				
-						{#if mode.current == "light"} 
-							<Moon />
-							{m.switch_to_dark()}
-					
-						{:else}
-							<Sun />
-							{m.switch_to_light()}
-						{/if}
 					</DropdownMenu.Item>
 				</DropdownMenu.Group>
 				<DropdownMenu.Separator />

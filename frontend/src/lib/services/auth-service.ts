@@ -24,6 +24,10 @@ export default class AuthService extends APIService {
         return res.data as UserTotpCreateResponse
     }
 
+    async totpDelete() {
+        const res = await this.api.delete("/auth/totp", {headers: this.getHeaders()})    
+    }
+
     async totpActivate(totpRequest: TotpRequest) {
         const res = await this.api.post("/auth/totp/activate", totpRequest, {headers: this.getHeaders()})
         return res.data as JwtResponse

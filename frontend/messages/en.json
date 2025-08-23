@@ -80,5 +80,14 @@
     "do_you_really_want_to_delete_this_user": "Do you really want to delete this user?",
     "delete": "Delete",
     "cancel": "Cancel",
-    "confirm": "Confirm"
+    "confirm": "Confirm",
+    "personalize_your_experience": "Personalize your experience",
+    "prefered_language": "Prefered Language",
+    "heads_up": "Heads Up!",
+    "account_preferences_are_currently_stored_in_browser": "Currently account preferences are stored only in your browser. If you access {app_name} from a different browser and/or device you will have to configure them again. In the future the goal is to store them globally, but that is not the case today. Thank you for your understanding.",
+    "delete_totp": "Delete TOTP",
+    "do_you_really_want_to_delete_your_totp": "Do you really want to delete your TOTP? This action will require you to login again.",
+    "totp_successfully_deleted": "TOTP successfully deleted",
+    "failed_to_delete_totp": "Failed to delete TOTP"
+
 }

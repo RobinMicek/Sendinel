@@ -1,10 +1,6 @@
 <script lang="ts">
     import * as AlertDialog from "$lib/components/ui/alert-dialog/index.js";
-    import { APP_NAME, APP_VERSION_NUMBER, GITHUB_API_LATEST_RELEASE_URL } from "@/config";
     import { m } from "@/paraglide/messages";
-    import { latestReleaseStore } from "@/stores/store-factory";
-    import getLatestRelease from "@/utils/release-check-utils";
-    import { onMount } from "svelte";
     import type { ButtonVariant } from "../ui/button";
     import Button from "../ui/button/button.svelte";
 
@@ -13,13 +9,14 @@
     export let triggerVariant: ButtonVariant
     export let contentText: string
     export let action: () => void
+    export let fullWidth: boolean = false
 </script>
 <AlertDialog.Root>
-    <AlertDialog.Trigger disabled={disabled}>
+    <AlertDialog.Trigger class={`${fullWidth ? "w-full" : ""}`} disabled={disabled}>        
         <Button
-            disabled={disabled}
-            type="button"
-            class="hover:cursor-pointer"
+            disabled={disabled}        
+            type="button"            
+            class={`hover:cursor-pointer ${fullWidth ? "w-full" : ""}`}
             variant={triggerVariant}
         >
             {triggerText}

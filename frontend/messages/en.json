@@ -27,7 +27,7 @@
 	"first_user_successfully_created": "First user successfully created",
 	"failed_to_create_first_user": "Failed to create first user",
 	"failed_to_get_oobe_status": "Failed to get OOBE status",
-	"failed_to_get_app_settings": "Failed to get app preferences",
+	"failed_to_get_app_settings": "Failed to get app settings",
 	"emails": "Emails",
 	"templates": "Templates",
 	"senders": "Senders",

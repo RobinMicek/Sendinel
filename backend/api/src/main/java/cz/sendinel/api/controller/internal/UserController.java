@@ -41,7 +41,7 @@ public class UserController extends InternalControllerBase {
         Page<User> userPage = userService.getUsers(pageable);
 
         // Map Page<User> to Page<UserResponseDto>
-        Page<UserResponseDto> dtoPage = userPage.map(user -> MapperUtil.toDto(user, UserResponseDto.class));
+        Page<UserResponseDto> dtoPage = userPage.map(MapperUtil::userToDto);
 
         return ResponseEntity.ok(MapperUtil.fromPage(dtoPage));
     }
@@ -53,13 +53,13 @@ public class UserController extends InternalControllerBase {
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User does not exist")
         );
 
-        return ResponseEntity.ok(MapperUtil.toDto(user, UserResponseDto.class));
+        return ResponseEntity.ok(MapperUtil.userToDto(user));
     }
 
     @GetMapping("/me")
     @PreAuthorize("hasAuthority('USERS_READ')")
     public ResponseEntity<UserResponseDto> getCurrentUser() {
-        return ResponseEntity.ok(MapperUtil.toDto(getLoggedInUser(), UserResponseDto.class));
+        return ResponseEntity.ok(MapperUtil.userToDto(getLoggedInUser()));
     }
 
     @PostMapping
@@ -67,7 +67,7 @@ public class UserController extends InternalControllerBase {
     public ResponseEntity<UserResponseDto> createUser(@Valid @RequestBody UserCreateRequestDto userCreateRequestDto) {
         User user = userService.createUserFromDto(userCreateRequestDto, getLoggedInUser());
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(MapperUtil.toDto(user, UserResponseDto.class));
+        return ResponseEntity.status(HttpStatus.CREATED).body(MapperUtil.userToDto(user));
     }
 
     @PutMapping("/{id}")
@@ -75,7 +75,7 @@ public class UserController extends InternalControllerBase {
     public ResponseEntity<UserResponseDto> updateUser(@PathVariable UUID id, @Valid @RequestBody UserUpdateRequestDto userUpdateRequestDto) {
         User user = userService.updateUserFromDto(id, userUpdateRequestDto, getLoggedInUser());
 
-        return ResponseEntity.ok().body(MapperUtil.toDto(user, UserResponseDto.class));
+        return ResponseEntity.ok().body(MapperUtil.userToDto(user));
     }
 
     @DeleteMapping("/{id}")

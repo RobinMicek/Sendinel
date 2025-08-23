@@ -4,7 +4,7 @@
     import * as InputOTP from "$lib/components/ui/input-otp/index.js";
     import {Input} from "@/components/ui/input";
     import {Skeleton} from "@/components/ui/skeleton";
-    import Loading from "@/components/loading/Loading.svelte";
+    import Loading from "@/components/loading/loading.svelte";
     import { m } from "@/paraglide/messages";
     import AuthService from "@/services/auth-service";
     import { triggerAlert } from "@/stores/alert-store";

@@ -12,14 +12,13 @@
     import Skeleton from "@/components/ui/skeleton/skeleton.svelte";
     import AppSettingsService from "@/services/app-settings-service";
     import { triggerAlert } from "@/stores/alert-store";
-
-    export let data: { appSettingsData: AppSettingsResponse | null };
-    const { appSettingsData } = data;
+    import { onMount } from "svelte";
 
     const appSettingsService = new AppSettingsService()
 
     let isLoading = false
     let canEdit = userStore.get()?.role && hasPermission(userStore.get()!.role, UserPermissionsEnum.APP_SETTINGS_UPDATE)
+    let appSettingsData: AppSettingsResponse
 
     async function handleUpdate(appSettingsData: AppSettingsRequest) {
         isLoading = true
@@ -36,10 +35,26 @@
             isLoading = false
         }
     }
+
+    async function getData() {
+        isLoading = true
+        try {
+            const response = await appSettingsService.getSettings();
+            appSettingsData = response
+        } catch (e) {
+            triggerAlert(m.failed_to_get_app_settings(), "", "error")
+        } finally {
+            isLoading = false
+        }
+    }
+
+    onMount(async () => {
+        await getData()
+    })
 </script>
 
 <form class="w-full flex flex-col gap-6" onsubmit={() => handleUpdate(appSettingsData as AppSettingsRequest)}>
-    {#if !appSettingsData || isLoading}
+    {#if isLoading || !appSettingsData}
         <Skeleton class="h-64" />
         <Skeleton class="h-64" />
 

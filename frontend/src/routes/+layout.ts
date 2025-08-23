@@ -3,19 +3,15 @@ import { oobeStatusStore, tokenStore, userStore } from '@/stores/store-factory';
 import { appSettingsStore } from '@/stores/store-factory.js';
 import AuthService from '@/services/auth-service';
 import AppSettingsService from '@/services/app-settings-service';
-import { browser } from '$app/environment';
 import { isJwtExpired } from '@/utils/jwt-util.js';
+
+export const ssr = false
 
 const authService = new AuthService();
 const appSettingsService = new AppSettingsService();
 
 export async function load({ url }) {
     const path = url.pathname;
-
-    if (!browser) {
-        // On server: do nothing (let client-side takeover)
-        return {};
-    }
 
     // 1. Ensure OOBE status is cached
     if (oobeStatusStore.get() == null) {

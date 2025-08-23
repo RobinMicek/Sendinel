@@ -1,6 +1,6 @@
 <script lang="ts">
-    import * as Select from "$lib/components/ui/select/index.js";
-    import { Button } from "$lib/components/ui/button/index.js";
+    import * as Select from "@/components/ui/select";
+    import { Button } from "@/components/ui/button";
     import ArrowRight from "@lucide/svelte/icons/arrow-right";
     import ArrowRightToLine from "@lucide/svelte/icons/arrow-right-to-line";
     import ArrowLeft from "@lucide/svelte/icons/arrow-left";

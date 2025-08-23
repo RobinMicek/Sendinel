@@ -8,7 +8,7 @@
     import { tokenStore } from "@/stores/store-factory";
     import { goto } from "$app/navigation";
     import { triggerAlert } from "@/stores/alert-store";
-    import Loading from "@/components/loading/Loading.svelte";
+    import Loading from "@/components/loading/loading.svelte";
 
     const authService = new AuthService()
 

@@ -2,7 +2,7 @@
     import {Input} from "@/components/ui/input";
     import {Button} from "@/components/ui/button";
     import {Label} from "@/components/ui/label";
-    import Loading from "@/components/loading/Loading.svelte";
+    import Loading from "@/components/loading/loading.svelte";
     import { m } from "@/paraglide/messages";
     import AuthService from "@/services/auth-service";
     import type { UserCreateRequest } from "@/types/dtos/user";
@@ -55,22 +55,22 @@
             <div class="flex flex-col gap-6 w-full">
                 <div class="flex flex-col items-start gap-2">
                     <Label for="firstname">{m.firstname()}</Label>
-                    <Input id="firstname" type="text" placeholder="John" bind:value={oobeRequest.firstname} />
+                    <Input id="firstname" type="text" placeholder="John" required bind:value={oobeRequest.firstname} />
                 </div>
 
                 <div class="flex flex-col items-start gap-2">
                     <Label for="lastname">{m.lastname()}</Label>
-                    <Input id="lastname" type="texts" placeholder="Doe" bind:value={oobeRequest.lastname} />
+                    <Input id="lastname" type="texts" placeholder="Doe" required bind:value={oobeRequest.lastname} />
                 </div>
 
                 <div class="flex flex-col items-start gap-2">
                     <Label for="email">{m.email_address()}</Label>
-                    <Input id="email" type="email" placeholder="john.doe@sendinel.cz" bind:value={oobeRequest.email} />
+                    <Input id="email" type="email" placeholder="john.doe@sendinel.cz" required bind:value={oobeRequest.email} />
                 </div>
 
                 <div class="flex flex-col items-start gap-2">
                     <Label for="password">{m.password()}</Label>
-                    <Input id="password" type="password" placeholder="*******" bind:value={oobeRequest.password} />
+                    <Input id="password" type="password" placeholder="*******" minlength={5} required bind:value={oobeRequest.password} />
                 </div>
             </div>
 

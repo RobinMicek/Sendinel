@@ -5,7 +5,7 @@
 	import faviconIco from "@/assets/images/logo/favicon/favicon.ico";
 	import faviconPngApple from "@/assets/images/logo/favicon/apple-touch-icon.png";
 	import faviconManifest from "@/assets/images/logo/favicon/site.webmanifest";
-	import Alert from "@/components/alert/Alert.svelte";
+	import Alert from "@/components/alert/alert.svelte";
 	import { ModeWatcher } from "mode-watcher";
     import { APP_NAME } from '@/config';
 </script>

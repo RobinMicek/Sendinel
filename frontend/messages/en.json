@@ -60,6 +60,25 @@
     "role": "Role",
     "page_size": "Page Size: {page_size}",
     "no_results": "No results",
-    "new_user": "New User"
-
+    "new_user": "New User",
+    "create_new_user_account": "Create new user account",
+    "failed_to_create_new_user_account": "Failed to create new user account",
+    "go_back": "Go back",
+    "user_information": "User information",
+    "history": "History",
+    "update": "Update",
+    "created_by": "Created By",
+    "created_on": "Created On",
+    "updated_by": "Updated By",
+    "updated_on": "Last update",
+    "general": "General",
+    "failed_to_get_user": "Failed to get user",
+    "user_successfully_updated": "User successfully updated",
+    "failed_to_update_user": "Failed to update user",
+    "user_successfully_deleted": "User successfully deleted",
+    "failed_to_delete_user": "Failed to delete user",
+    "do_you_really_want_to_delete_this_user": "Do you really want to delete this user?",
+    "delete": "Delete",
+    "cancel": "Cancel",
+    "confirm": "Confirm"
 }

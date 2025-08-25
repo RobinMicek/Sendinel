@@ -1,6 +1,6 @@
 <script lang="ts">
     import * as Card from "@/components/ui/card/index.js";
-    import * as Select from "$lib/components/ui/select/index.js";
+    import * as Select from "@/components/ui/select/index.js";
     import Button from "@/components/ui/button/button.svelte";
     import Input from "@/components/ui/input/input.svelte";
     import Label from "@/components/ui/label/label.svelte";
@@ -74,7 +74,17 @@
     })
 </script>
 
-<ReturnBack backUrl="/dashboard/user" />
+<div class="flex justify-between mb-6">
+    <ReturnBack backUrl="/dashboard/user" />
+
+    <Confirm
+        disabled={!canDelete}
+        triggerText={m.delete()}
+        triggerVariant="destructive"
+        contentText={m.do_you_really_want_to_delete_this_user()}
+        action={() => {handleDelete(data.id)}}
+    />
+</div>
 
 <form class="flex flex-col gap-6" on:submit={() => {handleUpdate(userData!.id, userData)}}>
     {#if isLoading || !userData}
@@ -82,10 +92,6 @@
         <Skeleton class="h-64" />
 
     {:else}
-        <div class="flex justify-end">
-            
-        </div>
-
         <Card.Root>
             <Card.Header>
                 <Card.Title>{m.user_information()}</Card.Title>
@@ -159,14 +165,7 @@
 
         <div class="w-full flex justify-center gap-6">
             <div></div>
-            <Button class="hover:cursor-pointer" type="submit" disabled={!canEdit}>{m.save_changes()}</Button>            
-            <Confirm
-                disabled={!canDelete}
-                triggerText={m.delete()}
-                triggerVariant="destructive"
-                contentText={m.do_you_really_want_to_delete_this_user()}
-                action={() => {handleDelete(data.id)}}
-            />
+            <Button class="hover:cursor-pointer" type="submit" disabled={!canEdit}>{m.save_changes()}</Button>
         </div>
     {/if}
 </form>

@@ -1,3 +1,5 @@
+import type { EmailPrioritiesEnum } from "../enums/email-priorities-enum";
+import type { EmailStatusesEnum } from "../enums/email-statuses-enum";
 import type { ClientBasicsResponse } from "./client";
 import type { SenderBasicsResponse } from "./sender";
 import type { TemplateBasicsResponse } from "./template";
@@ -6,7 +8,7 @@ export interface EmailRequest {
   toAddress: string;
   template: string; // UUID
   templateVariables: Record<string, unknown>; // JsonNode
-  priority?: string;
+  priority?: EmailPrioritiesEnum;
 }
 
 export interface EmailResponse {
@@ -14,7 +16,7 @@ export interface EmailResponse {
   toAddress: string;
   template: TemplateBasicsResponse;
   templateVariables: Record<string, unknown>;
-  priority: string;
+  priority: EmailPrioritiesEnum;
   sentBy: SenderBasicsResponse;
   requestedBy: ClientBasicsResponse;
   createdOn: string; // Instant
@@ -23,7 +25,7 @@ export interface EmailResponse {
 
 export interface EmailStatusResponse {
   id: string; // UUID
-  status: string;
+  status: EmailStatusesEnum;
   note: string;
   createdOn: string; // Instant
 }

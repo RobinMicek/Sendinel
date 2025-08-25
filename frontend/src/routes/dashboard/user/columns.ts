@@ -7,7 +7,6 @@ import { badgeVariants } from "@/components/ui/badge";
 import { createRawSnippet } from "svelte";
 import DatatableLink from "@/components/datatable/datatable-link.svelte";
 
-// Add 'sortable' property to columns. Set to true for sortable columns.
 export const columns: (ColumnDef<UserResponse> & { sortable?: boolean })[] = [
     {
         accessorKey: "firstname",
@@ -29,7 +28,7 @@ export const columns: (ColumnDef<UserResponse> & { sortable?: boolean })[] = [
         header: m.role(),
         sortable: true,
         cell: ({ row }) => {
-            const role = row.getValue("role") as UserRolesEnum;
+            const role = row.original.role;
             const variant = role === UserRolesEnum.ADMIN ? "default" : "secondary";
 
             return renderSnippet(
@@ -43,8 +42,7 @@ export const columns: (ColumnDef<UserResponse> & { sortable?: boolean })[] = [
         accessorKey: "id",
         header: "",
         cell: ({ row }) => {
-            const id: string = row.getValue("id")
-            return renderComponent(DatatableLink, {id: id})
+            return renderComponent(DatatableLink, {id: row.original.id})
         }
     }
 ];

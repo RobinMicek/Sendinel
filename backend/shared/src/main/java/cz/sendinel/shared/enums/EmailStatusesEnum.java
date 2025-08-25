@@ -14,5 +14,7 @@ public enum EmailStatusesEnum {
     BOUNCED,
     DELIVERED,
 
-    OPENED;
+    OPENED,
+
+    UNKNOWN;
 }

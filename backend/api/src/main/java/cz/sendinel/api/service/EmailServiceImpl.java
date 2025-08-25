@@ -183,7 +183,7 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public File renderEmailToPDF(Email email) {
-        String textToRender = email.getTemplate().getTextRaw();
+        String textToRender = "<pre>" + email.getTemplate().getTextRaw() + "</pre>";
 
         // Try to render HTML template, but use text template as fallback if no HTML is present
         if (email.getTemplate().getHtmlRaw() != null && !email.getTemplate().getHtmlRaw().isEmpty()) {

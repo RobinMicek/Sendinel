@@ -115,7 +115,7 @@ public class ClientTokenServiceImpl implements ClientTokenService {
                 .orElseThrow(() -> new ResourceNotFoundException("Client token does not exist"));
 
         if (!passwordEncoder.matches(token, clientToken.getTokenHash())) {
-            throw new RuntimeException("Mismatch between token fingerprint and hash");
+            throw new RuntimeException("Mismatch between token hashes");
         }
 
         if (isExpired(clientToken)) {

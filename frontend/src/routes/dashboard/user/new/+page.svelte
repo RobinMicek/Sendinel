@@ -60,7 +60,7 @@
 
                     <div class="flex flex-col items-start gap-2">
                         <Label for="lastname">{m.lastname()}</Label>
-                        <Input id="lastname" type="texts" placeholder="Doe" required bind:value={userCreateRequest.lastname} />
+                        <Input id="lastname" type="text" placeholder="Doe" required bind:value={userCreateRequest.lastname} />
                     </div>
 
                     <div class="flex flex-col items-start gap-2">

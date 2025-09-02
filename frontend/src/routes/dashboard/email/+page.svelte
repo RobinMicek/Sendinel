@@ -20,8 +20,8 @@
     const emailService = new EmailService();
 
     let currentPageNumber: number
-    let sortKey: string
-    let sortOrder: "asc" | "desc"
+    let sortKey: string = "createdOn"
+    let sortOrder: "asc" | "desc" = "desc"
     let pageData: PageResponse<EmailResponse>
 
     async function getData(pageNumber: number, sortKey: string, sortOrder: "asc" | "desc") {
@@ -36,7 +36,7 @@
     }
 
     onMount(async () => {
-        await getData(currentPageNumber, "createdOn", "desc")
+        await getData(currentPageNumber, sortKey, sortOrder)
     })
 </script>
 

@@ -8,8 +8,8 @@ export function getLocalFormatedDate(isoDate: string = "") {
         hour: "2-digit",
         minute: "2-digit",
         second: "2-digit",
-        hour12: false, // set to true for 12h format
-        timeZoneName: "short", // shows timezone like "GMT+3"
+        hour12: false // set to true for 12h format
+        // timeZoneName: "short", // shows timezone like "GMT+3"
     });
 
     return formatted

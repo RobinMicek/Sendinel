@@ -20,8 +20,8 @@
     const userService = new UserService();
 
     let currentPageNumber: number
-    let sortKey: string
-    let sortOrder: "asc" | "desc"
+    let sortKey: string = "firstname"
+    let sortOrder: "asc" | "desc" = "asc"
     let pageData: PageResponse<UserResponse>
 
     async function getData(pageNumber: number, sortKey: string, sortOrder: "asc" | "desc") {
@@ -36,7 +36,7 @@
     }
 
     onMount(async () => {
-        await getData(currentPageNumber, "firstname", "asc")
+        await getData(currentPageNumber, sortKey, sortOrder)
     })
 </script>
 

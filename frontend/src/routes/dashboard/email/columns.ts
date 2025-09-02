@@ -1,8 +1,8 @@
 import type { ColumnDef } from "@tanstack/table-core";
 import { m } from "@/paraglide/messages";
-import { renderComponent, renderSnippet } from "@/components/ui/data-table";
+import { renderComponent } from "@/components/ui/data-table";
 import DatatableLink from "@/components/datatable/datatable-link.svelte";
-import type { EmailResponse, EmailStatusResponse } from "@/types/dtos/email";
+import type { EmailResponse } from "@/types/dtos/email";
 import { getLocalFormatedDate } from "@/utils/date-util";
 import { EmailStatusesEnum, emailStatusesMeta } from "@/types/enums/email-statuses-enum";
 import DatatableBadgeColored from "@/components/datatable/datatable-badge-colored.svelte";

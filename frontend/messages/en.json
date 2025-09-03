@@ -155,6 +155,10 @@
     "copied_to_clipboard": "Copied to clipboard",
     "failed_to_copy_to_clipboard": "Failed to copy to clipboard",
     "client_token_successfully_created": "Client token successfully created",
-    "failed_to_create_client_token": "Failed to create client token"
+    "failed_to_create_client_token": "Failed to create client token",
+    "failed_to_get_senders": "Failed to get senders",
+    "new_sender": "New Sender",
+    "services_that_app_uses_to_deliver_your_emails": "Services that {app_name} uses to deliver your emails",
+    "type": "Type"
 
 }

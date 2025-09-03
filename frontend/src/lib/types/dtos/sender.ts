@@ -1,15 +1,16 @@
+import type { SenderTypesEnum } from "../enums/sender-types-enum";
 import type { UserBasicsResponse } from "./user";
 
 export interface SenderBasicsResponse {
   id: string; // UUID
   name: string;
   description: string;
-  type: string;
+  type: SenderTypesEnum;
 }
 
 export interface SenderRequest {
   name: string;
-  type: string;
+  type: SenderTypesEnum;
   description: string;
   configuration: Record<string, unknown>;
 }
@@ -17,7 +18,7 @@ export interface SenderRequest {
 export interface SenderResponse {
   id: string; // UUID
   name: string;
-  type: string;
+  type: SenderTypesEnum;
   configuration: Record<string, unknown>; // JsonNode
   createdBy: UserBasicsResponse;
   updatedBy: UserBasicsResponse;

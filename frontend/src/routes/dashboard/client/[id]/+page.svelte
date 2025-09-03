@@ -27,6 +27,7 @@
     import DatatableTruncatedText from "@/components/datatable/datatable-truncated-text.svelte";
     import DatatableBadgeColored from "@/components/datatable/datatable-badge-colored.svelte";
     import CreateClientToken from "./create-client-token.svelte";
+    import { senderTypesMeta } from "@/types/enums/sender-types-enum";
 
     export let data: { id: string }
 
@@ -171,7 +172,7 @@
                             <Select.Trigger class="w-full hover:cursor-pointer" disabled={!canEdit}>
                                 <div class="flex justify-start gap-2">
                                     {senderOptions.find(sender => sender.id === clientUpdateRequest.senderId)?.name}
-                                    <span class="font-semibold italic">{senderOptions.find(sender => sender.id === clientUpdateRequest.senderId)?.type}</span>                                
+                                    <span class="font-semibold italic">{senderTypesMeta[senderOptions.find(sender => sender.id === clientUpdateRequest.senderId)!.type].displayName}</span>                                
                                 </div>
                             </Select.Trigger>
                             <Select.Content
@@ -180,7 +181,7 @@
                                 {#each senderOptions as sender }
                                     <Select.Item class="hover:cursor-pointer" value={sender.id}>
                                         {sender.name}
-                                        <span class="font-semibold italic">{sender.type}</span>
+                                        <span class="font-semibold italic">{senderTypesMeta[sender.type].displayName}</span>
                                     </Select.Item>
                                 {/each}                                                        
                             </Select.Content>

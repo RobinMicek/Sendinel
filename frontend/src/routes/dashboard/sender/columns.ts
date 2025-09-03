@@ -4,14 +4,21 @@ import { renderComponent} from "@/components/ui/data-table";
 import DatatableLink from "@/components/datatable/datatable-link.svelte";
 import type { SenderResponse } from "@/types/dtos/sender";
 import DatatableBadgeColored from "@/components/datatable/datatable-badge-colored.svelte";
-import { Icon } from "@lucide/svelte";
 import { senderTypesMeta } from "@/types/enums/sender-types-enum";
+import DatatableTruncatedText from "@/components/datatable/datatable-truncated-text.svelte";
 
 export const columns: (ColumnDef<SenderResponse> & { sortable?: boolean })[] = [
     {
         accessorKey: "name",
         header: m.name(),
         sortable: true,
+    },
+    {
+        accessorKey: "description",
+        header: m.description(),
+        cell: ({ row }) => {
+            return renderComponent(DatatableTruncatedText, {text: row.original.description})
+        }
     },
     {
         accessorKey: "type",        

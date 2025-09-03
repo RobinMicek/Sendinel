@@ -19,6 +19,7 @@ export interface SenderResponse {
   id: string; // UUID
   name: string;
   type: SenderTypesEnum;
+  description: string;
   configuration: Record<string, unknown>; // JsonNode
   createdBy: UserBasicsResponse;
   updatedBy: UserBasicsResponse;

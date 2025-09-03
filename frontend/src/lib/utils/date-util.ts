@@ -1,4 +1,6 @@
 export function getLocalFormatedDate(isoDate: string = "") {
+    if (isoDate == null || isoDate == undefined || isoDate.length == 0) return ""
+
     const localDate = new Date(isoDate);
 
     const formatted = localDate.toLocaleString(undefined, {

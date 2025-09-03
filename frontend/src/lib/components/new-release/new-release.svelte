@@ -1,6 +1,6 @@
 <script lang="ts">
     import * as AlertDialog from "$lib/components/ui/alert-dialog/index.js";
-    import { APP_NAME, APP_VERSION_NUMBER, GITHUB_API_LATEST_RELEASE_URL } from "@/config";
+    import { APP_NAME, APP_VERSION_NUMBER, GITHUB_API_LATEST_RELEASE_URL, GITHUB_LATEST_RELEASE_URL } from "@/config";
     import { m } from "@/paraglide/messages";
     import { latestReleaseStore } from "@/stores/store-factory";
     import getLatestRelease from "@/utils/release-check-utils";
@@ -42,7 +42,7 @@
                     {m.close()}
                 </AlertDialog.Cancel>
                 
-                <a target="_blank" href={GITHUB_API_LATEST_RELEASE_URL}>
+                <a target="_blank" href={GITHUB_LATEST_RELEASE_URL}>
                     <AlertDialog.Action class="hover: cursor-pointer">
                         {m.show()}
                     </AlertDialog.Action>

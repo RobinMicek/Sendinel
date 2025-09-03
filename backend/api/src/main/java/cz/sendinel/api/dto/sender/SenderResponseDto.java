@@ -16,6 +16,7 @@ import java.util.UUID;
 public class SenderResponseDto {
     private UUID id;
     private String name;
+    private String description;
     private SenderTypesEnum type;
     private JsonNode configuration;
     private UserBasicsResponseDto createdBy;

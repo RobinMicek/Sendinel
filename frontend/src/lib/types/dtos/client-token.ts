@@ -11,7 +11,7 @@ export interface ClientTokenResponse {
   name: string;
   description: string;
   expiration: string | null; // Date -> ISO string
-  isExpired: boolean;
+  expired: boolean;
   createdBy: UserBasicsResponse;
   deletedBy: UserBasicsResponse;
   lastUsedOn: string | null; // Instant

@@ -1,11 +1,42 @@
 // UserRolesEnum.ts
+import { AppWindow, Asterisk, Component, User, UserLock } from "@lucide/svelte";
 import { UserPermissionsEnum } from "./user-permissions-enum";
+import { m } from "@/paraglide/messages";
 
 export enum UserRolesEnum {
   NON_TOTP = "NON_TOTP",
   USER = "USER",
   ADMIN = "ADMIN",
   CLIENT = "CLIENT"
+}
+
+type UserRoleMeta = {
+    translation: string;        // translated text
+    color: string;              // tailwind stroke color (e.g. stroke-red-500, used for lucide icons)
+    icon: typeof Component;     // lucide icon component
+};
+
+export const userRolesMeta: Record<UserRolesEnum, UserRoleMeta> = {
+    [UserRolesEnum.NON_TOTP]: {
+        translation: m.non_totp(),
+        color: "stroke-stone-500",
+        icon: Asterisk
+    },
+    [UserRolesEnum.USER]: {
+        translation: m.user(),
+        color: "stroke-white",
+        icon: User
+    },
+    [UserRolesEnum.ADMIN]: {
+        translation: m.admin(),
+        color: "stroke-green-500",
+        icon: UserLock
+    },
+    [UserRolesEnum.CLIENT]: {
+        translation: m.client(),
+        color: "stroke-stone-500",
+        icon: AppWindow
+    }
 }
 
 type RoleConfig = {

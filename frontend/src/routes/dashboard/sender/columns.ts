@@ -20,7 +20,7 @@ export const columns: (ColumnDef<SenderResponse> & { sortable?: boolean })[] = [
         cell: ({ row }) => {        
             const meta = senderTypesMeta[row.original.type];
 
-            return renderComponent(DatatableBadgeColored, {color: "stroke-white", uppercase: false, "text": meta.displayName})
+            return renderComponent(DatatableBadgeColored, {color: "stroke-white", uppercase: false, text: meta.displayName})
         }
     },
     {

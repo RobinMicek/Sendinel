@@ -8,7 +8,7 @@
     import { userStore } from "@/stores/store-factory";
     import type { UserResponse, UserUpdateRequest } from "@/types/dtos/user";
     import { UserPermissionsEnum } from "@/types/enums/user-permissions-enum";
-    import { hasPermission, UserRolesEnum } from "@/types/enums/user-roles-enum";
+    import { hasPermission, UserRolesEnum, userRolesMeta } from "@/types/enums/user-roles-enum";
     import { m } from "@/paraglide/messages";
     import Skeleton from "@/components/ui/skeleton/skeleton.svelte";
     import { getLocalFormatedDate } from "@/utils/date-util";
@@ -121,12 +121,12 @@
                             value={userData.role}
                             onValueChange={value => userData.role = value as UserRolesEnum}
                         >
-                            <Select.Trigger class="w-full hover:cursor-pointer" disabled={!canEdit}>{userData.role}</Select.Trigger>
+                            <Select.Trigger class="w-full hover:cursor-pointer" disabled={!canEdit}>{userRolesMeta[userData.role].translation}</Select.Trigger>
                             <Select.Content
                                 id="role"
                             >
-                                <Select.Item class="hover:cursor-pointer" value={UserRolesEnum.USER}>{UserRolesEnum.USER}</Select.Item>
-                                <Select.Item class="hover:cursor-pointer" value={UserRolesEnum.ADMIN}>{UserRolesEnum.ADMIN}</Select.Item>                        
+                                <Select.Item class="hover:cursor-pointer" value={UserRolesEnum.USER}>{userRolesMeta[UserRolesEnum.USER].translation}</Select.Item>
+                                <Select.Item class="hover:cursor-pointer" value={UserRolesEnum.ADMIN}>{userRolesMeta[UserRolesEnum.ADMIN].translation}</Select.Item>
                             </Select.Content>
                         </Select.Root>
                     </div>

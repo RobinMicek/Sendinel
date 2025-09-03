@@ -5,7 +5,7 @@
     import Input from "@/components/ui/input/input.svelte";
     import Label from "@/components/ui/label/label.svelte";
     import { m } from "@/paraglide/messages";
-    import { UserRolesEnum } from "@/types/enums/user-roles-enum";
+    import { UserRolesEnum, userRolesMeta } from "@/types/enums/user-roles-enum";
     import UserService from "@/services/user-service";
     import type { UserCreateRequest } from "@/types/dtos/user";
     import Skeleton from "@/components/ui/skeleton/skeleton.svelte";
@@ -75,12 +75,12 @@
                             value={userCreateRequest.role}
                             onValueChange={value => userCreateRequest.role = value as UserRolesEnum}
                         >
-                            <Select.Trigger class="w-full hover:cursor-pointer">{userCreateRequest.role}</Select.Trigger>
+                            <Select.Trigger class="w-full hover:cursor-pointer">{userRolesMeta[userCreateRequest.role].translation}</Select.Trigger>
                             <Select.Content
                                 id="role"
                             >
-                                <Select.Item class="hover:cursor-pointer" value={UserRolesEnum.USER}>{UserRolesEnum.USER}</Select.Item>
-                                <Select.Item class="hover:cursor-pointer" value={UserRolesEnum.ADMIN}>{UserRolesEnum.ADMIN}</Select.Item>                        
+                                <Select.Item class="hover:cursor-pointer" value={UserRolesEnum.USER}>{userRolesMeta[UserRolesEnum.USER].translation}</Select.Item>
+                                <Select.Item class="hover:cursor-pointer" value={UserRolesEnum.ADMIN}>{userRolesMeta[UserRolesEnum.ADMIN].translation}</Select.Item>
                             </Select.Content>
                         </Select.Root>
                     </div>

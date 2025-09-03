@@ -159,6 +159,10 @@
     "failed_to_get_senders": "Failed to get senders",
     "new_sender": "New Sender",
     "services_that_app_uses_to_deliver_your_emails": "Services that {app_name} uses to deliver your emails",
-    "type": "Type"
+    "type": "Type",
+    "user": "User",
+    "admin": "Admin",
+    "non_totp": "Non TOTP",
+    "client": "Client"
 
 }

@@ -31,13 +31,13 @@ export enum EmailStatusesEnum {
     UNKNOWN = "UNKNOWN",
 }
 
-type EmailStatusesMeta = {
+type EmailStatusMeta = {
     translation: string;        // translated text
     color: string;              // tailwind stroke color (e.g. stroke-red-500, used for lucide icons)
     icon: typeof Component;     // lucide icon component
 };
 
-export const emailStatusesMeta: Record<EmailStatusesEnum, EmailStatusesMeta> = {
+export const emailStatusesMeta: Record<EmailStatusesEnum, EmailStatusMeta> = {
     [EmailStatusesEnum.CREATED]: {
         translation: m.created(),
         color: "stroke-stone-500",

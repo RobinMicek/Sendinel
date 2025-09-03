@@ -1,11 +1,12 @@
 import type { ColumnDef } from "@tanstack/table-core";
 import { m } from "@/paraglide/messages";
 import type { UserResponse } from "@/types/dtos/user";
-import { UserRolesEnum } from "@/types/enums/user-roles-enum";
+import { UserRolesEnum, userRolesMeta } from "@/types/enums/user-roles-enum";
 import { renderComponent, renderSnippet } from "@/components/ui/data-table";
 import { badgeVariants } from "@/components/ui/badge";
 import { createRawSnippet } from "svelte";
 import DatatableLink from "@/components/datatable/datatable-link.svelte";
+import DatatableBadgeColored from "@/components/datatable/datatable-badge-colored.svelte";
 
 export const columns: (ColumnDef<UserResponse> & { sortable?: boolean })[] = [
     {
@@ -28,14 +29,9 @@ export const columns: (ColumnDef<UserResponse> & { sortable?: boolean })[] = [
         header: m.role(),
         sortable: true,
         cell: ({ row }) => {
-            const role = row.original.role;
-            const variant = role === UserRolesEnum.ADMIN ? "default" : "secondary";
+            const meta = userRolesMeta[row.original.role];
 
-            return renderSnippet(
-                createRawSnippet(() => ({
-                    render: () => `<span class="font-semibold ${badgeVariants({ variant })}">${role}</span>`
-                }))
-            );
+            return renderComponent(DatatableBadgeColored, {color: meta.color, icon: meta.icon, text: meta.translation})
         },
     },
     {

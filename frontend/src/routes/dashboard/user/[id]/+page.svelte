@@ -100,17 +100,17 @@
                 <div class="grid md:grid-cols-2 gap-6 w-full">
                     <div class="flex flex-col items-start gap-2">
                         <Label for="firstname">{m.firstname()}</Label>
-                        <Input id="firstname" type="text" placeholder="John" required disabled={!canEdit} bind:value={userData.firstname} />
+                        <Input id="firstname" type="text" placeholder="John" required readonly={!canEdit} bind:value={userData.firstname} />
                     </div>
 
                     <div class="flex flex-col items-start gap-2">
                         <Label for="lastname">{m.lastname()}</Label>
-                        <Input id="lastname" type="texts" placeholder="Doe" required disabled={!canEdit} bind:value={userData.lastname} />
+                        <Input id="lastname" type="texts" placeholder="Doe" required readonly={!canEdit} bind:value={userData.lastname} />
                     </div>
 
                     <div class="flex flex-col items-start gap-2">
                         <Label for="email">{m.email_address()}</Label>
-                        <Input id="email" type="email" placeholder="john.doe@sendinel.cz" disabled={!canEdit} required bind:value={userData.email} />
+                        <Input id="email" type="email" placeholder="john.doe@sendinel.cz" readonly={!canEdit} required bind:value={userData.email} />
                     </div>
 
                     <div class="flex flex-col items-start gap-2">
@@ -142,22 +142,22 @@
                 <div class="grid md:grid-cols-2 gap-6 w-full">
                     <div class="flex flex-col items-start gap-2">
                         <Label for="created_by">{m.updated_on()}</Label>
-                        <Input id="created_by" type="text" disabled value={getLocalFormatedDate(userData?.updatedOn)} />
+                        <Input id="created_by" type="text" readonly value={getLocalFormatedDate(userData?.updatedOn)} />
                     </div>
 
                     <div class="flex flex-col items-start gap-2">
                         <Label for="created_by">{m.updated_by()}</Label>
-                        <Input id="created_by" type="text" disabled value={userData?.updatedBy?.firstname + " " + userData?.updatedBy?.lastname} />
+                        <Input id="created_by" type="text" readonly value={userData?.updatedBy?.firstname + " " + userData?.updatedBy?.lastname} />
                     </div>
             
                     <div class="flex flex-col items-start gap-2">
                         <Label for="created_by">{m.created_on()}</Label>
-                        <Input id="created_by" type="text" disabled value={getLocalFormatedDate(userData?.createdOn)} />
+                        <Input id="created_by" type="text" readonly value={getLocalFormatedDate(userData?.createdOn)} />
                     </div>
 
                     <div class="flex flex-col items-start gap-2">
                         <Label for="created_by">{m.created_by()}</Label>
-                        <Input id="created_by" type="text" disabled value={userData?.createdBy?.firstname + " " + userData?.createdBy?.lastname} />
+                        <Input id="created_by" type="text" readonly value={userData?.createdBy?.firstname + " " + userData?.createdBy?.lastname} />
                     </div>
                 </div>
             </Card.Content>

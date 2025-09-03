@@ -120,7 +120,7 @@
                 <div class="grid md:grid-cols-3 gap-6 w-full">
                     <div class="flex flex-col items-start gap-2">
                         <Label for="to_address">{m.recipient()}</Label>
-                        <Input id="to_address" type="text" required disabled value={emailData.toAddress} />                        
+                        <Input id="to_address" type="text" required readonly value={emailData.toAddress} />                        
                     </div>
 
                     <div class="flex flex-col items-start gap-2">
@@ -136,7 +136,7 @@
 
                     <div class="flex flex-col items-start gap-2">
                         <Label for="created_on">{m.created_on()}</Label>
-                        <Input id="created_on" type="text" required disabled value={getLocalFormatedDate(emailData.createdOn)} />
+                        <Input id="created_on" type="text" required readonly value={getLocalFormatedDate(emailData.createdOn)} />
                     </div>
                 </div>
             </Card.Content>

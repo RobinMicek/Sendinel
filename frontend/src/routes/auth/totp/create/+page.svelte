@@ -11,6 +11,7 @@
     import { onMount } from "svelte";
     import type { TotpRequest } from "@/types/dtos/auth";
     import { goto } from "$app/navigation";
+    import CopyToClipboardButton from "@/components/copy-to-clipboard/copy-to-clipboard-button.svelte";
     
     const authService = new AuthService()
 
@@ -67,7 +68,10 @@
                             class="w-1/2 h-auto aspect-square rounded-md"
                     />
 
-                    <Input id="secret" value={totpCreateInfo.secret} disabled></Input>
+                    <div class="flex gap-2">
+                        <Input id="secret" value={totpCreateInfo.secret} readonly></Input>
+                        <CopyToClipboardButton text={totpCreateInfo.secret} />
+                    </div>
 
                 {:else}
                     <Skeleton class="w-1/2 h-auto aspect-square" />

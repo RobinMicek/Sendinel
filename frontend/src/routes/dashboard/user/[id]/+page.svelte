@@ -125,8 +125,9 @@
                             <Select.Content
                                 id="role"
                             >
-                                <Select.Item class="hover:cursor-pointer" value={UserRolesEnum.USER}>{userRolesMeta[UserRolesEnum.USER].translation}</Select.Item>
-                                <Select.Item class="hover:cursor-pointer" value={UserRolesEnum.ADMIN}>{userRolesMeta[UserRolesEnum.ADMIN].translation}</Select.Item>
+                                {#each [UserRolesEnum.USER, UserRolesEnum.ADMIN] as role}
+                                    <Select.Item class="hover:cursor-pointer" value={role}>{userRolesMeta[role].translation}</Select.Item>
+                                {/each}
                             </Select.Content>
                         </Select.Root>
                     </div>

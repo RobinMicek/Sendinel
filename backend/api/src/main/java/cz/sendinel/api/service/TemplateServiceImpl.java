@@ -121,6 +121,7 @@ public class TemplateServiceImpl implements TemplateService {
         template.setSchema(templateRequestDto.getSchema());
         template.setTextRaw(templateRequestDto.getTextRaw());
         template.setHtmlRaw(templateRequestDto.getHtmlRaw());
+        template.setReplyTo(templateRequestDto.getReplyTo());
 
         template.setUpdatedBy(updatedBy);
 

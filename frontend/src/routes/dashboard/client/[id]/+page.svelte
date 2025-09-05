@@ -171,8 +171,10 @@
                         >
                             <Select.Trigger class="w-full hover:cursor-pointer" disabled={!canEdit}>
                                 <div class="flex justify-start gap-2">
-                                    {senderOptions.find(sender => sender.id === clientUpdateRequest.senderId)?.name}
-                                    <span class="font-semibold italic">{senderTypesMeta[senderOptions.find(sender => sender.id === clientUpdateRequest.senderId)!.type].displayName}</span>                                
+                                    {#if clientUpdateRequest.senderId}
+                                        {senderOptions.find(sender => sender.id === clientUpdateRequest.senderId)?.name}
+                                        <span class="font-semibold italic">{senderTypesMeta[senderOptions.find(sender => sender.id === clientUpdateRequest.senderId)!.type].displayName}</span>
+                                    {/if}
                                 </div>
                             </Select.Trigger>
                             <Select.Content

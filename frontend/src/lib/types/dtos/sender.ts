@@ -1,4 +1,4 @@
-import type { SenderTypesEnum } from "../enums/sender-types-enum";
+import type { SenderConfigurationFieldType, SenderTypesEnum } from "../enums/sender-types-enum";
 import type { UserBasicsResponse } from "./user";
 
 export interface SenderBasicsResponse {
@@ -12,7 +12,7 @@ export interface SenderRequest {
   name: string;
   type: SenderTypesEnum;
   description: string;
-  configuration: Record<string, unknown>;
+  configuration: Record<string, SenderConfigurationFieldType>;
 }
 
 export interface SenderResponse {
@@ -20,7 +20,7 @@ export interface SenderResponse {
   name: string;
   type: SenderTypesEnum;
   description: string;
-  configuration: Record<string, unknown>; // JsonNode
+  configuration: Record<string, SenderConfigurationFieldType>; // JsonNode
   createdBy: UserBasicsResponse;
   updatedBy: UserBasicsResponse;
   createdOn: string; // Instant

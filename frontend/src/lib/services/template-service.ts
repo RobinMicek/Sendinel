@@ -23,7 +23,7 @@ export default class TemplateService extends APIService {
         return res.data as TemplateResponse
     }
 
-    async update(id:string, templateUpdateRequest: TemplateRequest) {
+    async update(id:string, templateUpdateRequest: TemplateRequest) {    
         const res = await this.api.put(`/template/${id}`, templateUpdateRequest, {headers: this.getHeaders()})
         return res.data as TemplateResponse
     }

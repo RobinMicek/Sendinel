@@ -67,7 +67,7 @@
             <Card.Content class="grid gap-6">
                 <div class="flex gap-3">
                     <Switch class="hover:cursor-pointer" id="trackOpenedEmails" disabled={!canEdit} bind:checked={appSettingsData.trackOpenedEmails} />
-                    <Label for="trackOpenedEmails">{m.track_opened_emails()}</Label>                    
+                    <Label for="trackOpenedEmails">{m.track_opened_emails()}</Label>
                 </div>
                 <div class="flex gap-3">
                     <Switch class="hover:cursor-pointer" id="allowTemplateImport" disabled={!canEdit} bind:checked={appSettingsData.allowTemplateImports} />

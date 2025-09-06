@@ -21,7 +21,7 @@
         "typescript": templateRequestGenerator.generateTypeScript(),
         "bash": templateRequestGenerator.generateCurl()
     }
-</script>
+</script> 
 
 <div class="flex flex-col gap-6">
     <Card.Root>
@@ -61,7 +61,7 @@
                     {/each}                
                 </Tabs.List>
 
-                {#each Object.entries(codeExamples) as [key, value]}            
+                {#each Object.entries(codeExamples) as [key, value]}
                      <Tabs.Content value={key}>
                         <div class="max-w-full overflow-x-auto">
                             <Code.Root lang={key as SupportedLanguage} code={value}></Code.Root>                        

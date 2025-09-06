@@ -14,6 +14,7 @@
     import type { TemplateRequest, TemplateResponse } from "@/types/dtos/template";
     import TemplateService from "@/services/template-service";
     import TabGeneral from "./tabs/tab-general.svelte";
+    import TabEditTemplate from "./tabs/tab-edit-template.svelte";
 
     export let data: { id: string }
 
@@ -90,13 +91,16 @@
         <Tabs.Root value="general">
             <Tabs.List>
                 <Tabs.Trigger class="hover:cursor-pointer" value="general">{m.general()}</Tabs.Trigger>
-                <Tabs.Trigger class="hover:cursor-pointer" value="tab">Tab</Tabs.Trigger>
+                <Tabs.Trigger class="hover:cursor-pointer" value="edit-template">{m.edit()}</Tabs.Trigger>
             </Tabs.List>
+            
             <Tabs.Content value="general">
                 <TabGeneral canEdit={canEdit} bind:templateData={templateData} />
             </Tabs.Content>
 
-            <Tabs.Content value="tab">There will be something.</Tabs.Content>
+            <Tabs.Content value="edit-template">
+                <TabEditTemplate canEdit={canEdit} bind:templateData={templateData} />
+            </Tabs.Content>
         </Tabs.Root>
 
         <div class="w-full flex justify-center gap-6">

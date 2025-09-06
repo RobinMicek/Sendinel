@@ -204,6 +204,12 @@
     "general_information": "General Information",
     "how_to_use": "How To Use",
     "how_to_send_email_using_this_template":" How to send email using this template",
-    "client_token": "Client Token"
+    "client_token": "Client Token",
+    "edit": "Edit",
+    "template_could_not_be_rendered_you_probably_have_an_unfinished_handlebars_directive": "Template could not be rendered. You probably have unfinished Handlebars directive.",
+    "subject": "Subject",
+    "thank_you_for_your_order": "Thank you for your order: #{orderId}",
+    "preview": "Preview",
+    "edit_template": "Edit Template"
 
 }

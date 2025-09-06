@@ -1,5 +1,6 @@
 package cz.sendinel.api.model.templateexport;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,7 +16,7 @@ public class TemplateExportTemplateData {
     private String name;
     private String description;
     private String subject;
-    private String schema;
+    private JsonNode schema;
     private String textRaw;
     private String htmlRaw;
     private Instant createdOn;

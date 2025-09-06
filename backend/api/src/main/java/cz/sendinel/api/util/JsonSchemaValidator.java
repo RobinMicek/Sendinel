@@ -3,7 +3,6 @@ package cz.sendinel.api.util;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-
 import org.everit.json.schema.Schema;
 import org.everit.json.schema.loader.SchemaLoader;
 import org.json.JSONObject;
@@ -13,15 +12,14 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class JsonSchemaValidator {
 
-    public boolean validate(String jsonSchema, JsonNode object) {
-        try {
-            ObjectMapper mapper = new ObjectMapper();
+    private final ObjectMapper mapper = new ObjectMapper();
 
-            // Parse schema
-            JsonNode jsonSchemaNode = mapper.readTree(jsonSchema);
+    public boolean validate(JsonNode jsonSchemaNode, JsonNode object) {
+        try {
+            // Convert schema JsonNode to JSONObject
             JSONObject rawSchema = new JSONObject(mapper.writeValueAsString(jsonSchemaNode));
 
-            // Parse data
+            // Convert object JsonNode to JSONObject
             JSONObject rawJson = new JSONObject(mapper.writeValueAsString(object));
 
             // Validate

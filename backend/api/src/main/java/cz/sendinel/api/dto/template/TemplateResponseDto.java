@@ -1,5 +1,6 @@
 package cz.sendinel.api.dto.template;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import cz.sendinel.api.dto.user.UserBasicsResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,7 +17,7 @@ public class TemplateResponseDto {
     private String name;
     private String description;
     private String subject;
-    private String schema;
+    private JsonNode schema;
     private String textRaw;
     private String htmlRaw;
     private String replyTo;

@@ -1,5 +1,6 @@
 package cz.sendinel.api.entity;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -10,7 +11,9 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.type.SqlTypes;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -41,8 +44,9 @@ public class Template {
     @Column(name = "html_raw", columnDefinition = "TEXT")
     private String htmlRaw;
 
-    @Column(name = "schema", columnDefinition = "TEXT")
-    private String schema;
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name = "schema", columnDefinition = "jsonb")
+    private JsonNode schema;
 
     @Column(name = "reply_to")
     private String replyTo;

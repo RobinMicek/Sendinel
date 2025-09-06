@@ -22,7 +22,7 @@ public class TemplateRequestDto {
     private String subject;
 
     @NotNull
-    private String schema;
+    private JsonNode schema;
 
     @NotNull
     private String textRaw;
@@ -34,8 +34,4 @@ public class TemplateRequestDto {
     @NotNull
     private String replyTo;
 
-    // Accept JsonNode for schema and convert to string
-    public void setSchema(JsonNode schemaNode) {
-        this.schema = schemaNode.toString();
-    }
 }

@@ -102,7 +102,7 @@
             <Card.Root>
                 <Card.Header>
                     <Card.Title>
-                        <a class="hover:underline" href="/dashboard/sender/{emailData.requestedBy.id}">
+                        <a class="hover:underline" href="/dashboard/client/{emailData.requestedBy.id}">
                             {emailData.requestedBy.name}
                         </a>
                     </Card.Title>

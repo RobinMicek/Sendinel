@@ -13,7 +13,9 @@
 	},
 	"devDependencies": {
 		"@internationalized/date": "^3.8.1",
-		"@lucide/svelte": "^0.515.0",
+		"@lucide/svelte": "^0.525.0",
+		"@shikijs/langs": "^3.8.1",
+		"@shikijs/themes": "^3.8.1",
 		"@sveltejs/adapter-auto": "^6.0.0",
 		"@sveltejs/kit": "^2.22.0",
 		"@sveltejs/vite-plugin-svelte": "^6.0.0",
@@ -21,10 +23,14 @@
 		"@tailwindcss/typography": "^0.5.15",
 		"@tailwindcss/vite": "^4.0.0",
 		"@tanstack/table-core": "^8.21.3",
-		"bits-ui": "^2.8.6",
+		"bits-ui": "^2.8.13",
 		"clsx": "^2.1.1",
+		"isomorphic-dompurify": "^2.26.0",
+		"runed": "^0.29.2",
+		"shiki": "^3.8.1",
 		"svelte": "^5.0.0",
 		"svelte-check": "^4.0.0",
+		"svelte-toolbelt": "^0.9.3",
 		"tailwind-merge": "^3.3.1",
 		"tailwind-variants": "^1.0.0",
 		"tailwindcss": "^4.0.0",
@@ -36,6 +42,7 @@
 		"@inlang/paraglide-js": "^2.0.0",
 		"axios": "^1.11.0",
 		"blueimp-md5": "^2.19.0",
-		"mode-watcher": "^1.1.0"
+		"mode-watcher": "^1.1.0",
+		"monaco-editor": "^0.52.2"
 	}
 }

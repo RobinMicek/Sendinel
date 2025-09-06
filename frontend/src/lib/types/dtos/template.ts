@@ -10,7 +10,7 @@ export interface TemplateRequest {
   name: string;
   description: string;
   subject: string;
-  schema: string; // originally JsonNode in Java, converted to string
+  schema: object;
   textRaw: string;
   htmlRaw: string;
   replyTo: string;
@@ -21,7 +21,7 @@ export interface TemplateResponse {
   name: string;
   description: string;
   subject: string;
-  schema: string;
+  schema: object;
   textRaw: string;
   htmlRaw: string;
   replyTo: string;

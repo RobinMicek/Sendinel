@@ -226,6 +226,21 @@
     "data_than_can_be_passed_into_this_template_to_personalize_it": "Data that can be passed into this template to personalize it",
     "do_you_really_want_to_delete_the_whole_schema": "Do you really want to delete the whole schema?",
     "how_to_create_templates_description": "In {app_name}, you can create email templates in text or HTML format. Templates use Handlebars syntax, allowing you to insert dynamic variables to personalize content. All variables must be defined in the {schema_tab_name} tab before use, you can adjust preview variables to see how your email will look with real data. Handlebars can also be used in the email subject, making it easy to personalize both the content and the subject line.",
-    "generate_example_template": "Generate example template"
+    "generate_example_template": "Generate example template",
+    "template_import_export": "Import & Export",
+    "import": "Import",
+    "export": "Export",
+    "template_import": "Template Import",
+    "template_export": "Template Export",
+    "import_templates_from_backup_or_other_instance_of_app": "Import templates from backup or other instance of {app_name}",
+    "export_template_to_back_them_up_or_move_to_a_different_instance_of_app": "Export templates to back them up or move to a different instance of {app_name}",
+    "failed_to_export_templates": "Failed to export templates",
+    "download_export": "Download Export",
+    "no_templates_have_been_selected": "No templates have been selected",
+    "failed_to_upload_file": "Failed to upload '{filename}'",
+    "failed_to_import_templates": "Failed to import templates",
+    "overwrite_existing_templates": "Overwrite existing templates",
+    "drag_and_drop_your_templates_export": "Drag and drop your templates export",
+    "templates_successfully_imported": "Templates sucessfully imported"
 
 }

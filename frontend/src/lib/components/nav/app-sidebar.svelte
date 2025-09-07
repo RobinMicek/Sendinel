@@ -14,9 +14,9 @@
 	
 	const data = {
 		user: {
-			firstname: user?.firstname,
-			lastname: user?.lastname,
-			email: user?.email
+			firstname: user!.firstname,
+			lastname: user!.lastname,
+			email: user!.email
 		},
 		navMain: [
 			{
@@ -47,10 +47,15 @@
 			{
 				title: m.configuration(),
 				icon: Wrench,
+                url: "",
 				items: [
 					{
 						title: m.application_settings(),
-						url: "/dashboard/app-settings"
+						url: "/dashboard/configuration/app-settings"
+					},
+                    {
+						title: m.template_import_export(),
+						url: "/dashboard/configuration/template-import-export"
 					}
 				]
 			}

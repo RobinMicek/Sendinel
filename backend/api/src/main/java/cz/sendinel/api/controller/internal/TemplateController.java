@@ -1,5 +1,6 @@
 package cz.sendinel.api.controller.internal;
 
+import cz.sendinel.api.dto.template.export.TemplateImportRequestDto;
 import cz.sendinel.api.service.AppSettingsService;
 import cz.sendinel.shared.config.Constants;
 import cz.sendinel.api.controller.InternalControllerBase;
@@ -113,7 +114,7 @@ public class TemplateController extends InternalControllerBase {
     @PostMapping("/export")
     @PreAuthorize("hasAuthority('TEMPLATES_READ')")
     public ResponseEntity<InputStreamResource> exportTemplates(@Valid @RequestBody TemplateExportRequestDto templateExportRequestDto) throws IOException {
-        File export = templateService.createExport(templateExportRequestDto.getIds(), templateExportRequestDto.isOverwriteExisting());
+        File export = templateService.createExport(templateExportRequestDto.getIds());
         InputStreamResource resource = new InputStreamResource(new FileInputStream(export));
 
         String filename = "templates_" + Instant.now().toString().replaceAll(":", "-") +  Constants.EXPORT_FILE_EXTENSION;
@@ -128,7 +129,7 @@ public class TemplateController extends InternalControllerBase {
 
     @PostMapping("/import")
     @PreAuthorize("hasAuthority('TEMPLATES_CREATE')")
-    public ResponseEntity<String> importTemplates(@RequestParam("file") MultipartFile multipartFile) throws IOException {
+    public ResponseEntity<String> importTemplates(@Valid TemplateImportRequestDto templateImportRequestDto, @RequestParam("file") MultipartFile multipartFile) throws IOException {
         if (!appSettingsService.getAppSettings().isAllowTemplateImports()) {
             throw new RuntimeException("File upload is not allowed");
         }
@@ -138,7 +139,7 @@ public class TemplateController extends InternalControllerBase {
         multipartFile.transferTo(tempFile);
 
         try {
-            templateService.importData(tempFile, getLoggedInUser());
+            templateService.importData(tempFile, templateImportRequestDto.isOverwriteExisting(), getLoggedInUser());
 
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (Exception e) {

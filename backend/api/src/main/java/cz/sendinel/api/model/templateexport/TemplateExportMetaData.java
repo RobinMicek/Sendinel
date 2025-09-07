@@ -13,5 +13,4 @@ public class TemplateExportMetaData {
     private Instant exportedOn;
     private String appVersion;
     private String dbVersion;
-    private boolean overwriteExisting;
 }

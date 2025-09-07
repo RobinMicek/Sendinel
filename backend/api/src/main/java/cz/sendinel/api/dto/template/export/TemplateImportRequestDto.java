@@ -11,7 +11,7 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TemplateExportRequestDto {
+public class TemplateImportRequestDto {
     @NotNull
-    private List<UUID> ids;
+    private boolean overwriteExisting;
 }

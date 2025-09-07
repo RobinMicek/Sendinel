@@ -32,16 +32,16 @@
         try {
             const response = await emailService.exportToPdf(id)
 
-              const fileUrl = window.URL.createObjectURL(response.blob)
-                const a = document.createElement("a")
-                a.href = fileUrl
-                a.download = response.filename
+            const fileUrl = window.URL.createObjectURL(response.blob)
+            const a = document.createElement("a")
+            a.href = fileUrl
+            a.download = response.filename
 
-                document.body.appendChild(a)
-                a.click()
+            document.body.appendChild(a)
+            a.click()
 
-                a.remove()
-                window.URL.revokeObjectURL(fileUrl)
+            a.remove()
+            window.URL.revokeObjectURL(fileUrl)
         } catch (e) {
             triggerAlert(m.failed_to_render_pdf(), "", "error")
         } finally {

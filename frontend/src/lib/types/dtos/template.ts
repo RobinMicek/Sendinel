@@ -34,5 +34,8 @@ export interface TemplateResponse {
 
 export interface TemplateExportRequest {
   ids: string[]; // UUIDs
+}
+
+export interface TemplateImportRequest {
   overwriteExisting: boolean;
 }

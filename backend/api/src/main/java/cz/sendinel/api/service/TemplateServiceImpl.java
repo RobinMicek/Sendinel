@@ -148,12 +148,12 @@ public class TemplateServiceImpl implements TemplateService {
     }
 
     @Override
-    public File createExport(List<UUID> ids, boolean overwriteExisting) throws IOException {
+    public File createExport(List<UUID> ids) throws IOException {
         Instant exportedOn = Instant.now();
         String appVersion = this.appVersion;
         String dbVersion = flyway.info().current().getVersion().toString();
 
-        TemplateExportMetaData metadata = new TemplateExportMetaData(exportedOn, appVersion, dbVersion, overwriteExisting);
+        TemplateExportMetaData metadata = new TemplateExportMetaData(exportedOn, appVersion, dbVersion);
 
         List<TemplateExportTemplateData> exportTemplates = new LinkedList<>();
         for (UUID id : ids) {
@@ -221,7 +221,7 @@ public class TemplateServiceImpl implements TemplateService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void importData(File importFile, User importedBy) throws IOException {
+    public void importData(File importFile, boolean overwriteExisting, User importedBy) throws IOException {
         TemplateExportMetaData metadata = null;
         List<TemplateExportTemplateData> importedTemplates = new LinkedList<>();
 
@@ -273,7 +273,7 @@ public class TemplateServiceImpl implements TemplateService {
 
             boolean idExists = templateRepository.existsById(importedTemplate.getId());
             if (idExists) {
-                if (!metadata.isOverwriteExisting()) {
+                if (!overwriteExisting) {
                     throw new AlreadyExistsException("Template " + importedTemplate.getId() + " already exists and overwrite existing is disabled");
                 }
 

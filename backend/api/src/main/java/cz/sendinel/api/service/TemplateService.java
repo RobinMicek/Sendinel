@@ -1,6 +1,7 @@
 package cz.sendinel.api.service;
 
 import cz.sendinel.api.dto.template.TemplateRequestDto;
+import cz.sendinel.api.dto.template.export.TemplateImportRequestDto;
 import cz.sendinel.api.entity.Template;
 import cz.sendinel.api.entity.User;
 import cz.sendinel.api.model.templateexport.TemplateExportMetaData;
@@ -26,7 +27,7 @@ public interface TemplateService {
     void deleteTemplate(UUID id);
     void deleteTemplate(UUID id, User deletedBy);
 
-    File createExport(List<UUID> ids, boolean overwriteExisting) throws IOException;
+    File createExport(List<UUID> ids) throws IOException;
     File createExport(List<TemplateExportTemplateData> templates, TemplateExportMetaData metadata) throws IOException;
-    void importData(File importFile, User importedBy) throws IOException;
+    void importData(File importFile, boolean overwriteExisting, User importedBy) throws IOException;
 }

@@ -8,7 +8,6 @@
 	import { useSidebar } from "@/components/ui/sidebar/index.js";
     import { clearAuthInfo } from "@/stores/store-factory";
     import { goto } from "$app/navigation";
-    import { mode, toggleMode } from "mode-watcher";
     import { m } from "@/paraglide/messages";
     import { getGravatarUrl } from "@/utils/gravatar-util";
     import { appSettingsStore } from "@/stores/store-factory";

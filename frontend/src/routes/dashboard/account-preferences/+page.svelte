@@ -21,6 +21,7 @@
     import { UserPermissionsEnum } from "@/types/enums/user-permissions-enum";
     import { goto } from "$app/navigation";
     import Skeleton from "@/components/ui/skeleton/skeleton.svelte";
+    import { Trash } from "@lucide/svelte";
 
     const authService = new AuthService()
 
@@ -104,6 +105,7 @@
                     <div class="w-full">
                         <Confirm                        
                             triggerVariant="destructive"
+                            triggerIcon={Trash}
                             triggerText={m.delete_totp()}
                             contentText={m.do_you_really_want_to_delete_your_totp()}
                             fullWidth={true}

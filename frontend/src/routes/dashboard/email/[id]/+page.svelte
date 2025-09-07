@@ -14,8 +14,10 @@
     import EmailService from "@/services/email-service";
     import type { EmailResponse } from "@/types/dtos/email";
     import { emailStatusesMeta } from "@/types/enums/email-statuses-enum";
+    import { JSONEditor } from "svelte-jsoneditor";
     import DatatableBadgeColored from "@/components/datatable/datatable-badge-colored.svelte";
     import { emailPrioritiesMeta } from "@/types/enums/email-priorities-enum";
+    import { mode } from "mode-watcher";
 
     export let data: { id: string }
 
@@ -177,9 +179,21 @@
                 <Card.Description>{m.data_specific_to_this_email_used_to_personalize_content_across_the_template()}</Card.Description>
             </Card.Header>
             <Card.Content>
-                This will use some kind of json editor, but i will not be doing that until im building the templates page, for now its just raw text
-                <br><br>
-                {@html JSON.stringify(emailData.templateVariables, null, "<br>")}
+                <div class={mode.current != "light" ? "jse-theme-dark" : ""}>
+                    <JSONEditor
+                        content={{ json: emailData.templateVariables }}
+                        readOnly={true}
+                        mainMenuBar={false}
+                        navigationBar={false}
+                        statusBar={true}
+                        onRenderMenu={() => []}
+                        onRenderContextMenu={() => false}
+                    />
+                </div>
+
+                <style>
+                    @import 'svelte-jsoneditor/themes/jse-theme-dark.css';
+                </style>
             </Card.Content>
         </Card.Root>
 

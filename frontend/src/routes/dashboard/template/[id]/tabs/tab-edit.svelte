@@ -11,6 +11,8 @@
     import { renderHandlebarsTemplate } from "@/utils/handlebars-utils";
     import { generateExampleFromSchema } from "@/utils/json-schema-utils";
     import Toggle from "@/components/ui/toggle/toggle.svelte";
+    import TemplatingInfo from "./tab-edit/templating-info.svelte";
+    import ContextVariablesEdit from "./tab-edit/context-variables-edit.svelte";
 
     export let canEdit: boolean | undefined;
     export let templateData: TemplateResponse;
@@ -70,7 +72,8 @@
 
     <Card.Root>
         <Card.Header>
-            <Card.Title>{m.edit_template()}</Card.Title>
+            <Card.Title>{m.template()}</Card.Title>
+            <Card.Description>{m.define_how_your_emails_look()}</Card.Description>
         </Card.Header>
         <Card.Content class={fullscreen ? "absolute top-0 right-0 w-screen h-screen z-10 p-5 bg-background" : ""}>
             <div class="flex justify-between mb-4">
@@ -84,8 +87,8 @@
                         <ToggleGroup.Item class="hover:cursor-pointer" value="editor"><Pencil /></ToggleGroup.Item>
                         <ToggleGroup.Item class="hover:cursor-pointer" value="both"><Columns2 /></ToggleGroup.Item>
                         <ToggleGroup.Item class="hover:cursor-pointer" value="preview"><Eye /></ToggleGroup.Item>
-                    </ToggleGroup.Root>
-                    
+                    </ToggleGroup.Root>                        
+
                     <Toggle class="hover:cursor-pointer" variant="outline" bind:pressed={fullscreen}>
                         {#if fullscreen}
                             <Minimize2 />
@@ -93,12 +96,16 @@
                             <Maximize2 />
                         {/if}
                     </Toggle>
+
+                    <ContextVariablesEdit bind:context={templateContextExample} />
+
+                    <TemplatingInfo />
                 </div>
             </div>
 
-            <div class="flex h-[90vh]">
+            <div class="flex flex-col md:flex-row h-[90vh]">
                 {#if layout !== "preview"}
-                    <div class={layout === "both" ? "w-1/2" : "w-full"}>
+                    <div class={layout === "both" ? "h-[45vh] md:h-full w-full md:w-1/2" : "w-full"}>
                         {#if currentTemplate === "html"}
                             <Monaco
                                 bind:value={templateData.htmlRaw} 
@@ -117,7 +124,7 @@
                 {/if}
 
                 {#if layout !== "editor"}
-                    <div class={layout === "both" ? "w-1/2" : "w-full"}>                    
+                    <div class={layout === "both" ? "h-[45vh] md:h-full w-full md:w-1/2" : "w-full"}>                    
                         <div title="template-preview" class="h-full w-full overflow-y-scroll">
                             <iframe class="w-full h-full overflow-y-scrollbar" title="Render" srcdoc={renderedTemplate}></iframe>                        
                         </div>

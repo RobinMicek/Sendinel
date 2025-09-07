@@ -26,7 +26,7 @@
 <div class="flex flex-col gap-6">
     <Card.Root>
         <Card.Header>
-            <Card.Title>{m.general_information()}</Card.Title>
+            <Card.Title>{m.template_information()}</Card.Title>
         </Card.Header>
         <Card.Content>
             <div class="grid md:grid-cols-2 gap-6 w-full">
@@ -64,7 +64,13 @@
                 {#each Object.entries(codeExamples) as [key, value]}
                      <Tabs.Content value={key}>
                         <div class="max-w-full overflow-x-auto">
-                            <Code.Root lang={key as SupportedLanguage} code={value}></Code.Root>                        
+                            {#if value.split(/\r\n|\r|\n/).length > 25}
+                                <Code.Overflow>
+                                    <Code.Root lang={key as SupportedLanguage} code={value}></Code.Root>                        
+                                </Code.Overflow>
+                            {:else}
+                                <Code.Root lang={key as SupportedLanguage} code={value}></Code.Root>                        
+                            {/if}
                         </div>
                     </Tabs.Content>
                 {/each}

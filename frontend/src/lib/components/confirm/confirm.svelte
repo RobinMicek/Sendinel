@@ -3,9 +3,11 @@
     import { m } from "@/paraglide/messages";
     import type { ButtonVariant } from "../ui/button";
     import Button from "../ui/button/button.svelte";
+    import type { Component } from "@lucide/svelte";
 
     export let disabled: boolean = false
     export let triggerText: string
+    export let triggerIcon: typeof Component | undefined = undefined
     export let triggerVariant: ButtonVariant
     export let contentText: string
     export let action: () => void
@@ -19,7 +21,15 @@
             class={`hover:cursor-pointer ${fullWidth ? "w-full" : ""}`}
             variant={triggerVariant}
         >
-            {triggerText}
+            <div class="flex items-center gap-2">
+                {#if triggerIcon}
+                    <svelte:component this={triggerIcon} />
+                {/if}
+
+                {#if triggerText}
+                    {triggerText}
+                {/if}
+            </div>
         </Button>
     </AlertDialog.Trigger>
     <AlertDialog.Content>

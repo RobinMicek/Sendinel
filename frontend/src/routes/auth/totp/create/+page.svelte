@@ -41,6 +41,7 @@
             goto("/auth/totp")
         } catch (e) {
             triggerAlert(m.failed_to_activate_totp(), "", "error")
+            isLoading = false
         }
     }
 

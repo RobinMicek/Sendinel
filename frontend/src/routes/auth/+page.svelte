@@ -24,11 +24,9 @@
             const response = await authService.login(loginRequest)
             tokenStore.set(response.jwtToken)
             
-            triggerAlert(m.login_successful(), "", "success")
             goto("/auth/totp")
         } catch (e) {
             triggerAlert(m.login_failed(), "", "error")
-        } finally {
             isLoading = false
         }
     }

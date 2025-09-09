@@ -36,7 +36,6 @@
             goto("/auth/login")
         } catch (e) {
             triggerAlert(m.failed_to_create_first_user(), "", "error")
-        } finally {
             isLoading = false
         }
     }

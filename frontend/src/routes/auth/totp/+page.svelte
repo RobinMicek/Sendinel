@@ -43,12 +43,10 @@
         
             const userResponse = await userService.me()
             userStore.set(userResponse)
-
-            triggerAlert(m.totp_verified(), "", "success")
+            
             goto("/")
         } catch (e) {
             triggerAlert(m.failed_to_verify_totp(), "", "error")
-        } finally {
             isLoading = false
         }
     }

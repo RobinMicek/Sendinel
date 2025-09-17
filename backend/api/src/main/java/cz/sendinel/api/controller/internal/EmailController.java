@@ -46,7 +46,7 @@ public class EmailController extends InternalControllerBase {
     @GetMapping
     @PreAuthorize("hasAuthority('EMAILS_READ')")
     public ResponseEntity<PageResponseDto<EmailResponseDto>> getEmails(Pageable pageable, @RequestParam(required = false) String search) {
-        Specification<Email> spec = RsqlUtil.toSpecification((search == null || search.isBlank())? "deletedOn==null" : search + ";deletedOn==null");
+        Specification<Email> spec = RsqlUtil.toSpecification(search);
         Page<Email> emailPage = emailService.getEmails(pageable, spec);
 
         emailPage.forEach(email -> {email.setEmailStatuses(emailStatusService.getByEmail(email));});

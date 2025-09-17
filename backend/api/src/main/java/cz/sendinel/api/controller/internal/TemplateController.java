@@ -1,22 +1,24 @@
 package cz.sendinel.api.controller.internal;
 
-import cz.sendinel.api.dto.template.export.TemplateImportRequestDto;
-import cz.sendinel.api.service.AppSettingsService;
-import cz.sendinel.shared.config.Constants;
 import cz.sendinel.api.controller.InternalControllerBase;
 import cz.sendinel.api.dto.PageResponseDto;
 import cz.sendinel.api.dto.template.TemplateBasicsResponseDto;
 import cz.sendinel.api.dto.template.TemplateRequestDto;
 import cz.sendinel.api.dto.template.TemplateResponseDto;
 import cz.sendinel.api.dto.template.export.TemplateExportRequestDto;
+import cz.sendinel.api.dto.template.export.TemplateImportRequestDto;
 import cz.sendinel.api.entity.Template;
+import cz.sendinel.api.service.AppSettingsService;
 import cz.sendinel.api.service.TemplateService;
 import cz.sendinel.api.util.MapperUtil;
+import cz.sendinel.api.util.RsqlUtil;
+import cz.sendinel.shared.config.Constants;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -54,8 +56,9 @@ public class TemplateController extends InternalControllerBase {
 
     @GetMapping
     @PreAuthorize("hasAuthority('TEMPLATES_READ')")
-    public ResponseEntity<PageResponseDto<TemplateResponseDto>> getTemplates(Pageable pageable) {
-        Page<Template> templatePage = templateService.getTemplates(pageable);
+    public ResponseEntity<PageResponseDto<TemplateResponseDto>> getTemplates(Pageable pageable, @RequestParam(required = false) String search) {
+        Specification<Template> spec = RsqlUtil.toSpecification((search == null || search.isBlank())? "deletedOn==null" : search + ";deletedOn==null");
+        Page<Template> templatePage = templateService.getTemplates(pageable, spec);
 
         // Map Page<Template> to Page<TemplateResponseDto>
         Page<TemplateResponseDto> dtoPage = templatePage.map(template -> MapperUtil.toDto(template, TemplateResponseDto.class));

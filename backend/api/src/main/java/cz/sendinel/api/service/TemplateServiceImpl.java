@@ -20,6 +20,7 @@ import org.flywaydb.core.Flyway;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -91,6 +92,11 @@ public class TemplateServiceImpl implements TemplateService {
         return templateRepository.findAllByDeletedOnIsNull(pageable);
     }
 
+    @Override
+    public Page<Template> getTemplates(Pageable pageable, Specification<Template> specification) {
+        return templateRepository.findAll(specification, pageable);
+    }
+
     @Transactional(rollbackFor = Exception.class)
     @Override
     public Template updateTemplate(UUID id, Template template) {
@@ -113,6 +119,7 @@ public class TemplateServiceImpl implements TemplateService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Template updateTemplateFromDto(UUID id, TemplateRequestDto templateRequestDto, User updatedBy) {
         Template template = new Template();
         template.setName(templateRequestDto.getName());

@@ -13,6 +13,7 @@ import cz.sendinel.api.repository.SenderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -81,8 +82,24 @@ public class SenderServiceImpl implements SenderService {
     }
 
     @Override
+    public Page<Sender> getSenders(Pageable pageable, Specification<Sender> specification) {
+        return senderRepository.findAll(specification, pageable);
+    }
+
+    @Override
     public Page<Sender> getSendersObfuscated(Pageable pageable) {
         return senderRepository.findAllByDeletedOnIsNull(pageable)
+                .map(sender -> {
+                    Map<String, SenderConfigurationField> schema = sender.getType().getConfigurationSchema();
+                    JsonNode obfuscatedConfig = obfuscateSensitiveFields(sender.getConfiguration(), schema);
+                    sender.setConfiguration(obfuscatedConfig);
+                    return sender;
+                });
+    }
+
+    @Override
+    public Page<Sender> getSendersObfuscated(Pageable pageable, Specification<Sender> specification) {
+        return senderRepository.findAll(specification, pageable)
                 .map(sender -> {
                     Map<String, SenderConfigurationField> schema = sender.getType().getConfigurationSchema();
                     JsonNode obfuscatedConfig = obfuscateSensitiveFields(sender.getConfiguration(), schema);

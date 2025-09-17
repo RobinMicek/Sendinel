@@ -20,6 +20,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -101,6 +102,12 @@ public class EmailServiceImpl implements EmailService {
     public Page<Email> getEmails(Pageable pageable) {
         return emailRepository.findAll(pageable);
     }
+
+    @Override
+    public Page<Email> getEmails(Pageable pageable, Specification<Email> specification) {
+        return emailRepository.findAll(specification, pageable);
+    }
+
 
     @Override
     public void trackEmailOpened(String trackCode) {

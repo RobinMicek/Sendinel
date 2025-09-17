@@ -6,6 +6,7 @@ import cz.sendinel.api.entity.Email;
 import cz.sendinel.shared.models.email.EmailJobRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.io.File;
 import java.util.Optional;
@@ -15,6 +16,7 @@ public interface EmailService {
     Optional<Email> getEmailById(UUID id);
     Optional<Email> getEmailByTrackCode(String trackCode);
     Page<Email> getEmails(Pageable pageable);
+    Page<Email> getEmails(Pageable pageable, Specification<Email> specification);
     Email createEmail(Email email);
     Email createEmailFromDto(EmailRequestDto emailRequestDto, Client createdBy);
 

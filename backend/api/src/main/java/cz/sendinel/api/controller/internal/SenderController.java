@@ -1,6 +1,5 @@
 package cz.sendinel.api.controller.internal;
 
-import cz.sendinel.shared.config.Constants;
 import cz.sendinel.api.controller.InternalControllerBase;
 import cz.sendinel.api.dto.PageResponseDto;
 import cz.sendinel.api.dto.sender.SenderBasicsResponseDto;
@@ -9,10 +8,13 @@ import cz.sendinel.api.dto.sender.SenderResponseDto;
 import cz.sendinel.api.entity.Sender;
 import cz.sendinel.api.service.SenderService;
 import cz.sendinel.api.util.MapperUtil;
+import cz.sendinel.api.util.RsqlUtil;
+import cz.sendinel.shared.config.Constants;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -39,8 +42,9 @@ public class SenderController extends InternalControllerBase {
 
     @GetMapping
     @PreAuthorize("hasAuthority('SENDERS_READ')")
-    public ResponseEntity<PageResponseDto<SenderResponseDto>> getSenders(Pageable pageable) {
-        Page<Sender> senderPage = senderService.getSendersObfuscated(pageable);
+    public ResponseEntity<PageResponseDto<SenderResponseDto>> getSenders(Pageable pageable, @RequestParam(required = false) String search) {
+        Specification<Sender> spec = RsqlUtil.toSpecification((search == null || search.isBlank())? "deletedOn==null" : search + ";deletedOn==null");
+        Page<Sender> senderPage = senderService.getSendersObfuscated(pageable, spec);
 
         // Map Page<Sender> to Page<SenderResponseDto>
         Page<SenderResponseDto> dtoPage = senderPage.map(sender -> MapperUtil.toDto(sender, SenderResponseDto.class));

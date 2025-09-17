@@ -8,6 +8,7 @@ import cz.sendinel.api.repository.ClientRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -57,6 +58,11 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public Page<Client> getClients(Pageable pageable) {
         return clientRepository.findAllByDeletedOnIsNull(pageable);
+    }
+
+    @Override
+    public Page<Client> getClients(Pageable pageable, Specification<Client> specification) {
+        return clientRepository.findAll(specification, pageable);
     }
 
     @Override

@@ -8,6 +8,7 @@ import cz.sendinel.api.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -64,6 +65,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public Page<User> getUsers(Pageable pageable) {
         return userRepository.findAllByDeletedOnIsNull(pageable);
+    }
+
+    @Override
+    public Page<User> getUsers(Pageable pageable, Specification<User> specification) {
+        return userRepository.findAll(specification, pageable);
     }
 
     @Override

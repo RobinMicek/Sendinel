@@ -7,6 +7,7 @@ import cz.sendinel.api.entity.User;
 import cz.sendinel.shared.models.SenderConfigurationField;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
 import java.util.Map;
@@ -21,7 +22,9 @@ public interface SenderService {
     List<Sender> getAllSenders();
     List<Sender> getAllSendersObfuscated();
     Page<Sender> getSenders(Pageable pageable);
+    Page<Sender> getSenders(Pageable pageable, Specification<Sender> specification);
     Page<Sender> getSendersObfuscated(Pageable pageable);
+    Page<Sender> getSendersObfuscated(Pageable pageable, Specification<Sender> specification);
     Sender updateSender(UUID id, Sender sender);
     Sender updateSenderFromDto(UUID id, SenderRequestDto senderRequestDto, User updatedBy);
     void deleteSender(Sender sender);

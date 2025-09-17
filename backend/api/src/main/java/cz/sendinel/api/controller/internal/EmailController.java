@@ -1,6 +1,5 @@
 package cz.sendinel.api.controller.internal;
 
-import cz.sendinel.shared.config.Constants;
 import cz.sendinel.api.controller.InternalControllerBase;
 import cz.sendinel.api.dto.PageResponseDto;
 import cz.sendinel.api.dto.email.EmailResponseDto;
@@ -9,10 +8,13 @@ import cz.sendinel.api.service.ClientService;
 import cz.sendinel.api.service.EmailService;
 import cz.sendinel.api.service.EmailStatusService;
 import cz.sendinel.api.util.MapperUtil;
+import cz.sendinel.api.util.RsqlUtil;
+import cz.sendinel.shared.config.Constants;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,6 +23,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -42,8 +45,10 @@ public class EmailController extends InternalControllerBase {
 
     @GetMapping
     @PreAuthorize("hasAuthority('EMAILS_READ')")
-    public ResponseEntity<PageResponseDto<EmailResponseDto>> getEmails(Pageable pageable) {
-        Page<Email> emailPage = emailService.getEmails(pageable);
+    public ResponseEntity<PageResponseDto<EmailResponseDto>> getEmails(Pageable pageable, @RequestParam(required = false) String search) {
+        Specification<Email> spec = RsqlUtil.toSpecification((search == null || search.isBlank())? "deletedOn==null" : search + ";deletedOn==null");
+        Page<Email> emailPage = emailService.getEmails(pageable, spec);
+
         emailPage.forEach(email -> {email.setEmailStatuses(emailStatusService.getByEmail(email));});
 
         // Map Page<Email> to Page<EmailResponseDto>

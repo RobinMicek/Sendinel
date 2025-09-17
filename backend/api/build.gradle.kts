@@ -48,6 +48,7 @@ dependencies {
 	implementation("com.github.jknack:handlebars:4.3.1")
 	implementation("com.openhtmltopdf:openhtmltopdf-core:1.0.10")
 	implementation("com.openhtmltopdf:openhtmltopdf-pdfbox:1.0.10")
+	implementation("cz.jirutka.rsql:rsql-parser:2.1.0")
 
 	compileOnly("org.projectlombok:lombok")
 

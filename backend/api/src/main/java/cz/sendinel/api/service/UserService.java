@@ -5,6 +5,7 @@ import cz.sendinel.api.dto.user.UserUpdateRequestDto;
 import cz.sendinel.api.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,6 +18,7 @@ public interface UserService {
     Optional<User> getUserByEmail(String email);
     List<User> getAllUsers();
     Page<User> getUsers(Pageable pageable);
+    Page<User> getUsers(Pageable pageable, Specification<User> specification);
     User updateUser(UUID id, User user);
     User updateUserFromDto(UUID id, UserUpdateRequestDto userUpdateRequestDto, User updatedBy);
     void deleteUser(User user);

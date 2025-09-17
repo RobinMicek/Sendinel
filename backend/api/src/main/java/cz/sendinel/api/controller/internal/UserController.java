@@ -1,5 +1,6 @@
 package cz.sendinel.api.controller.internal;
 
+import cz.sendinel.api.util.RsqlUtil;
 import cz.sendinel.shared.config.Constants;
 import cz.sendinel.api.controller.InternalControllerBase;
 import cz.sendinel.api.dto.PageResponseDto;
@@ -13,6 +14,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -37,12 +40,11 @@ public class UserController extends InternalControllerBase {
 
     @GetMapping
     @PreAuthorize("hasAuthority('USERS_READ')")
-    public ResponseEntity<PageResponseDto<UserResponseDto>> getUsers(Pageable pageable) {
-        Page<User> userPage = userService.getUsers(pageable);
+    public ResponseEntity<PageResponseDto<UserResponseDto>> getUsers(Pageable pageable, @RequestParam(required = false) String search) {
+        Specification<User> spec = RsqlUtil.toSpecification((search == null || search.isBlank())? "deletedOn==null" : search + ";deletedOn==null");
+        Page<User> userPage = userService.getUsers(pageable, spec);
 
-        // Map Page<User> to Page<UserResponseDto>
         Page<UserResponseDto> dtoPage = userPage.map(MapperUtil::userToDto);
-
         return ResponseEntity.ok(MapperUtil.fromPage(dtoPage));
     }
 

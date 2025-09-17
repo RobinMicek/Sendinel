@@ -16,17 +16,19 @@
     import { goto } from "$app/navigation";
     import type { SenderResponse } from "@/types/dtos/sender.js";
     import SenderService from "@/services/sender-service.js";
+    import DatatableSearch from "@/components/datatable/datatable-search.svelte";
 
     const senderService = new SenderService();
 
     let currentPageNumber: number
     let sortKey: string = "name"
     let sortOrder: "asc" | "desc" = "asc"
+    let search: string = ""
     let pageData: PageResponse<SenderResponse>
 
-    async function getData(pageNumber: number, sortKey: string, sortOrder: "asc" | "desc") {
+    async function getData(pageNumber: number, sortKey: string, sortOrder: "asc" | "desc", searchString: string = "") {
         try {
-            const response = await senderService.getAll(pageNumber, undefined, sortKey, sortOrder);
+            const response = await senderService.getAll(pageNumber, undefined, sortKey, sortOrder, searchString);
             pageData = response
             currentPageNumber = response.pageNumber
 
@@ -57,6 +59,7 @@
         <Skeleton class="aspect-video" />
 
     {:else}
+        <DatatableSearch bind:searchString={search} getData={searchString => getData(1, sortKey, sortOrder, searchString)} />
         <DataTable
             data={pageData.content!}
             columns={columns}
@@ -65,13 +68,13 @@
             onSort={(key, nextOrder) => {
                 sortKey = key;
                 sortOrder = nextOrder;
-                getData(1, sortKey, sortOrder);
+                getData(1, sortKey, sortOrder, search);
             }}
         />
         <DatatableNav
             pageData={pageData}
             currentPageNumber={currentPageNumber}
-            getData={pageNumber => getData(pageNumber, sortKey, sortOrder)}
+            getData={pageNumber => getData(pageNumber, sortKey, sortOrder, search)}
         />
     {/if}
 

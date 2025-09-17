@@ -8,8 +8,10 @@ export default class UserService extends APIService {
         return res.data as UserResponse
     }
 
-    async getAll(pageNumber: number = 0, pageSize: number = this.getPreferedDatatablePageSize(), sortBy: string = "", sortOrder: "asc" | "desc" | "" = "") {
-        const res = await this.api.get(`/user?page=${pageNumber}&size=${pageSize}&sort=${sortBy},${sortOrder}`, {headers: this.getHeaders()})
+    async getAll(pageNumber: number = 0, pageSize: number = this.getPreferedDatatablePageSize(), sortBy: string = "", sortOrder: "asc" | "desc" | "" = "", searchString: string = "") {
+        const searchQuery = searchString == "" ? "" : `firstname=like=*${searchString}*,lastname=like=*${searchString}*,email=like=*${searchString}*`
+        console.log(searchQuery)
+        const res = await this.api.get(`/user?page=${pageNumber}&size=${pageSize}&sort=${sortBy},${sortOrder}&search=${encodeURIComponent(searchQuery)}`, {headers: this.getHeaders()})
         return res.data as PageResponse<UserResponse>
     }
 

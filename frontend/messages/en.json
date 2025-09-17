@@ -239,6 +239,7 @@
     "failed_to_import_templates": "Failed to import templates",
     "overwrite_existing_templates": "Overwrite existing templates",
     "drag_and_drop_your_templates_export": "Drag and drop your templates export",
-    "templates_successfully_imported": "Templates sucessfully imported"
+    "templates_successfully_imported": "Templates sucessfully imported",
+    "search": "Search"
 
 }

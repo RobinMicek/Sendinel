@@ -1,12 +1,13 @@
 import APIService from "./api-service";
-import type { UserCreateRequest, UserResponse, UserUpdateRequest } from "@/types/dtos/user";
 import type { PageResponse } from "@/types/dtos/page";
 import type { ClientRequest, ClientResponse } from "@/types/dtos/client";
 import type { ClientTokenRequest, ClientTokenResponse, ClientTokenValueResponse } from "@/types/dtos/client-token";
 
 export default class ClientService extends APIService {
-    async getAll(pageNumber: number = 0, pageSize: number = this.getPreferedDatatablePageSize(), sortBy: string = "", sortOrder: "asc" | "desc" | "" = "") {
-        const res = await this.api.get(`/client?page=${pageNumber}&size=${pageSize}&sort=${sortBy},${sortOrder}`, {headers: this.getHeaders()})
+    async getAll(pageNumber: number = 0, pageSize: number = this.getPreferedDatatablePageSize(), sortBy: string = "", sortOrder: "asc" | "desc" | "" = "", searchString: string = "") {
+        const searchQuery = searchString == "" ? "" : `name=like=*${searchString}*,description=like=*${searchString}*`
+
+        const res = await this.api.get(`/client?page=${pageNumber}&size=${pageSize}&sort=${sortBy},${sortOrder}&search=${encodeURIComponent(searchQuery)}`, {headers: this.getHeaders()})
         return res.data as PageResponse<ClientResponse>
     }
 

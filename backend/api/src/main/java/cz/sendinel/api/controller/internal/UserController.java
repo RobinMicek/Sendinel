@@ -41,7 +41,7 @@ public class UserController extends InternalControllerBase {
     @GetMapping
     @PreAuthorize("hasAuthority('USERS_READ')")
     public ResponseEntity<PageResponseDto<UserResponseDto>> getUsers(Pageable pageable, @RequestParam(required = false) String search) {
-        Specification<User> spec = RsqlUtil.toSpecification((search == null || search.isBlank())? "deletedOn==null" : search + ";deletedOn==null");
+        Specification<User> spec = RsqlUtil.toSpecification((search == null || search.isBlank())? "deletedOn==null" : String.format("(%s);deletedOn==null", search));
         Page<User> userPage = userService.getUsers(pageable, spec);
 
         Page<UserResponseDto> dtoPage = userPage.map(MapperUtil::userToDto);

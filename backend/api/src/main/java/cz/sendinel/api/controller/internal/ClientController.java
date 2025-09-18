@@ -48,7 +48,7 @@ public class ClientController extends InternalControllerBase {
     @GetMapping
     @PreAuthorize("hasAuthority('CLIENTS_READ')")
     public ResponseEntity<PageResponseDto<ClientResponseDto>> getClients(Pageable pageable, @RequestParam(required = false) String search) {
-        Specification<Client> spec = RsqlUtil.toSpecification((search == null || search.isBlank())? "deletedOn==null" : search + ";deletedOn==null");
+        Specification<Client> spec = RsqlUtil.toSpecification((search == null || search.isBlank())? "deletedOn==null" : String.format("(%s);deletedOn==null", search));
         Page<Client> clientPage = clientService.getClients(pageable, spec);
 
         // Map Page<Client> to Page<ClientResponseDto>

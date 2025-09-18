@@ -57,7 +57,7 @@ public class TemplateController extends InternalControllerBase {
     @GetMapping
     @PreAuthorize("hasAuthority('TEMPLATES_READ')")
     public ResponseEntity<PageResponseDto<TemplateResponseDto>> getTemplates(Pageable pageable, @RequestParam(required = false) String search) {
-        Specification<Template> spec = RsqlUtil.toSpecification((search == null || search.isBlank())? "deletedOn==null" : search + ";deletedOn==null");
+        Specification<Template> spec = RsqlUtil.toSpecification((search == null || search.isBlank())? "deletedOn==null" : String.format("(%s);deletedOn==null", search));
         Page<Template> templatePage = templateService.getTemplates(pageable, spec);
 
         // Map Page<Template> to Page<TemplateResponseDto>

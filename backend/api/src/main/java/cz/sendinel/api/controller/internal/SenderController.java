@@ -43,7 +43,7 @@ public class SenderController extends InternalControllerBase {
     @GetMapping
     @PreAuthorize("hasAuthority('SENDERS_READ')")
     public ResponseEntity<PageResponseDto<SenderResponseDto>> getSenders(Pageable pageable, @RequestParam(required = false) String search) {
-        Specification<Sender> spec = RsqlUtil.toSpecification((search == null || search.isBlank())? "deletedOn==null" : search + ";deletedOn==null");
+        Specification<Sender> spec = RsqlUtil.toSpecification((search == null || search.isBlank())? "deletedOn==null" : String.format("(%s);deletedOn==null", search));
         Page<Sender> senderPage = senderService.getSendersObfuscated(pageable, spec);
 
         // Map Page<Sender> to Page<SenderResponseDto>

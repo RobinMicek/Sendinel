@@ -5,7 +5,7 @@ import type { ClientTokenRequest, ClientTokenResponse, ClientTokenValueResponse 
 
 export default class ClientService extends APIService {
     async getAll(pageNumber: number = 0, pageSize: number = this.getPreferedDatatablePageSize(), sortBy: string = "", sortOrder: "asc" | "desc" | "" = "", searchString: string = "") {
-        const searchQuery = searchString == "" ? "" : `name=like=*${searchString}*,description=like=*${searchString}*`
+        const searchQuery = searchString == "" ? "" : `name=like="*${searchString}*",description=like="*${searchString}*"`
 
         const res = await this.api.get(`/client?page=${pageNumber}&size=${pageSize}&sort=${sortBy},${sortOrder}&search=${encodeURIComponent(searchQuery)}`, {headers: this.getHeaders()})
         return res.data as PageResponse<ClientResponse>

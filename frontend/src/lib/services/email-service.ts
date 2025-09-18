@@ -5,7 +5,7 @@ import type { PdfFileDownload } from "@/types/dtos/file";
 
 export default class EmailService extends APIService {
     async getAll(pageNumber: number = 0, pageSize: number = this.getPreferedDatatablePageSize(), sortBy: string = "", sortOrder: "asc" | "desc" | "" = "", searchString: string = "") {
-        const searchQuery = searchString == "" ? "" : `toAddress=like=*${searchString}*`
+        const searchQuery = searchString == "" ? "" : `toAddress=like="*${searchString}*"`
 
         const res = await this.api.get(`/email?page=${pageNumber}&size=${pageSize}&sort=${sortBy},${sortOrder}&search=${encodeURIComponent(searchQuery)}`, {headers: this.getHeaders()})
         return res.data as PageResponse<EmailResponse>

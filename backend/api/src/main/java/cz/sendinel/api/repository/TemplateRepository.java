@@ -12,6 +12,7 @@ import java.util.UUID;
 
 public interface TemplateRepository extends JpaRepository<Template, Integer> {
     Optional<Template> findByIdAndDeletedOnIsNull(UUID id);
+    Optional<Template> findById(UUID id);
     boolean existsByIdAndDeletedOnIsNull(UUID id);
     boolean existsById(UUID id);
     List<Template> findAllByDeletedOnIsNull();

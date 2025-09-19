@@ -284,6 +284,13 @@ public class TemplateServiceImpl implements TemplateService {
                     throw new AlreadyExistsException("Template " + importedTemplate.getId() + " already exists and overwrite existing is disabled");
                 }
 
+                // If emails exists and is deleted, undelete it first so it can be updated
+                // (otherwise the update function will fail, because it cannot find deleted templates)
+                templateRepository.findById(importedTemplate.getId()).ifPresent(template -> {
+                    template.setDeletedOn(null);
+                    templateRepository.save(template);
+                });
+
                 updateTemplate(importedTemplate.getId(), newTemplate);
             } else {
                 newTemplate.setId(importedTemplate.getId());

@@ -240,6 +240,19 @@
     "overwrite_existing_templates": "Overwrite existing templates",
     "drag_and_drop_your_templates_export": "Drag and drop your templates export",
     "templates_successfully_imported": "Templates sucessfully imported",
-    "search": "Search"
+    "search": "Search",
+    "failed_to_load_stats_data": "Failed to load stats data",
+    "total_sent": "Total Sent",
+    "number_of_sent_emails": "Number of sent emails",
+    "unique_recipients": "Unique Recipients",
+    "unique_email_adresses": "Unique email adresses",
+    "bounced_rate": "Bounced Rate",
+    "emails_that_could_not_be_delivered": "Emails that could not be delivered",
+    "failed_rate": "Failed Rate",
+    "emails_that_could_not_be_sent": "Emailt that could not be sent",
+    "opened_rate": "Opened Rate",
+    "emails_that_have_been_opened": "Email that have been opened",
+    "sent_emails": "Sent emails",
+    "overview_of_sent_emails_each_day": "Overview of sent emails each day"
 
 }

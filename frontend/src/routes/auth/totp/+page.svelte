@@ -9,12 +9,13 @@
     import { tokenStore, userStore } from "@/stores/store-factory";
     import UserService from "@/services/user-service";
     import { onMount } from "svelte";
+    import Loading from "@/components/loading/loading.svelte";
 
     const authService = new AuthService()
     const userService = new UserService()
 
     let isLoading = false
-    let toptRequest: TotpRequest = {
+    let totpRequest: TotpRequest = {
         "code": ""
     };
 
@@ -38,7 +39,7 @@
     async function handleTotp(TotpRequest: TotpRequest) {
         isLoading = true
         try {        
-            const totpResponse = await authService.totpVerify(toptRequest)
+            const totpResponse = await authService.totpVerify(totpRequest)
             tokenStore.set(totpResponse.jwtToken)
         
             const userResponse = await userService.me()
@@ -54,31 +55,41 @@
     onMount(async () => {
         await checkTotpStatus()
     })
+
+    // If code length is 6, then auto submit the form
+    $: if (totpRequest.code.length == 6) {
+        handleTotp(totpRequest)
+    }
 </script>
 
 <div class="flex items-center justify-center p-10">
-    <form class="flex flex-col items-center justify-between w-full h-full" on:submit={() => handleTotp(toptRequest)}>
-        <h1 class="text-2xl font-semibold text-center">2nd-Factor</h1>
+     {#if isLoading}
+        <Loading />
+    
+    {:else}
+        <form class="flex flex-col items-center justify-between w-full h-full" on:submit={() => handleTotp(totpRequest)}>    
+            <h1 class="text-2xl font-semibold text-center">2nd-Factor</h1>
 
-        <p class="text-center opacity-50">{m.insert_code_from_authenticator_app()}</p>
+            <p class="text-center opacity-50">{m.insert_code_from_authenticator_app()}</p>
 
-        <InputOTP.Root maxlength={6} bind:value={toptRequest.code}>
-            {#snippet children({ cells })}
-                <InputOTP.Group>
-                    {#each cells.slice(0, 3) as cell (cell)}
-                        <InputOTP.Slot {cell} />
-                    {/each}
-                </InputOTP.Group>
-                <InputOTP.Separator />
-                <InputOTP.Group>
-                    {#each cells.slice(3, 6) as cell (cell)}
-                        <InputOTP.Slot {cell} />
-                    {/each}
-                </InputOTP.Group>
-            {/snippet}
-        </InputOTP.Root>
+            <InputOTP.Root maxlength={6} bind:value={totpRequest.code}>
+                {#snippet children({ cells })}
+                    <InputOTP.Group>
+                        {#each cells.slice(0, 3) as cell (cell)}
+                            <InputOTP.Slot {cell} />
+                        {/each}
+                    </InputOTP.Group>
+                    <InputOTP.Separator />
+                    <InputOTP.Group>
+                        {#each cells.slice(3, 6) as cell (cell)}
+                            <InputOTP.Slot {cell} />
+                        {/each}
+                    </InputOTP.Group>
+                {/snippet}
+            </InputOTP.Root>
 
 
-        <Button type="submit" class="w-full">{m.submit()}</Button>
-    </form>
+            <Button type="submit" class="w-full">{m.submit()}</Button>
+        </form>
+    {/if}
 </div>

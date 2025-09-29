@@ -49,6 +49,11 @@
         await getTotpCreateInfo()
     })
 
+    // If code length is 6, then auto submit the form
+    $: if (totpRequest.code.length == 6) {
+        handleTotpActivate(totpRequest)
+    }
+
 </script>
 
 

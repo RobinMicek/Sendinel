@@ -5,6 +5,8 @@ public enum UserPermissionsEnum {
     AUTH_TOTP_CREATE,
     AUTH_TOTP_DELETE,
 
+    CHANGE_OWN_PASSWORD,
+
     APP_SETTINGS_READ,
     APP_SETTINGS_UPDATE,
 
@@ -12,6 +14,7 @@ public enum UserPermissionsEnum {
     USERS_CREATE,
     USERS_UPDATE,
     USERS_DELETE,
+    USERS_CHANGE_PASSWORD,
 
     SENDERS_READ,
     SENDERS_CREATE,

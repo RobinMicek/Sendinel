@@ -24,6 +24,8 @@ public enum UserRolesEnum {
             List.of(
                 UserPermissionsEnum.AUTH_TOTP_DELETE,
 
+                UserPermissionsEnum.CHANGE_OWN_PASSWORD,
+
                 UserPermissionsEnum.APP_SETTINGS_READ,
 
                 UserPermissionsEnum.USERS_READ,
@@ -56,6 +58,7 @@ public enum UserRolesEnum {
                     UserPermissionsEnum.USERS_CREATE,
                     UserPermissionsEnum.USERS_UPDATE,
                     UserPermissionsEnum.USERS_DELETE,
+                    UserPermissionsEnum.USERS_CHANGE_PASSWORD,
 
                     UserPermissionsEnum.CLIENTS_CREATE,
                     UserPermissionsEnum.CLIENTS_UPDATE,

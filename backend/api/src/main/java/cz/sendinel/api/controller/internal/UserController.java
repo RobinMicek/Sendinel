@@ -1,5 +1,6 @@
 package cz.sendinel.api.controller.internal;
 
+import cz.sendinel.api.dto.user.UserChangePasswordRequestDto;
 import cz.sendinel.api.util.RsqlUtil;
 import cz.sendinel.shared.config.Constants;
 import cz.sendinel.api.controller.InternalControllerBase;
@@ -18,15 +19,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.UUID;
@@ -64,6 +57,7 @@ public class UserController extends InternalControllerBase {
         return ResponseEntity.ok(MapperUtil.userToDto(getLoggedInUser()));
     }
 
+
     @PostMapping
     @PreAuthorize("hasAuthority('USERS_CREATE')")
     public ResponseEntity<UserResponseDto> createUser(@Valid @RequestBody UserCreateRequestDto userCreateRequestDto) {
@@ -88,4 +82,19 @@ public class UserController extends InternalControllerBase {
         return ResponseEntity.noContent().build();
     }
 
+    @PostMapping("/me/change-password")
+    @PreAuthorize("hasAuthority('CHANGE_OWN_PASSWORD')")
+    public ResponseEntity<UserResponseDto> changeOwnPassword(@Valid @RequestBody UserChangePasswordRequestDto userChangePasswordRequestDto) {
+        userService.changePassword(getLoggedInUser(), userChangePasswordRequestDto.getPassword(), getLoggedInUser());
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/{id}/change-password")
+    @PreAuthorize("hasAuthority('USERS_CHANGE_PASSWORD')")
+    public ResponseEntity<UserResponseDto> changePassword(@PathVariable UUID id, @Valid @RequestBody UserChangePasswordRequestDto userChangePasswordRequestDto) {
+        userService.changePasswordFromDto(id, userChangePasswordRequestDto, getLoggedInUser());
+
+        return ResponseEntity.noContent().build();
+    }
 }

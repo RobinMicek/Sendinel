@@ -1,5 +1,6 @@
 package cz.sendinel.api.service;
 
+import cz.sendinel.api.dto.user.UserChangePasswordRequestDto;
 import cz.sendinel.api.dto.user.UserCreateRequestDto;
 import cz.sendinel.api.dto.user.UserUpdateRequestDto;
 import cz.sendinel.api.entity.User;
@@ -23,6 +24,8 @@ public interface UserService {
     User updateUserFromDto(UUID id, UserUpdateRequestDto userUpdateRequestDto, User updatedBy);
     void deleteUser(User user);
     void deleteUser(UUID id, User deletedBy);
+    void changePassword(User user, String newPassword, User updatedBy);
+    void changePasswordFromDto(UUID id, UserChangePasswordRequestDto userChangePasswordRequestDto, User updatedBy);
 
     boolean hasTotp(UUID id);
     boolean hasTotpActivated(UUID id);

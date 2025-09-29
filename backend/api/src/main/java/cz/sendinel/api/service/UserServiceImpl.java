@@ -1,5 +1,6 @@
 package cz.sendinel.api.service;
 
+import cz.sendinel.api.dto.user.UserChangePasswordRequestDto;
 import cz.sendinel.api.dto.user.UserCreateRequestDto;
 import cz.sendinel.api.dto.user.UserUpdateRequestDto;
 import cz.sendinel.api.entity.User;
@@ -132,5 +133,24 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean isOobe() {
         return userRepository.countByDeletedOnIsNull() == 0;
+    }
+
+    @Override
+    public void changePassword(User user, String newPassword, User updatedBy) {
+        user.setPasswordHash(passwordEncoder.encode(newPassword));
+
+        user.setUpdatedBy(updatedBy);
+        user.setUpdatedOn(Instant.now());
+
+        userRepository.save(user);
+    }
+
+    @Override
+    public void changePasswordFromDto(UUID id, UserChangePasswordRequestDto userChangePasswordRequestDto, User updatedBy) {
+        User user = userRepository.findByIdAndDeletedOnIsNull(id).orElseThrow(
+                () -> new ResourceNotFoundException("User not found with id " + id)
+        );
+
+        changePassword(user, userChangePasswordRequestDto.getPassword(), updatedBy);
     }
 }

@@ -70,7 +70,7 @@
         {/if}
     
         <!-- Node Name - Needs to update on escape, if you bind the value then it constantly unfocuses the input  -->
-        <Input type="text" value={node.name} onblur={(event) => {node.name = (event.currentTarget as HTMLInputElement).value}} readonly={readonly || isFirst} />
+        <Input type="text" class="min-w-64" value={node.name} onblur={(event) => {node.name = (event.currentTarget as HTMLInputElement).value}} readonly={readonly || isFirst} />
 
         <!-- Node Type -->
         <Select.Root

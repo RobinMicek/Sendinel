@@ -98,4 +98,6 @@
     $: schema = jsonNodeToSchema(jsonNodeSchema);
 </script>
 
-<JsonSchemaNodeView bind:node={jsonNodeSchema} readonly={readonly} />
+<div class="overflow-x-scroll">
+    <JsonSchemaNodeView bind:node={jsonNodeSchema} readonly={readonly} />
+</div>

@@ -1,6 +1,5 @@
 package cz.sendinel.worker;
 
-import cz.sendinel.shared.config.Constants;
 import cz.sendinel.worker.config.AppConfig;
 import cz.sendinel.worker.rabbitmq.EmailStatusProducer;
 import lombok.RequiredArgsConstructor;

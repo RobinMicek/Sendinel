@@ -36,7 +36,7 @@
 	"help_me": "Help Me",
 	"switch_to_dark": "Switch to dark",
 	"switch_to_light": "Switch to light",
-	"account_preferences": "Account preferences",
+	"account_preferences": "Account Preferences",
 	"logout": "Log Out",
 	"powered_by_app": "Powered by {app_name} ({version_number})",
 	"error": "Error",
@@ -253,6 +253,10 @@
     "opened_rate": "Opened Rate",
     "emails_that_have_been_opened": "Email that have been opened",
     "sent_emails": "Sent emails",
-    "overview_of_sent_emails_each_day": "Overview of sent emails each day"
+    "overview_of_sent_emails_each_day": "Overview of sent emails each day",
+    "password_successfully_changed": "Password successfully changed",
+    "failed_to_change_password": "Failed to change password",
+    "change_password": "Change Password",
+    "new_password": "New Password"
 
 }

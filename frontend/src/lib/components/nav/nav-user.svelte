@@ -11,6 +11,7 @@
     import { m } from "@/paraglide/messages";
     import { getGravatarUrl } from "@/utils/gravatar-util";
     import { appSettingsStore } from "@/stores/store-factory";
+    import { Lock } from "@lucide/svelte";
 
 	let {
 		user,
@@ -71,9 +72,14 @@
 				</DropdownMenu.Label>
 				<DropdownMenu.Separator />
 				<DropdownMenu.Group>
-					<DropdownMenu.Item onclick={() => {goto("/dashboard/account-preferences")}}>
+					<DropdownMenu.Item onclick={() => {goto("/dashboard/account/preferences")}}>
 						<Settings2 />
 						{m.account_preferences()}
+					</DropdownMenu.Item>
+
+					<DropdownMenu.Item onclick={() => {goto("/dashboard/account/change-password")}}>
+						<Lock />
+						{m.change_password()}
 					</DropdownMenu.Item>
 				</DropdownMenu.Group>
 				<DropdownMenu.Separator />

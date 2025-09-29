@@ -37,6 +37,10 @@ export interface UserUpdateRequest {
   role: UserRolesEnum;
 }
 
+export interface UserChangePasswordRequest {
+  password: string;
+}
+
 // TOTP-related DTOs
 export interface UserTotpStatusResponse {
   exists: boolean;
@@ -47,3 +51,4 @@ export interface UserTotpCreateResponse {
   secret: string;
   qrBase64: string;
 }
+

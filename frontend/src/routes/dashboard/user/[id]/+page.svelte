@@ -17,6 +17,7 @@
     import { goto } from "$app/navigation";
     import { onMount } from "svelte";
     import Confirm from "@/components/confirm/confirm.svelte";
+    import ChangePassword from "./change-password.svelte";
 
     export let data: { id: string }
 
@@ -25,6 +26,7 @@
     let isLoading = false
     let canEdit = userStore.get()?.role && hasPermission(userStore.get()!.role, UserPermissionsEnum.USERS_UPDATE)
     let canDelete = userStore.get()?.role && hasPermission(userStore.get()!.role, UserPermissionsEnum.USERS_DELETE) && userStore.get()?.id != data.id
+    let canChangePassword = userStore.get()?.role && hasPermission(userStore.get()!.role, UserPermissionsEnum.USERS_DELETE) && userStore.get()?.id != data.id
     let userData: UserResponse
 
     async function handleUpdate(id: string, userUpdateRequest: UserUpdateRequest) {
@@ -77,13 +79,20 @@
 <div class="flex justify-between mb-6">
     <ReturnBack backUrl="/dashboard/user" />
 
-    <Confirm
-        disabled={!canDelete}
-        triggerText={m.delete()}
-        triggerVariant="destructive"
-        contentText={m.do_you_really_want_to_delete_this_user()}
-        action={() => {handleDelete(data.id)}}
-    />
+    <div class="flex items-center gap-6">
+        <ChangePassword
+            userId={data.id}
+            triggerText={m.change_password()}            
+        />
+
+        <Confirm
+            disabled={!canDelete}
+            triggerText={m.delete()}
+            triggerVariant="destructive"
+            contentText={m.do_you_really_want_to_delete_this_user()}
+            action={() => {handleDelete(data.id)}}
+        />
+    </div>
 </div>
 
 <form class="flex flex-col gap-6" on:submit={() => {handleUpdate(userData!.id, userData)}}>

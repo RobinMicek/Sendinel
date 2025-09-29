@@ -1,5 +1,5 @@
 import APIService from "./api-service";
-import type { UserCreateRequest, UserResponse, UserUpdateRequest } from "@/types/dtos/user";
+import type { UserChangePasswordRequest, UserCreateRequest, UserResponse, UserUpdateRequest } from "@/types/dtos/user";
 import type { PageResponse } from "@/types/dtos/page";
 
 export default class UserService extends APIService {
@@ -32,5 +32,14 @@ export default class UserService extends APIService {
 
     async delete(id: string) {
         const res = await this.api.delete(`/user/${id}`, {headers: this.getHeaders()})
+    }
+
+    async changePassword(isOwnPassword: boolean, userChangePasswordRequest: UserChangePasswordRequest, id: string|undefined) {
+        // Different routes for own password and others' password
+        if (isOwnPassword) {
+            const res = await this.api.post(`/user/me/change-password`, userChangePasswordRequest, {headers: this.getHeaders()})
+        } else {
+            const res = await this.api.post(`/user/${id}/change-password`, userChangePasswordRequest, {headers: this.getHeaders()})
+        }
     }
 }

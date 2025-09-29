@@ -24,8 +24,7 @@
         onkeydown={handleKeydown} 
     />
     
-    <Button    
-        class="hover:cursor-pointer" 
+    <Button
         onclick={() => getData(searchString)}
     >
         <Search />

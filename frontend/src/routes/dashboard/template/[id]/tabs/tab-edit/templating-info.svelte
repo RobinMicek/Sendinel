@@ -7,7 +7,7 @@
 </script>
 <Dialog.Root>
     <Dialog.Trigger>
-        <Button type="button" variant="outline" class={`hover:cursor-pointer`}>
+        <Button type="button" variant="outline">
             <Info />
         </Button>
     </Dialog.Trigger>

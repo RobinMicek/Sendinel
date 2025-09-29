@@ -69,7 +69,7 @@
             <Card.Content class="grid md:grid-cols-4 gap-6">    
                     <!-- Light/Dark mode toggle -->
                     <div class="w-full">
-                        <Button class="hover:cursor-pointer w-full" onclick={toggleMode}>
+                        <Button class="w-full" onclick={toggleMode}>
                             {#if mode.current == "light"} 
                                 <Moon />
                                 {m.switch_to_dark()}

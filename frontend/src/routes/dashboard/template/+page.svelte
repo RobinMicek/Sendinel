@@ -48,7 +48,7 @@
         <Card.Description>{m.define_how_your_emails_look()}</Card.Description>
         <Card.Action>
             {#if userStore.get()?.role && hasPermission(userStore.get()!.role, UserPermissionsEnum.TEMPLATES_CREATE)}
-                <Button class="hover:cursor-pointer" onclick={() => {goto("/dashboard/template/new")}}>{m.new_template()}</Button>
+                <Button onclick={() => {goto("/dashboard/template/new")}}>{m.new_template()}</Button>
             {/if}
         </Card.Action>
     </Card.Header>  

@@ -19,5 +19,5 @@
         <p>{page.error?.message}</p>
     </div>
 
-    <Button class="hover:cursor-pointer" onclick={() => goto("/")}>Go Home</Button>
+    <Button onclick={() => goto("/")}>Go Home</Button>
 </div>

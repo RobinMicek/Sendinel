@@ -49,7 +49,7 @@
         <Card.Description>{m.user_accounts_that_access_app({app_name: APP_NAME})}</Card.Description>
         <Card.Action>
             {#if userStore.get()?.role && hasPermission(userStore.get()!.role, UserPermissionsEnum.USERS_CREATE)}
-                <Button class="hover:cursor-pointer" onclick={() => {goto("/dashboard/user/new")}}>{m.new_user()}</Button>
+                <Button onclick={() => {goto("/dashboard/user/new")}}>{m.new_user()}</Button>
             {/if}
         </Card.Action>
     </Card.Header>  

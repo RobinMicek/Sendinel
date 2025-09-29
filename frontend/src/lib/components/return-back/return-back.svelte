@@ -9,7 +9,7 @@
 
 <Button
     variant="link"
-    class="flex justify-center items-center gap-2 hover:cursor-pointer"
+    class="flex justify-center items-center gap-2"
     onclick={() => {goto(backUrl)}}
 >
     <ArrowBigLeft />

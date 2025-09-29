@@ -16,7 +16,6 @@
 <Button
     variant="ghost"
     onclick={() => {navigateToId(id)}}
-    class="hover:cursor-pointer"
 >
     <SquarePen />
 </Button>

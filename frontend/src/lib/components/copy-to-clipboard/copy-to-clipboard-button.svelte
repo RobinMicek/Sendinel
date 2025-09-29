@@ -21,6 +21,6 @@
 </script>
 
 
-<Button class="hover:cursor-pointer" variant={copied ? "outline" : "default"} onclick={() => {copyToClipboard(text)}} >  
+<Button variant={copied ? "outline" : "default"} onclick={() => {copyToClipboard(text)}} >  
     <ClipboardCopy />
 </Button>

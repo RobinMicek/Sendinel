@@ -69,7 +69,7 @@
 <div class="flex justify-between mb-6">
     <ReturnBack backUrl="/dashboard/email" />
 
-    <Button class="hover:cursor-pointer" disabled={isExportToPdfButtonLoading} onclick={() => {handleExportToPdf(data.id)}}>Export to PDF</Button>
+    <Button disabled={isExportToPdfButtonLoading} onclick={() => {handleExportToPdf(data.id)}}>Export to PDF</Button>
 </div>
 
 <form class="flex flex-col gap-6">

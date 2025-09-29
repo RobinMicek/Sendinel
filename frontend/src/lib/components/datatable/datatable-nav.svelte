@@ -44,7 +44,6 @@
   <!-- Pagination buttons -->
   <div class="flex gap-2 items-center">
         <Button
-            class="hover:cursor-pointer"
             variant="ghost"
             onclick={() => getData(1)}
             disabled={pageData.first}
@@ -53,7 +52,6 @@
         </Button>
 
         <Button
-            class="hover:cursor-pointer"
             variant="outline"
             onclick={() => getData(currentPageNumber - 1)}
             disabled={pageData.first}
@@ -66,7 +64,6 @@
         </Button>
 
         <Button
-            class="hover:cursor-pointer"
             variant="outline"
             onclick={() => getData(currentPageNumber + 1)}
             disabled={pageData.last}
@@ -75,7 +72,6 @@
         </Button>
 
         <Button
-            class="hover:cursor-pointer"
             variant="ghost"
             onclick={() => getData(pageData.totalPages)}
             disabled={pageData.last}

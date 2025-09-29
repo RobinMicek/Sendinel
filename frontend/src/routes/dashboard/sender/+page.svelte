@@ -49,7 +49,7 @@
         <Card.Description>{m.services_that_app_uses_to_deliver_your_emails({app_name: APP_NAME})}</Card.Description>
         <Card.Action>
             {#if userStore.get()?.role && hasPermission(userStore.get()!.role, UserPermissionsEnum.SENDERS_CREATE)}
-                <Button class="hover:cursor-pointer" onclick={() => {goto("/dashboard/sender/new")}}>{m.new_sender()}</Button>
+                <Button onclick={() => {goto("/dashboard/sender/new")}}>{m.new_sender()}</Button>
             {/if}
         </Card.Action>
     </Card.Header>  

@@ -162,7 +162,7 @@
                             <Alert.Description>{m.your_configuration_schema_is_invalid({app_name: APP_NAME})}</Alert.Description>
                         </Alert.Root>
                         
-                        <Button class="hover:cursor-pointer" onclick={() => migrateToValidConfigurationSchema(senderData.type, senderData.configuration)}>{m.migrate()}</Button>
+                        <Button onclick={() => migrateToValidConfigurationSchema(senderData.type, senderData.configuration)}>{m.migrate()}</Button>
                     </div>
 
                 {:else}
@@ -231,7 +231,7 @@
 
         <div class="w-full flex justify-center gap-6">
             <div></div>
-            <Button class="hover:cursor-pointer" type="submit" disabled={!canEdit || isInvalidConfigurationSchema}>{m.save_changes()}</Button>
+            <Button type="submit" disabled={!canEdit || isInvalidConfigurationSchema}>{m.save_changes()}</Button>
         </div>
     {/if}
 </form>

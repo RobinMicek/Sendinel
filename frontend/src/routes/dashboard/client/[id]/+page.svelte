@@ -290,7 +290,7 @@
 
         <div class="w-full flex justify-center gap-6">
             <div></div>
-            <Button class="hover:cursor-pointer" type="submit" disabled={!canEdit}>{m.save_changes()}</Button>
+            <Button type="submit" disabled={!canEdit}>{m.save_changes()}</Button>
         </div>
     {/if}
 </form>

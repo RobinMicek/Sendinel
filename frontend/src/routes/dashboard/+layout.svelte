@@ -28,7 +28,7 @@
 
     <footer class="flex flex-col justify-center items-center">
       <a target="_blank" href={GITHUB_PROJECT_URL}>
-        <Button variant="link" class="hover:cursor-pointer">{m.powered_by_app({app_name: APP_NAME, version_number: APP_VERSION_NUMBER})}</Button>
+        <Button variant="link">{m.powered_by_app({app_name: APP_NAME, version_number: APP_VERSION_NUMBER})}</Button>
       </a>
     </footer>
   </Sidebar.Inset>

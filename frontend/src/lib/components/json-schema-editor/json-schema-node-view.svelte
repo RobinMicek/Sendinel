@@ -64,7 +64,7 @@
         
         <!-- Add Child Button -->
         {#if !readonly && ["list", "object"].includes(node.type)}
-            <Button class="hover:cursor-pointer" onclick={addChild} type="button">
+            <Button onclick={addChild} type="button">
                 <Plus />
             </Button>
         {/if}
@@ -115,7 +115,7 @@
             {#each node.children as child, index (child.name + index)}
             <div class="flex gap-6 w-full pt-4">
                 {#if !readonly}
-                    <Button class="hover:cursor-pointer" variant="destructive" onclick={() => removeChild(index)} type="button">
+                    <Button variant="destructive" onclick={() => removeChild(index)} type="button">
                         <Trash />
                     </Button>
                 {/if}

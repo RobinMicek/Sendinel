@@ -116,7 +116,7 @@
                                 </Table.Cell>                            
                                 <Table.Cell class="text-right">
                                     <a target="_blank" href="/dashboard/template/{template.id}">
-                                        <Button class="hover:cursor-pointer" variant="secondary">
+                                        <Button variant="secondary">
                                             <Eye />
                                         </Button>
                                     </a>                                    
@@ -128,7 +128,7 @@
             </div>
 
             <div class="flex justify-center w-full mt-2">
-                <Button class="hover:cursor-pointer" onclick={async () => {handleExport(exportIds)}}>
+                <Button onclick={async () => {handleExport(exportIds)}}>
                     {m.download_export()}                    
                 </Button>
             </div>

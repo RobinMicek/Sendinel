@@ -1,5 +1,6 @@
 package cz.sendinel.api.config;
 
+import cz.sendinel.api.service.UserService;
 import cz.sendinel.shared.config.Constants;
 import cz.sendinel.shared.enums.UserRolesEnum;
 import cz.sendinel.api.filter.ApiKeyFilter;
@@ -31,6 +32,7 @@ public class SecurityConfig {
 
     private final JwtUtil jwtUtil;
     private final ClientTokenService clientTokenService;
+    private final UserService userService;
 
     @Value("${app.cors.frontend-base-url}")
     private String frontendBaseUrl;
@@ -96,7 +98,7 @@ public class SecurityConfig {
     }
 
     public JwtFilter jwtFilter() {
-        return new JwtFilter(jwtUtil);
+        return new JwtFilter(jwtUtil, userService);
     }
 
     public ApiKeyFilter apiKeyFilter() {

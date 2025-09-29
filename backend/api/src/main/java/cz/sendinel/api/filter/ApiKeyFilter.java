@@ -39,7 +39,7 @@ public class ApiKeyFilter extends OncePerRequestFilter {
         Authentication auth = new UsernamePasswordAuthenticationToken(
                 client.getId().toString(),
                 null,
-                GrantedAuthorityUtil.getAllAuthorities(UserRolesEnum.CLIENT.name()));
+                GrantedAuthorityUtil.getAllAuthorities(UserRolesEnum.CLIENT));
         SecurityContextHolder.getContext().setAuthentication(auth);
 
         filterChain.doFilter(request, response);

@@ -1,7 +1,6 @@
 package cz.sendinel.api.controller.internal;
 
 import com.google.zxing.WriterException;
-import cz.sendinel.shared.config.Constants;
 import cz.sendinel.api.controller.InternalControllerBase;
 import cz.sendinel.api.dto.auth.JwtResponseDto;
 import cz.sendinel.api.dto.auth.LoginRequestDto;
@@ -9,24 +8,18 @@ import cz.sendinel.api.dto.auth.TotpRequestDto;
 import cz.sendinel.api.dto.user.totp.UserTotpCreateResponseDto;
 import cz.sendinel.api.dto.user.totp.UserTotpStatusResponseDto;
 import cz.sendinel.api.entity.User;
-import cz.sendinel.shared.enums.UserRolesEnum;
 import cz.sendinel.api.service.UserService;
 import cz.sendinel.api.service.UserTotpService;
 import cz.sendinel.api.util.JwtUtil;
 import cz.sendinel.api.util.TotpUtil;
+import cz.sendinel.shared.config.Constants;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
@@ -51,7 +44,7 @@ public class AuthController extends InternalControllerBase {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid credentials");
         }
 
-        JwtResponseDto jwt = new JwtResponseDto(jwtUtil.generateToken(user.getId(), UserRolesEnum.NON_TOTP.name(), false));
+        JwtResponseDto jwt = new JwtResponseDto(jwtUtil.generateToken(user.getId(), false));
         return ResponseEntity.ok(jwt);
     }
 
@@ -118,7 +111,7 @@ public class AuthController extends InternalControllerBase {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid TOTP code");
         }
 
-        JwtResponseDto jwt = new JwtResponseDto(jwtUtil.generateToken(user.getId(), user.getRole().name(), true));
+        JwtResponseDto jwt = new JwtResponseDto(jwtUtil.generateToken(user.getId(), true));
         return ResponseEntity.ok(jwt);
     }
 }

@@ -28,9 +28,8 @@ public class JwtUtil {
         this.expiration = expiration;
     }
 
-    public String generateToken(UUID userId, String role, boolean totpVerified) {
+    public String generateToken(UUID userId, boolean totpVerified) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put("role", role);
         claims.put("totp", totpVerified);
 
         return Jwts.builder()

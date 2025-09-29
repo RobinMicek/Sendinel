@@ -11,9 +11,7 @@ import java.util.List;
 @Component
 public class GrantedAuthorityUtil {
 
-    public static List<GrantedAuthority> getAllAuthorities(String userRole) {
-        UserRolesEnum role = UserRolesEnum.valueOf(userRole);
-
+    public static List<GrantedAuthority> getAllAuthorities(UserRolesEnum role) {
         List<GrantedAuthority> authorities = new ArrayList<>();
 
         authorities.add(new SimpleGrantedAuthority("ROLE_" + role.name()));

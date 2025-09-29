@@ -1,12 +1,11 @@
 package cz.sendinel.worker;
 
+import cz.sendinel.shared.config.Constants;
 import cz.sendinel.worker.config.AppConfig;
 import cz.sendinel.worker.rabbitmq.EmailStatusProducer;
-import cz.sendinel.shared.config.Constants;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -21,22 +20,14 @@ public class WorkerApplication {
 	private final AppConfig appConfig;
 	private final EmailStatusProducer emailStatusProducer;
 
-	@Bean
-	public CommandLineRunner runScalingWorkerPool(ConnectionFactory factory) {
-		logger.info(Constants.LOG_BLOCK_DELIMITER);
-		logger.info("Running ScalingWorkerPool");
-		logger.info("Scaling monitor interval: {}", appConfig.getScalingMonitorInterval());
-		logger.info("Max threads: {}", appConfig.getMaxThreads());
-		logger.info("Worker idle wait: {}", appConfig.getWorkerIdleWait());
-		logger.info("Worker idle timeout: {}", appConfig.getWorkerIdleTimeout());
+    @Bean
+    public CommandLineRunner runScalingWorkerPool() {
+        return args -> {
+            logger.info("Max threads: {}", appConfig.getMaxThreads());
+        };
+    }
 
-		return args -> {
-			ScalingManager manager = new ScalingManager(factory, Constants.RABBIT_MQ_JOB_REQUEST_QUEUE_NAME, appConfig, emailStatusProducer);
-			manager.start();
-		};
-	}
-
-	public static void main(String[] args) {
+    public static void main(String[] args) {
 		SpringApplication.run(WorkerApplication.class, args);
 	}
 

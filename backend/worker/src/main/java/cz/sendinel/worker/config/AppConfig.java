@@ -8,18 +8,9 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 @Data
-public class AppConfig {
-    @Value("${app.scaling.scaling-monitor-interval}")
-    private long scalingMonitorInterval;
-
+public class AppConfig {;
     @Value("${app.scaling.max-threads}")
     private int maxThreads;
-
-    @Value("${app.scaling.worker-idle-wait}")
-    private long workerIdleWait;
-
-    @Value("${app.scaling.worker-idle-timeout}")
-    private long workerIdleTimeout;
 
     @Value("${app.job.max-retries}")
     private int jobMaxRetries;

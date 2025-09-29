@@ -19,7 +19,7 @@ public abstract class BaseEmailSender implements Runnable {
     protected abstract EmailJobResponse send(); // core sending logic
 
     protected void onSuccess(EmailJobResponse emailJobResponse) {
-        logger.info("[EMAIL ID: {}] Job request exited without exception [STATUS: {}]", jobRequest.getEmailId(), emailJobResponse);
+        logger.info("[EMAIL ID: {}] Job request processed [STATUS: {}, NOTE: {}]", emailJobResponse.getEmailId(), emailJobResponse.getStatus(), emailJobResponse.getNote());
         statusProducer.sendEmailJobResponse(emailJobResponse);
     }
 

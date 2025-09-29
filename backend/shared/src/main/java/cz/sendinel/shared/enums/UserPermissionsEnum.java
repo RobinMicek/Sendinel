@@ -34,5 +34,7 @@ public enum UserPermissionsEnum {
 
     EMAILS_READ,
 
+    STATS_READ,
+
     EMAILS_CREATE;
 }

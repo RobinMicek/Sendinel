@@ -13,4 +13,5 @@ public interface EmailRepository extends JpaRepository<Email, Integer> {
     Optional<Email> findById(UUID id);
     Optional<Email> findByTrackCode(String trackCode);
     Page<Email> findAll(Specification<Email> spec, Pageable pageable);
+    Integer count(Specification<Email> spec);
 }

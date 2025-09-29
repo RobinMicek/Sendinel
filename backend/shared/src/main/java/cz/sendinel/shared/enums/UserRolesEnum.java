@@ -16,7 +16,7 @@ public enum UserRolesEnum {
                     UserPermissionsEnum.AUTH_TOTP_READ,
                     UserPermissionsEnum.AUTH_TOTP_CREATE
                     // Do not add UserPermissionsEnum.AUTH_TOTP_DELETE,
-                    // user should be able to delete TOTP if not verified first
+                    // user should be not able to delete TOTP if not verified first
             )
     ),
 
@@ -42,7 +42,9 @@ public enum UserRolesEnum {
                 UserPermissionsEnum.TEMPLATES_UPDATE,
                 UserPermissionsEnum.TEMPLATES_DELETE,
 
-                UserPermissionsEnum.EMAILS_READ
+                UserPermissionsEnum.EMAILS_READ,
+
+                UserPermissionsEnum.STATS_READ
             ),
             List.of(NON_TOTP)
     ),

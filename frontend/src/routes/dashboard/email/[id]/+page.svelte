@@ -74,6 +74,14 @@
 
 <form class="flex flex-col gap-6">
     {#if isLoading || !emailData}
+        <div class="grid md:grid-cols-3 gap-6">
+            <Skeleton class="h-24" />
+            <Skeleton class="h-24" />
+            <Skeleton class="h-24" />
+        </div>
+
+
+        <Skeleton class="h-64" />
         <Skeleton class="h-64" />
         <Skeleton class="h-64" />
 

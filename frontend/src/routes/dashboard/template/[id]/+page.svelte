@@ -85,7 +85,9 @@
 
 <form class="flex flex-col gap-6" on:submit={() => {handleUpdate(templateData!.id, templateData)}}>
     {#if isLoading || !templateData}
+        <Skeleton class="h-12" />
         <Skeleton class="h-64" />
+        <Skeleton class="h-128" />
         <Skeleton class="h-64" />
 
     {:else}

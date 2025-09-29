@@ -1,11 +1,19 @@
 <script lang="ts">
-  import AppSidebar from "@/components/nav/app-sidebar.svelte";
-  import { Button } from "@/components/ui/button";
-  import * as Sidebar from "$lib/components/ui/sidebar/index.js";
-  import { m } from "@/paraglide/messages";
-  import { APP_NAME, GITHUB_PROJECT_URL, APP_VERSION_NUMBER } from "@/config";
-  import NewRelease from "@/components/new-release/new-release.svelte";
-    import { appSettingsStore } from "@/stores/store-factory";
+    import AppSidebar from "@/components/nav/app-sidebar.svelte";
+    import { Button } from "@/components/ui/button";
+    import * as Sidebar from "$lib/components/ui/sidebar/index.js";
+    import { m } from "@/paraglide/messages";
+    import { APP_NAME, GITHUB_PROJECT_URL, APP_VERSION_NUMBER } from "@/config";
+    import NewRelease from "@/components/new-release/new-release.svelte";
+    import { appSettingsStore, lastVisitedPageStore } from "@/stores/store-factory";
+	import { afterNavigate } from '$app/navigation';
+    
+	// Cache last visited page so user can be redirected to it after re-auth
+	afterNavigate((nav) => {
+		// nav.from is previous page, nav.to is current
+		const path = nav.to?.url.pathname || '/dashboard';
+		lastVisitedPageStore.set(path);
+	});
 </script>
 
 <Sidebar.Provider>

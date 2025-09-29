@@ -15,6 +15,7 @@ export const DOCUMENTATION_URL = "https://chat.openai.com"
 
 export const APP_LATEST_RELEASE_CACHE_EXPIRATION = 24 * 60 * 60 * 1000 // 1 day
 export const APP_SETTINGS_CACHE_EXPIRATION = 60 * 60 * 1000 // 1 hour
+export const LAST_VISITED_PAGE_CACHE_EXPIRATION = 60 * 60 * 1000 // 1 hour
 
 export const EXPORT_FILE_EXTENSION = ".export"
 

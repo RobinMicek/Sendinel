@@ -1,5 +1,5 @@
 import { redirect } from '@sveltejs/kit';
-import { oobeStatusStore, tokenStore, userStore } from '@/stores/store-factory';
+import { lastVisitedPageStore, oobeStatusStore, tokenStore, userStore } from '@/stores/store-factory';
 import { appSettingsStore } from '@/stores/store-factory.js';
 import AuthService from '@/services/auth-service';
 import AppSettingsService from '@/services/app-settings-service';
@@ -44,10 +44,14 @@ export async function load({ url }) {
             console.error("Failed to get app settings");
         }
     }
-    
-    // 5. Redirect / → /dashboard
+
+    // 5. Redirect / → last visited page or /dashboard
     if (path === "/") {
-        throw redirect(307, "/dashboard");
+        if (lastVisitedPageStore.get() != null) {
+            throw redirect(307, lastVisitedPageStore.get() as string)
+        } else {
+            throw redirect(307, "/dashboard");
+        }
     }
     
     return {};

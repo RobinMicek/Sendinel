@@ -18,6 +18,7 @@
     import DatatableBadgeColored from "@/components/datatable/datatable-badge-colored.svelte";
     import { emailPrioritiesMeta } from "@/types/enums/email-priorities-enum";
     import { mode } from "mode-watcher";
+    import DatatableTruncatedText from "@/components/datatable/datatable-truncated-text.svelte";
 
     export let data: { id: string }
 
@@ -172,7 +173,9 @@
                                 <Table.Cell class="font-medium">
                                     <DatatableBadgeColored text={emailStatusesMeta[emailStatus.status].translation} color={emailStatusesMeta[emailStatus.status].color} icon={emailStatusesMeta[emailStatus.status].icon} />
                                 </Table.Cell>
-                                <Table.Cell>{emailStatus.note}</Table.Cell>
+                                <Table.Cell>
+                                    <DatatableTruncatedText text={emailStatus.note} maxWidth={200} />
+                                </Table.Cell>
                                 <Table.Cell class="text-right">{getLocalFormatedDate(emailStatus.createdOn)}</Table.Cell>
                             </Table.Row>
                         {/each}

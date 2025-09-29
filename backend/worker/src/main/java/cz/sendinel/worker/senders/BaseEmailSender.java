@@ -1,8 +1,9 @@
 package cz.sendinel.worker.senders;
 
-import cz.sendinel.worker.rabbitmq.EmailStatusProducer;
 import cz.sendinel.shared.enums.EmailStatusesEnum;
 import cz.sendinel.shared.models.email.EmailJobRequest;
+import cz.sendinel.shared.models.email.EmailJobResponse;
+import cz.sendinel.worker.rabbitmq.EmailStatusProducer;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,22 +16,22 @@ public abstract class BaseEmailSender implements Runnable {
     protected final EmailJobRequest jobRequest;
     protected final EmailStatusProducer statusProducer;
 
-    protected abstract EmailStatusesEnum send(); // core sending logic
+    protected abstract EmailJobResponse send(); // core sending logic
 
-    protected void onSuccess(EmailStatusesEnum status) {
-        logger.info("[EMAIL ID: {}] Job request exited without exception [STATUS: {}]", jobRequest.getEmailId(), status);
-        statusProducer.sendEmailJobResponse(jobRequest.getEmailId(), status);
+    protected void onSuccess(EmailJobResponse emailJobResponse) {
+        logger.info("[EMAIL ID: {}] Job request exited without exception [STATUS: {}]", jobRequest.getEmailId(), emailJobResponse);
+        statusProducer.sendEmailJobResponse(emailJobResponse);
     }
 
     protected void onFail(Exception e) {
         logger.info("[EMAIL ID: {}] Job request failed: {}", jobRequest.getEmailId(), e.getMessage());
-        statusProducer.sendEmailJobResponse(jobRequest.getEmailId(), EmailStatusesEnum.FAILED, e.getMessage());
+        statusProducer.sendEmailJobResponse(new EmailJobResponse(jobRequest.getEmailId(), EmailStatusesEnum.FAILED, e.getMessage()));
     }
 
     @Override
     public final void run() {
         try {
-            EmailStatusesEnum status = send();
+            EmailJobResponse status = send();
             onSuccess(status);
         } catch (Exception e) {
             onFail(e);

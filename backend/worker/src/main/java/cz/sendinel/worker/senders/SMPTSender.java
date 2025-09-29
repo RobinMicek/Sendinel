@@ -1,9 +1,10 @@
 package cz.sendinel.worker.senders;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import cz.sendinel.worker.rabbitmq.EmailStatusProducer;
 import cz.sendinel.shared.enums.EmailStatusesEnum;
 import cz.sendinel.shared.models.email.EmailJobRequest;
+import cz.sendinel.shared.models.email.EmailJobResponse;
+import cz.sendinel.worker.rabbitmq.EmailStatusProducer;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.mail.MailAuthenticationException;
@@ -20,7 +21,7 @@ public class SMPTSender extends BaseEmailSender {
     }
 
     @Override
-    public EmailStatusesEnum send() {
+    public EmailJobResponse send() {
         try {
             JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
 
@@ -34,7 +35,7 @@ public class SMPTSender extends BaseEmailSender {
             boolean startTls = config.path("startTls").asBoolean(true);
 
             if (host == null || port == -1 || from == null) {
-                return EmailStatusesEnum.INVALID_CONFIGURATION;
+                return new EmailJobResponse(jobRequest.getEmailId(), EmailStatusesEnum.INVALID_CONFIGURATION, null);
             }
 
             mailSender.setHost(host);
@@ -69,16 +70,16 @@ public class SMPTSender extends BaseEmailSender {
             }
 
             mailSender.send(message);
-            return EmailStatusesEnum.SENT;
+            return new EmailJobResponse(jobRequest.getEmailId(), EmailStatusesEnum.SENT, null);
 
         } catch (MailAuthenticationException e) {
-            return EmailStatusesEnum.UNAUTHORIZED;
+            return new EmailJobResponse(jobRequest.getEmailId(), EmailStatusesEnum.UNAUTHORIZED, e.getMessage());
         } catch (MailSendException e) {
-            return EmailStatusesEnum.BOUNCED;
+            return new EmailJobResponse(jobRequest.getEmailId(), EmailStatusesEnum.BOUNCED, e.getMessage());
         } catch (MessagingException e) {
-            return EmailStatusesEnum.FAILED;
+            return new EmailJobResponse(jobRequest.getEmailId(), EmailStatusesEnum.FAILED, e.getMessage());
         } catch (Exception e) {
-            return EmailStatusesEnum.FAILED;
+            return new EmailJobResponse(jobRequest.getEmailId(), EmailStatusesEnum.FAILED, e.getMessage());
         }
     }
 }

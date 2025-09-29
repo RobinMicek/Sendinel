@@ -20,7 +20,7 @@ public class WorkerApplication {
 	private final EmailStatusProducer emailStatusProducer;
 
     @Bean
-    public CommandLineRunner runScalingWorkerPool() {
+    public CommandLineRunner logInfo() {
         return args -> {
             logger.info("Max threads: {}", appConfig.getMaxThreads());
         };

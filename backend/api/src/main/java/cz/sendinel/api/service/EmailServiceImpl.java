@@ -190,11 +190,21 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public File renderEmailToPDF(Email email) {
+        // Add <pre> tag - rendering requires valid html
         String textToRender = "<pre>" + email.getTemplate().getTextRaw() + "</pre>";
 
         // Try to render HTML template, but use text template as fallback if no HTML is present
         if (email.getTemplate().getHtmlRaw() != null && !email.getTemplate().getHtmlRaw().isEmpty()) {
             textToRender = email.getTemplate().getHtmlRaw();
+
+            // Add html tag if missing - rendering requires valid html
+            // I know that this is a dirty way to add it, but it works
+            if (!textToRender.contains("<html>")) {
+                textToRender =  "<html>" + textToRender;
+            }
+            if (!textToRender.contains("</html>")) {
+                textToRender = textToRender + "</html>";
+            }
         }
 
         try {

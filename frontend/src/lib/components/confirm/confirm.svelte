@@ -18,7 +18,7 @@
         <Button
             disabled={disabled}        
             type="button"            
-            class={`{fullWidth ? "w-full" : ""}`}
+            class={`${fullWidth ? "w-full" : ""}`}
             variant={triggerVariant}
         >
             <div class="flex items-center gap-2">

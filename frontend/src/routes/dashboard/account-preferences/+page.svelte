@@ -66,7 +66,7 @@
                 <Card.Title>{m.account_preferences()}</Card.Title>
                 <Card.Description>{m.personalize_your_experience()}</Card.Description>
             </Card.Header>
-            <Card.Content class="grid md:grid-cols-4 gap-6">    
+            <Card.Content class="grid md:grid-cols-3 gap-6">
                     <!-- Light/Dark mode toggle -->
                     <div class="w-full">
                         <Button class="w-full" onclick={toggleMode}>

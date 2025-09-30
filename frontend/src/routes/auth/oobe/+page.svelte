@@ -33,7 +33,7 @@
             oobeStatusStore.set(false)
 
             triggerAlert(m.first_user_successfully_created(), "", "success")
-            goto("/auth/login")
+            goto("/auth")
         } catch (e) {
             triggerAlert(m.failed_to_create_first_user(), "", "error")
             isLoading = false

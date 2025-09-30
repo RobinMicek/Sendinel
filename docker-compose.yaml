@@ -1,0 +1,98 @@
+services:
+
+  api:
+    build:
+      context: ./backend
+      dockerfile: api/Dockerfile
+    restart: always
+
+    ports:
+      - 5001:5000
+
+    env_file: ./.env
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+
+      RABBIT_MQ_HOST: rabbitmq
+      RABBIT_MQ_PORT: 5672
+      RABBIT_MQ_USER: ${RABBIT_MQ_USER}
+      RABBIT_MQ_PASSWORD: ${RABBIT_MQ_PASSWORD}
+
+      API_BASE_URL: ${API_BASE_URL}
+      FRONTEND_BASE_URL: ${FRONTEND_BASE_URL}
+      API_JWT_SECRET: ${API_JWT_SECRET}
+      API_JWT_EXPIRATION: ${API_JWT_EXPIRATION}
+      API_TOTP_ENCRYPTION_KEY: ${API_TOTP_ENCRYPTION_KEY}
+
+    volumes:
+      - ./logs:/app/logs
+
+    depends_on:
+      - postgres
+      - rabbitmq
+
+  worker:
+    build:
+      context: ./backend
+      dockerfile: worker/Dockerfile
+    restart: always
+
+    env_file: ./.env
+    environment:
+      RABBIT_MQ_HOST: rabbitmq
+      RABBIT_MQ_PORT: 5672
+      RABBIT_MQ_USER: ${RABBIT_MQ_USER}
+      RABBIT_MQ_PASSWORD: ${RABBIT_MQ_PASSWORD}
+
+      WORKER_THREAD_MAX_THREADS: ${WORKER_THREAD_MAX_THREADS}
+      WORKER_THREAD_MAX_RETRIES: ${WORKER_THREAD_MAX_RETRIES}
+
+    volumes:
+      - ./logs:/app/logs
+
+    depends_on:
+      - postgres
+      - rabbitmq
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        API_BASE_URL: ${API_BASE_URL}
+    restart: always
+
+    ports:
+      - 80:80
+
+  postgres:
+    image: postgres:15
+    restart: always
+
+    env_file: ./.env
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    restart: always
+
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBIT_MQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBIT_MQ_PASSWORD}
+
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+
+volumes:
+  postgres_data:
+  rabbitmq_data:

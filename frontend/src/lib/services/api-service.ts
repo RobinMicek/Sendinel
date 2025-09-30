@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { preferedDatatablePageSizeStore, tokenStore } from '@/stores/store-factory';
-import { BACKEND_API_BASE_URL, DEFAULT_DATATABLE_PAGE_SIZE } from '@/config';
+import { BACKEND_INTERNAL_API_BASE_URL, DEFAULT_DATATABLE_PAGE_SIZE } from '@/config';
 
 abstract class APIService {
 	api = axios.create({
-		baseURL: BACKEND_API_BASE_URL
+		baseURL: BACKEND_INTERNAL_API_BASE_URL
 	});
 
 	//constructor() {

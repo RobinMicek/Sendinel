@@ -15,6 +15,7 @@
 
     const emailService = new EmailService();
 
+    let isLoading = false
     let currentPageNumber: number
     let sortKey: string = "createdOn"
     let sortOrder: "asc" | "desc" = "desc"
@@ -22,6 +23,7 @@
     let pageData: PageResponse<EmailResponse>
 
     async function getData(pageNumber: number, sortKey: string, sortOrder: "asc" | "desc", searchString: string = "") {
+        isLoading = true
         try {
             const response = await emailService.getAll(pageNumber, undefined, sortKey, sortOrder, searchString);
             pageData = response
@@ -29,6 +31,8 @@
 
         } catch (e) {
             triggerAlert(m.failed_to_get_emails(), "", "error")
+        } finally {
+            isLoading = false
         }
     }
 
@@ -45,7 +49,7 @@
     </Card.Header>  
     </Card.Root>
 
-    {#if !pageData}
+    {#if !pageData || isLoading}
         <Skeleton class="aspect-video" />
 
     {:else}

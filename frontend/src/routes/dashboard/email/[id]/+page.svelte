@@ -174,7 +174,7 @@
                                     <DatatableBadgeColored text={emailStatusesMeta[emailStatus.status].translation} color={emailStatusesMeta[emailStatus.status].color} icon={emailStatusesMeta[emailStatus.status].icon} />
                                 </Table.Cell>
                                 <Table.Cell>
-                                    <DatatableTruncatedText text={emailStatus.note} maxWidth={200} />
+                                    <DatatableTruncatedText text={emailStatus.note} />
                                 </Table.Cell>
                                 <Table.Cell class="text-right">{getLocalFormatedDate(emailStatus.createdOn)}</Table.Cell>
                             </Table.Row>

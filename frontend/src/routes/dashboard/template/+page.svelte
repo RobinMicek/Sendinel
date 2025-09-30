@@ -19,6 +19,7 @@
 
     const templateService = new TemplateService();
 
+    let isLoading = false
     let currentPageNumber: number
     let sortKey: string = "name"
     let sortOrder: "asc" | "desc" = "asc"
@@ -26,6 +27,7 @@
     let pageData: PageResponse<TemplateResponse>
 
     async function getData(pageNumber: number, sortKey: string, sortOrder: "asc" | "desc", searchString: string = "") {
+        isLoading = true
         try {
             const response = await templateService.getAll(pageNumber, undefined, sortKey, sortOrder, searchString);
             pageData = response
@@ -33,6 +35,8 @@
 
         } catch (e) {
             triggerAlert(m.failed_to_get_templates(), "", "error")
+        } finally {
+            isLoading = false
         }
     }
 
@@ -54,7 +58,7 @@
     </Card.Header>  
     </Card.Root>
 
-    {#if !pageData}
+    {#if !pageData || isLoading}
         <Skeleton class="aspect-video" />
 
     {:else}

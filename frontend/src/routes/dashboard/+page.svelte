@@ -16,15 +16,20 @@
         startDate: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), // 1 week offset
         endDate: new Date()
     }
+
+    let isLoading = false
     let statsData: StatsResponse
 
     async function getData(statsRequest: StatsRequest) {
+        isLoading = true
         try {
             const response = await statsService.get(statsRequest);
             statsData = response
 
         } catch (e) {
             triggerAlert(m.failed_to_load_stats_data(), "", "error")
+        } finally {
+            isLoading = false
         }
     }
 
@@ -42,7 +47,7 @@
 <div class="flex flex-1 flex-col gap-4 p-4 pt-0">
     <DateRangeInput bind:start={statsRequest.startDate} bind:end={statsRequest.endDate} />
 
-    {#if !statsData}
+    {#if !statsData || isLoading}
         <div class="grid md:grid-cols-2 gap-4">
             <Skeleton class="h-24" />
             <Skeleton class="h-24" />            

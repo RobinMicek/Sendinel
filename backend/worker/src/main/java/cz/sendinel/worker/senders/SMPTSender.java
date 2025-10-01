@@ -33,6 +33,8 @@ public class SMPTSender extends BaseEmailSender {
             String username = config.path("username").asText(null);
             String password = config.path("password").asText(null);
             boolean startTls = config.path("startTls").asBoolean(true);
+            boolean ssl = config.path("ssl").asBoolean(true);
+            int timeout =  config.path("timeout").asInt(5000); // Default 5 ms
 
             if (host == null || port == -1 || from == null) {
                 return new EmailJobResponse(jobRequest.getEmailId(), EmailStatusesEnum.INVALID_CONFIGURATION, null);
@@ -49,6 +51,12 @@ public class SMPTSender extends BaseEmailSender {
             props.put("mail.transport.protocol", "smtp");
             props.put("mail.smtp.auth", username != null);
             props.put("mail.smtp.starttls.enable", String.valueOf(startTls));
+            props.put("mail.smtp.ssl.enable", String.valueOf(ssl));
+
+            // Add timeouts to prevent indefinite blocking
+            props.put("mail.smtp.connectiontimeout", timeout);
+            props.put("mail.smtp.timeout", timeout);
+            props.put("mail.smtp.writetimeout", timeout);
 
             // Create email
             MimeMessage message = mailSender.createMimeMessage();

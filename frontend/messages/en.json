@@ -257,6 +257,8 @@
     "password_successfully_changed": "Password successfully changed",
     "failed_to_change_password": "Failed to change password",
     "change_password": "Change Password",
-    "new_password": "New Password"
+    "new_password": "New Password",
+    "ssl": "SSL",
+    "timeout_ms": "Timeout (ms)"
 
 }

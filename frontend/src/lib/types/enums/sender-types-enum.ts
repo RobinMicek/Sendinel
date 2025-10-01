@@ -30,6 +30,8 @@ export const senderTypesMeta: Record<SenderTypesEnum, SenderTypeMeta> = {
             password: { translation: m.password(), required: false, type: "" as string, defaultValue: "", isSensitive: true },
             fromAddress: { translation: m.from_address(), required: true, type: "" as string, defaultValue: "no-reply@acme.com", isSensitive: false },
             startTls: { translation: m.start_tls(), required: true, type: false as boolean, defaultValue: false, isSensitive: false },
+            ssl: { translation: m.ssl(), required: true, type: false as boolean, defaultValue: false, isSensitive: false },
+            timeout: { translation: m.timeout_ms(), required: false, type: 0 as number, defaultValue: 5000, isSensitive: false },
         },
     },
 };

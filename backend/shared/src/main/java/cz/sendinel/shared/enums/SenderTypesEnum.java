@@ -16,7 +16,9 @@ public enum SenderTypesEnum {
             "username", new SenderConfigurationField(false, String.class, false),
             "password", new SenderConfigurationField(false, String.class, true),
             "fromAddress", new SenderConfigurationField(true, String.class, false),
-            "startTls", new SenderConfigurationField(true, Boolean.class, false)
+            "startTls", new SenderConfigurationField(true, Boolean.class, false),
+            "ssl", new SenderConfigurationField(true, Boolean.class, false),
+            "timeout", new SenderConfigurationField(false, Integer.class, false)
     ));
 
     private final Map<String, SenderConfigurationField> configurationSchema;

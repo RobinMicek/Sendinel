@@ -11,7 +11,4 @@ import org.springframework.stereotype.Service;
 public class AppConfig {;
     @Value("${app.scaling.max-threads}")
     private int maxThreads;
-
-    @Value("${app.job.max-retries}")
-    private int jobMaxRetries;
 }

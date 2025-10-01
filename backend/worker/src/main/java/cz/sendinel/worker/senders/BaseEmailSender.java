@@ -24,7 +24,7 @@ public abstract class BaseEmailSender implements Runnable {
     }
 
     protected void onFail(Exception e) {
-        logger.info("[EMAIL ID: {}] Job request failed: {}", jobRequest.getEmailId(), e.getMessage());
+        logger.error("[EMAIL ID: {}] Job request failed: {}", jobRequest.getEmailId(), e.getMessage());
         statusProducer.sendEmailJobResponse(new EmailJobResponse(jobRequest.getEmailId(), EmailStatusesEnum.FAILED, e.getMessage()));
     }
 

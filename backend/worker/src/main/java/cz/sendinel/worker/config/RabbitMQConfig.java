@@ -51,7 +51,7 @@ public class RabbitMQConfig {
 
         // Use AppConfig to configure scaling
         factory.setMessageConverter(jsonMessageConverter());
-        factory.setConcurrentConsumers(Math.max(1, appConfig.getMaxThreads() / 2)); // initial
+        factory.setConcurrentConsumers(Math.max(1, appConfig.getMaxThreads() / 10)); // initial
         factory.setMaxConcurrentConsumers(appConfig.getMaxThreads());
         factory.setPrefetchCount(1); // process one message at a time per worker
 

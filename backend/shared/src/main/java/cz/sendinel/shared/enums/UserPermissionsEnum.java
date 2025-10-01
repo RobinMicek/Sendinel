@@ -36,6 +36,7 @@ public enum UserPermissionsEnum {
     TEMPLATES_DELETE,
 
     EMAILS_READ,
+    EMAILS_RESEND,
 
     STATS_READ,
 

@@ -12,9 +12,11 @@
     export let contentText: string
     export let action: () => void
     export let fullWidth: boolean = false
+    
+    let opened = false
 </script>
-<AlertDialog.Root>
-    <AlertDialog.Trigger class={`${fullWidth ? "w-full" : ""}`} disabled={disabled}>        
+<AlertDialog.Root open={opened}>
+    <AlertDialog.Trigger class={`${fullWidth ? "w-full" : ""}`} disabled={disabled} onclick={() => opened = true}>
         <Button
             disabled={disabled}        
             type="button"            
@@ -42,13 +44,13 @@
             </AlertDialog.Description>
         </AlertDialog.Header>
         <AlertDialog.Footer>
-            <AlertDialog.Cancel class="hover:cursor-pointer">
+            <AlertDialog.Cancel class="hover:cursor-pointer" onclick={() => opened = false}>
                 {m.cancel()}
             </AlertDialog.Cancel>
             
             <AlertDialog.Action 
                 class="hover:cursor-pointer"
-                onclick={() => action()}
+                onclick={() => {action(); opened = false}}
             >
                 {m.continue()}
             </AlertDialog.Action>        

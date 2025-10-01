@@ -16,5 +16,7 @@ public enum EmailStatusesEnum {
 
     OPENED,
 
+    RESEND_REQUESTED,
+
     UNKNOWN;
 }

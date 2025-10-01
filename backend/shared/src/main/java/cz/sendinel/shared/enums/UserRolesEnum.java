@@ -65,7 +65,9 @@ public enum UserRolesEnum {
                     UserPermissionsEnum.CLIENTS_DELETE,
 
                     UserPermissionsEnum.CLIENT_TOKENS_CREATE,
-                    UserPermissionsEnum.CLIENT_TOKENS_DELETE
+                    UserPermissionsEnum.CLIENT_TOKENS_DELETE,
+
+                    UserPermissionsEnum.EMAILS_RESEND
             ),
             List.of(USER)
     ),

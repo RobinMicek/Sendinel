@@ -188,6 +188,25 @@ public class EmailServiceImpl implements EmailService {
         return email;
     }
 
+    @Transactional
+    @Override
+    public Email resendEmail(Email email) {
+        // Create statuses RESEND_REQUESTED and ENQUEUED, needs to be before sending the email job,
+        // because unlike actually sending the job this can be reverted
+        // (using transaction for this method)
+        emailStatusService.createStatus(EmailStatusesEnum.RESEND_REQUESTED, email);
+        emailStatusService.createStatus(EmailStatusesEnum.ENQUEUED, email);
+
+        // Sent email job to queue
+        rabbitTemplate.convertAndSend(
+                Constants.RABBIT_MQ_JOB_EXCHANGE_NAME,
+                Constants.RABBIT_MQ_JOB_REQUEST_ROUTING_KEY,
+                getJobRequestModel(email)
+        );
+
+        return email;
+    }
+
     @Override
     public File renderEmailToPDF(Email email) {
         // Add <pre> tag - rendering requires valid html

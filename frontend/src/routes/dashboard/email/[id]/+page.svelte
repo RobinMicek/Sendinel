@@ -19,13 +19,19 @@
     import { emailPrioritiesMeta } from "@/types/enums/email-priorities-enum";
     import { mode } from "mode-watcher";
     import DatatableTruncatedText from "@/components/datatable/datatable-truncated-text.svelte";
+    import { userStore } from "@/stores/store-factory";
+    import { hasPermission } from "@/types/enums/user-roles-enum";
+    import { UserPermissionsEnum } from "@/types/enums/user-permissions-enum";
+    import Confirm from "@/components/confirm/confirm.svelte";
 
     export let data: { id: string }
 
     const emailService = new EmailService()
 
     let isLoading = false
+    let canResend = userStore.get()?.role && hasPermission(userStore.get()!.role, UserPermissionsEnum.EMAILS_RESEND)
     let isExportToPdfButtonLoading = false
+    let isResendButtonLoading = false
     let emailData: EmailResponse
 
     async function handleExportToPdf(id: string) {
@@ -50,13 +56,27 @@
         }
     }
 
+    async function handleResend(id: string) {
+        isResendButtonLoading = true
+        try {
+            const response = await emailService.resend(id);
+            emailData = response
+            
+            triggerAlert(m.email_successfully_resent(), "", "success")
+        } catch (e) {
+            triggerAlert(m.failed_to_resent_email(), "", "error") 
+        } finally {
+            isResendButtonLoading = false
+        }
+    }
+    
     async function getData(id: string) {
         isLoading = true
         try {
-            const response = await emailService.get(id);
+            const response = await emailService.get(id)
             emailData = response
         } catch (e) {
-            triggerAlert(m.failed_to_get_email(), "", "error")    
+            triggerAlert(m.failed_to_get_email(), "", "error")   
         } finally {
             isLoading = false
         }
@@ -70,7 +90,11 @@
 <div class="flex justify-between mb-6">
     <ReturnBack backUrl="/dashboard/email" />
 
-    <Button disabled={isExportToPdfButtonLoading} onclick={() => {handleExportToPdf(data.id)}}>Export to PDF</Button>
+    <div class="flex items-center gap-6">
+        <Confirm disabled={!canResend || isResendButtonLoading} triggerText={m.resent_email()} triggerVariant="outline" contentText={m.do_you_really_want_to_resend_this_email_it_will_use_the_exactly_same_configuration_as_initially_and_might_fail_if_template_sender_or_client_have_been_edited_in_the_mean_time()} action={() => handleResend(data.id)} />
+            
+        <Button disabled={isExportToPdfButtonLoading} onclick={() => {handleExportToPdf(data.id)}}>{m.export_to_pdf()}</Button>
+    </div>
 </div>
 
 <form class="flex flex-col gap-6">

@@ -16,6 +16,11 @@ export default class EmailService extends APIService {
         return res.data as EmailResponse
     }
 
+    async resend(id: string) {
+        const res = await this.api.post(`/email/${id}/resend`, {}, {headers: this.getHeaders()})
+        return res.data as EmailResponse
+    }
+
     async exportToPdf(id: string) {
         const res = await this.api.get(`/email/${id}/render`, {headers: this.getHeaders(), responseType: "blob"})
 

@@ -22,6 +22,8 @@ public interface EmailService {
 
     EmailJobRequest getJobRequestModel(Email email);
     Email createEmailFromDtoAndSendJob(EmailRequestDto emailRequestDto, Client requestedBy);
+    Email resendEmail(Email email);
+
 
     void trackEmailOpened(String trackCode);
     File renderEmailToPDF(Email email);

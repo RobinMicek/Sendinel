@@ -10,7 +10,7 @@ import CornerUpLeft from "@lucide/svelte/icons/corner-up-left";
 import Check from "@lucide/svelte/icons/check";
 import Eye from "@lucide/svelte/icons/eye";
 import MessageCircleQuestion from "@lucide/svelte/icons/message-circle-question";
-import type { Component } from '@lucide/svelte';
+import { Repeat, type Component } from '@lucide/svelte';
 
 export enum EmailStatusesEnum {
     CREATED = "CREATED",
@@ -27,6 +27,8 @@ export enum EmailStatusesEnum {
     DELIVERED = "DELIVERED",
 
     OPENED = "OPENED",
+
+    RESEND_REQUESTED = "RESEND_REQUESTED",
 
     UNKNOWN = "UNKNOWN",
 }
@@ -87,6 +89,11 @@ export const emailStatusesMeta: Record<EmailStatusesEnum, EmailStatusMeta> = {
         translation: m.opened(),
         color: "stroke-purple-500",
         icon: Eye,
+    },
+    [EmailStatusesEnum.RESEND_REQUESTED]: {
+        translation: m.resend_requested(),
+        color: "stroke-stone-300",
+        icon: Repeat,
     },
     [EmailStatusesEnum.UNKNOWN]: {
         translation: m.unknown(),

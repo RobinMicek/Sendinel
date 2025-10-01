@@ -23,7 +23,7 @@
         "description": "",
         "replyTo": "",
         "subject": "",
-        "schema": {},
+        "schema": {"type": "object", "properties": {}},
         "textRaw": "",
         "htmlRaw": ""
     }

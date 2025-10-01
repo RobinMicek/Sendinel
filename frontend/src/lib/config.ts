@@ -20,156 +20,137 @@ export const LAST_VISITED_PAGE_CACHE_EXPIRATION = 60 * 60 * 1000 // 1 hour
 export const EXPORT_FILE_EXTENSION = ".export"
 
 export const SAMPLE_TEMPLATE = {
-    subject: "Acme - Users report [{{meta.createdAt}}]",
+    subject: "Order Confirmation [#{{order.id}}]",
     htmlRaw: `<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>User Summary Email</title>
+  <meta charset="utf-8" />
+  <title>Order Confirmation</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-      margin: 0;
-      padding: 0;
-      color: #333;
-    }
-    .container {
-      max-width: 600px;
-      margin: 20px auto;
-      background: #ffffff;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-    h1 {
-      color: #2c3e50;
-    }
-    h2 {
-      color: #34495e;
-      margin-top: 20px;
-    }
-    p {
-      margin: 5px 0;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 10px;
-    }
-    th, td {
-      text-align: left;
-      padding: 8px;
-      border-bottom: 1px solid #ddd;
-    }
-    th {
-      background-color: #f9f9f9;
-    }
-    .footer {
-      text-align: center;
-      font-size: 12px;
-      color: #888;
-      margin-top: 20px;
-    }
+    body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+    .container { width: 100%; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; }
+    .header { text-align: center; padding-bottom: 20px; border-bottom: 1px solid #ddd; }
+    .content { padding: 20px 0; }
+    .item-table { width: 100%; border-collapse: collapse; }
+    .item-table th, .item-table td { text-align: left; padding: 8px; border-bottom: 1px solid #eee; }
+    .summary-table { width: 100%; max-width: 300px; margin-left: auto; margin-top: 20px; }
+    .summary-table td { padding: 5px; }
+    .footer { text-align: center; font-size: 12px; color: #777; padding-top: 20px; border-top: 1px solid #ddd; }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>User Profile Summary</h1>
-    
-    {{#each users}}
-      <h2>{{username}} ({{id}})</h2>
-      <p><strong>Email:</strong> {{email}}</p>
-      <p><strong>Status:</strong> {{#if isActive}}Active{{else}}Inactive{{/if}}</p>
-      <p><strong>Roles:</strong> {{#each roles}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}</p>
+    <div class="header">
+      <h2>Thank You for Your Order!</h2>
+    </div>
+    <div class="content">
+      <p>Hi {{customer.firstName}},</p>
+      <p>We've received your order and are getting it ready for you. Here are the details:</p>
+      
+      <h3>Order #{{order.id}} ({{order.date}})</h3>
 
-      <h3>Profile Information</h3>
-      <p><strong>Name:</strong> {{profile.firstName}} {{profile.lastName}}</p>
-      <p><strong>Birth Date:</strong> {{profile.birthDate}}</p>
-
-      <h4>Address</h4>
-      <p>{{profile.address.street}}, {{profile.address.city}}, {{profile.address.state}}, {{profile.address.postalCode}}, {{profile.address.country}}</p>
-
-      <h4>Phone Numbers</h4>
-      <ul>
-        {{#each profile.phoneNumbers}}
-          <li>{{type}}: {{number}}</li>
-        {{/each}}
-      </ul>
-
-      <h3>Recent Activity Logs</h3>
-      <table>
+      <table class="item-table">
         <thead>
           <tr>
-            <th>Timestamp</th>
-            <th>Action</th>
-            <th>IP Address</th>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Price</th>
           </tr>
         </thead>
         <tbody>
-          {{#each activityLogs}}
-            <tr>
-              <td>{{timestamp}}</td>
-              <td>{{action}}</td>
-              <td>{{ipAddress}}</td>
-            </tr>
+          {{#each order.items}}
+          <tr>
+            <td>
+              <strong>{{this.name}}</strong>
+              {{#if this.sku}}<br/><small>SKU: {{this.sku}}</small>{{/if}}
+            </td>
+            <td>{{this.quantity}}</td>
+            <td>{{this.price}}</td>
+          </tr>
           {{/each}}
         </tbody>
       </table>
 
-      <hr style="margin: 30px 0;" />
-    {{/each}}
+      <table class="summary-table">
+        <tr>
+          <td>Subtotal:</td>
+          <td style="text-align: right;">{{order.summary.subtotal}}</td>
+        </tr>
+        <tr>
+          <td>Shipping:</td>
+          <td style="text-align: right;">{{order.summary.shipping}}</td>
+        </tr>
+        {{#if order.summary.tax}}
+        <tr>
+          <td>Tax:</td>
+          <td style="text-align: right;">{{order.summary.tax}}</td>
+        </tr>
+        {{/if}}
+        <tr>
+          <td><strong>Total:</strong></td>
+          <td style="text-align: right;"><strong>{{order.summary.total}}</strong></td>
+        </tr>
+      </table>
 
+      <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;"/>
+
+      <h4>Shipping Address</h4>
+      <p>
+        {{order.shippingAddress.street}}<br/>
+        {{order.shippingAddress.city}}, {{order.shippingAddress.state}} {{order.shippingAddress.zip}}<br/>
+        {{order.shippingAddress.country}}
+      </p>
+
+      <h4>Payment Method</h4>
+      <p>{{order.paymentMethod}}</p>
+    </div>
     <div class="footer">
-      <p>Total Users: {{meta.totalUsers}} | Active Users: {{meta.activeUsers}}</p>
-      <p>Report generated on: {{meta.updatedAt}}</p>
+      <p>If you have any questions, visit our support page: <a href="{{company.supportUrl}}">Contact Us</a></p>
+      <p>© {{company.name}}</p>
     </div>
   </div>
 </body>
-</html>
+</html>`,
+    textRaw: `Thank You for Your Order!
 
-`,
-    textRaw: `User Profile Summary
-====================
+Hi {{customer.firstName}},
 
-{{#each users}}
-Username: {{username}} (ID: {{id}})
-Email: {{email}}
-Status: {{#if isActive}}Active{{else}}Inactive{{/if}}
-Roles: {{#each roles}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}
+We've received your order and are getting it ready for you. Here are the details:
 
-Profile Information
--------------------
-Name: {{profile.firstName}} {{profile.lastName}}
-Birth Date: {{profile.birthDate}}
+===================================
+Order Confirmation
+===================================
 
-Address:
-{{profile.address.street}}
-{{profile.address.city}}, {{profile.address.state}}, {{profile.address.postalCode}}
-{{profile.address.country}}
+Order Number: {{order.id}}
+Order Date: {{order.date}}
 
-Phone Numbers:
-{{#each profile.phoneNumbers}}
-- {{type}}: {{number}}
+--- Items ---
+{{#each order.items}}
+- {{this.name}}
+  Quantity: {{this.quantity}}
+  Price: {{this.price}}
+{{#if this.sku}}  SKU: {{this.sku}}{{/if}}
+
 {{/each}}
+--- Summary ---
+Subtotal: {{order.summary.subtotal}}
+Shipping: {{order.summary.shipping}}
+{{#if order.summary.tax}}Tax:      {{order.summary.tax}}{{/if}}
+Total:    {{order.summary.total}}
 
-Recent Activity Logs:
---------------------
-{{#each activityLogs}}
-- Timestamp: {{timestamp}}
-  Action: {{action}}
-  IP Address: {{ipAddress}}
-{{/each}}
+===================================
 
-------------------------------------------------------------
-{{/each}}
+--- Shipping Address ---
+{{order.shippingAddress.street}}
+{{order.shippingAddress.city}}, {{order.shippingAddress.state}} {{order.shippingAddress.zip}}
+{{order.shippingAddress.country}}
 
-Summary:
---------
-Total Users: {{meta.totalUsers}}
-Active Users: {{meta.activeUsers}}
-Report generated on: {{meta.updatedAt}}
-`,
-    schema: {"type": "object", "required": ["meta", "users"], "properties": {"meta": {"type": "object", "properties": {"createdAt": {"type": "string"}, "updatedAt": {"type": "string"}, "totalUsers": {"type": "number"}, "activeUsers": {"type": "number"}}}, "users": {"type": "array", "items": {"type": "object", "required": ["id", "email", "roles", "profile", "password", "username"], "properties": {"id": {"type": "string"}, "email": {"type": "string"}, "roles": {"type": "array", "items": {"type": "string"}}, "profile": {"type": "object", "required": ["lastName", "firstName"], "properties": {"address": {"type": "object", "required": ["city", "street", "country"], "properties": {"city": {"type": "string"}, "state": {"type": "string"}, "street": {"type": "string"}, "country": {"type": "string"}, "postalCode": {"type": "string"}}}, "lastName": {"type": "string"}, "birthDate": {"type": "string"}, "firstName": {"type": "string"}, "phoneNumbers": {"type": "array", "items": {"type": "object", "required": ["type", "number"], "properties": {"type": {"type": "string"}, "number": {"type": "string"}}}}}}, "isActive": {"type": "boolean"}, "password": {"type": "string"}, "username": {"type": "string"}, "createdAt": {"type": "string"}, "updatedAt": {"type": "string"}, "activityLogs": {"type": "array", "items": {"type": "object", "required": ["action", "timestamp"], "properties": {"action": {"type": "string"}, "ipAddress": {"type": "string"}, "timestamp": {"type": "string"}}}}}}}}}
+--- Payment Method ---
+{{order.paymentMethod}}
+
+If you have any questions, please visit our support page at {{company.supportUrl}}
+
+Thank you,
+The {{company.name}} Team`,
+    schema: {"type": "object", "title": "Order Confirmation", "$schema": "http://json-schema.org/draft-07/schema#", "required": ["customer", "order", "company"], "properties": {"order": {"type": "object", "required": ["id", "date", "shippingAddress", "items", "summary"], "properties": {"id": {"type": "string"}, "date": {"type": "string", "format": "date"}, "items": {"type": "array", "items": {"type": "object", "required": ["name", "quantity", "price"], "properties": {"sku": {"type": "string"}, "name": {"type": "string"}, "price": {"type": "number"}, "imageUrl": {"type": "string", "format": "uri"}, "quantity": {"type": "integer"}}}}, "summary": {"type": "object", "required": ["subtotal", "total"], "properties": {"tax": {"type": "number"}, "total": {"type": "number"}, "shipping": {"type": "number"}, "subtotal": {"type": "number"}}}, "paymentMethod": {"type": "string"}, "shippingAddress": {"type": "object", "required": ["street", "city", "zip", "country"], "properties": {"zip": {"type": "string"}, "city": {"type": "string"}, "state": {"type": "string"}, "street": {"type": "string"}, "country": {"type": "string"}}}}}, "company": {"type": "object", "required": ["name"], "properties": {"name": {"type": "string"}, "supportUrl": {"type": "string", "format": "uri"}}}, "customer": {"type": "object", "required": ["firstName"], "properties": {"lastName": {"type": "string"}, "firstName": {"type": "string"}}}}, "description": "Schema for order confirmation email data"}
 }

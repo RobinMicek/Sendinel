@@ -10,6 +10,7 @@
     import type { TemplateResponse } from "@/types/dtos/template";
     import { TemplateRequestGenerator } from "@/utils/template-request-generator-util";
     import type { SupportedLanguage } from "@/components/ui/code/shiki";
+    import CopyToClipboardButton from "@/components/copy-to-clipboard/copy-to-clipboard-button.svelte";
 
     export let canEdit: boolean | undefined
     export let templateData: TemplateResponse
@@ -56,13 +57,16 @@
         <Card.Content>
             <Tabs.Root value={Object.entries(codeExamples)[0][0]}>
                 <Tabs.List>
-                    {#each Object.entries(codeExamples) as [key, value]}            
+                    {#each Object.entries(codeExamples) as [key, value]}
                         <Tabs.Trigger class="hover:cursor-pointer capitalize" value={key}>{key}</Tabs.Trigger>
-                    {/each}                
+                    {/each}
                 </Tabs.List>
 
                 {#each Object.entries(codeExamples) as [key, value]}
-                     <Tabs.Content value={key}>
+                    <Tabs.Content value={key}>
+                        <div class="absolute right-10 z-11">
+                            <CopyToClipboardButton text={value} />
+                        </div>
                         <div class="max-w-full overflow-x-auto">
                             {#if value.split(/\r\n|\r|\n/).length > 25}
                                 <Code.Overflow>

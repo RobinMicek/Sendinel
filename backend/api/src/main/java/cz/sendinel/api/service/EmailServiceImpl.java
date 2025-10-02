@@ -236,7 +236,7 @@ public class EmailServiceImpl implements EmailService {
     }
 
     private String generateTrackingHtmlImage(Email email) {
-        String url = String.format("%s/%s/email/open?trackCode=%s", appBaseUrl, Constants.TRACKING_API_ROUTE_PREFIX.replace("/", ""), email.getTrackCode());
+        String url = String.format("%s/%s/email/open?trackCode=%s", appBaseUrl.endsWith("/") ? appBaseUrl.substring(0, appBaseUrl.length() - 1) : appBaseUrl, Constants.TRACKING_API_ROUTE_PREFIX.replace("/", ""), email.getTrackCode());
 
         return String.format("<img src=\"%s\" />", url);
     }

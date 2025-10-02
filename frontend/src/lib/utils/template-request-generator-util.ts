@@ -45,14 +45,14 @@ export class TemplateRequestGenerator {
  
 
     generatePython(): string {
-    const headersString = JSON.stringify(this.headers, undefined, 2);
-    const bodyString = JSON.stringify(this.body, undefined, 2)
-        // replace JSON booleans and null with Python equivalents
-        .replace(/\btrue\b/g, "True")
-        .replace(/\bfalse\b/g, "False")
-        .replace(/\bnull\b/g, "None");
+        const headersString = JSON.stringify(this.headers, undefined, 2);
+        const bodyString = JSON.stringify(this.body, undefined, 2)
+            // replace JSON booleans and null with Python equivalents
+            .replace(/\btrue\b/g, "True")
+            .replace(/\bfalse\b/g, "False")
+            .replace(/\bnull\b/g, "None");
 
-    return `
+        return `
 import requests
 
 url = '${this.url}'

@@ -26,7 +26,7 @@
     $: renderedTemplate = (() => {
         try {
             return renderHandlebarsTemplate(
-                currentTemplate === "html" ? templateData.htmlRaw : "<pre>" + templateData.textRaw + "</pre>",
+                currentTemplate === "html" ? templateData.htmlRaw : "<pre>" + templateData.textRaw.replace(/<style>/g, "&lt;style&gt;").replace(/<\/style>/g, "&lt;/style&gt;") + "</pre>",
                 templateContextExample
             );
         } catch (e) {
@@ -126,7 +126,7 @@
                 {#if layout !== "editor"}
                     <div class={layout === "both" ? "h-[45vh] md:h-full w-full md:w-1/2" : "w-full"}>                    
                         <div title="template-preview" class="h-full w-full overflow-y-scroll">
-                            <iframe class="w-full h-full overflow-y-scrollbar" title="Render" srcdoc={renderedTemplate}></iframe>                        
+                            <iframe class="w-full h-full overflow-y-scrollbar" title="Render" srcdoc={renderedTemplate}></iframe>
                         </div>
                     </div>
                 {/if}

@@ -4,7 +4,6 @@ import cz.sendinel.shared.config.Constants;
 import cz.sendinel.shared.enums.EmailStatusesEnum;
 import cz.sendinel.shared.models.email.EmailJobRequest;
 import cz.sendinel.shared.models.email.EmailJobResponse;
-import cz.sendinel.worker.config.AppConfig;
 import cz.sendinel.worker.rabbitmq.EmailStatusProducer;
 import cz.sendinel.worker.senders.BaseEmailSender;
 import cz.sendinel.worker.senders.SMPTSender;
@@ -21,7 +20,6 @@ public class EmailJobConsumer {
     Logger logger = LoggerFactory.getLogger(WorkerApplication.class);
 
     private final EmailStatusProducer statusProducer;
-    private final AppConfig appConfig;
 
     @RabbitListener(
             queues = Constants.RABBIT_MQ_JOB_REQUEST_QUEUE_NAME,
@@ -30,7 +28,7 @@ public class EmailJobConsumer {
     )
     public void handleMessage(EmailJobRequest job) {
         try {
-            logger.info("Received email job request: {}", job);
+            logger.info("[EMAIL_ID: {}] Received email job request", job.getEmailId());
 
             BaseEmailSender sender = switch (job.getSenderType()) {
                 case SMTP -> new SMPTSender(job, statusProducer);
@@ -40,7 +38,7 @@ public class EmailJobConsumer {
             sender.run(); // process the job
 
         } catch (Exception e) {
-            logger.error("Job failed [EMAIL_ID: {}]: {}", job.getEmailId(), e.getMessage());
+            logger.error("[EMAIL_ID: {}] Job failed: {}", job.getEmailId(), e.getMessage());
 
             // Send status response
             statusProducer.sendEmailJobResponse(

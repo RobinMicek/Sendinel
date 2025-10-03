@@ -26,7 +26,7 @@
     $: renderedTemplate = (() => {
         try {
             return renderHandlebarsTemplate(
-                currentTemplate === "html" ? templateData.htmlRaw : "<pre>" + templateData.textRaw.replace(/<style>/g, "&lt;style&gt;").replace(/<\/style>/g, "&lt;/style&gt;") + "</pre>",
+                currentTemplate === "html" ? templateData.htmlRaw : "<pre>" + templateData.textRaw.replace(/</g, "&lt;").replace(/>/g, "&gt;") + "</pre>",
                 templateContextExample
             );
         } catch (e) {

@@ -50,7 +50,7 @@
     <Card.Root class="w-full">
     <Card.Header>
         <Card.Title>{m.senders()}</Card.Title>
-        <Card.Description>{m.services_that_app_uses_to_deliver_your_emails({app_name: APP_NAME})}</Card.Description>
+        <Card.Description>{m.providers_that_app_uses_to_deliver_your_emails({app_name: APP_NAME})}</Card.Description>
         <Card.Action>
             {#if userStore.get()?.role && hasPermission(userStore.get()!.role, UserPermissionsEnum.SENDERS_CREATE)}
                 <Button onclick={() => {goto("/dashboard/sender/new")}}>{m.new_sender()}</Button>

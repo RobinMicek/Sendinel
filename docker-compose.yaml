@@ -61,12 +61,14 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-      args:
-        API_BASE_URL: ${API_BASE_URL}
     restart: always
 
     ports:
       - 80:80
+
+    env_file: ./.env
+    environment:
+      API_BASE_URL: ${API_BASE_URL}
 
   postgres:
     image: postgres:15

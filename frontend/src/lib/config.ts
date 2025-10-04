@@ -4,7 +4,7 @@ export const APP_VERSION_NUMBER = "0.0.1-SNAPSHOT"
 export const DEFAULT_DATATABLE_PAGE_SIZE = 10
 
 // Without trailing slash
-const BACKEND_API = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:5000"
+const BACKEND_API = window.RUNTIME_CONFIG?.["API_BASE_URL"] ?? "http://localhost:5000"
 export const BACKEND_INTERNAL_API_BASE_URL =  BACKEND_API + "/internal"
 export const BACKEND_EXTERNAL_API_BASE_URL = BACKEND_API + "/external"
 

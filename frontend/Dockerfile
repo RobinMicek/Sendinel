@@ -18,15 +18,21 @@ RUN bun run build
 # Stage 2: Serve with Nginx
 FROM nginx:stable-alpine
 
-# Remove default nginx site
-RUN rm -rf /usr/share/nginx/html/*
+WORKDIR /usr/share/nginx/html
 
 # Copy built SvelteKit static files
-COPY --from=builder /app/build /usr/share/nginx/html
+COPY --from=builder /app/build ./
+
+COPY public/config.js ./config.js
 
 # Copy a custom nginx config
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
+# Copy entrypoint script
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
 EXPOSE 80
 
-CMD ["nginx", "-g", "daemon off;"]
+# Replace placeholders with environment variables and run
+ENTRYPOINT ["/entrypoint.sh"]

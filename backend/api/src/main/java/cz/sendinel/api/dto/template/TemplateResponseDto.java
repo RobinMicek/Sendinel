@@ -1,12 +1,14 @@
 package cz.sendinel.api.dto.template;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import cz.sendinel.api.dto.template.tags.TemplateTagResponseDto;
 import cz.sendinel.api.dto.user.UserBasicsResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -26,4 +28,5 @@ public class TemplateResponseDto {
     private Instant createdOn;
     private Instant updatedOn;
     private Instant DeletedOn;
+    private Set<TemplateTagResponseDto> tags;
 }

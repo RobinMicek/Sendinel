@@ -265,6 +265,9 @@
     "failed_to_resent_email": "Failed to resent email",
     "do_you_really_want_to_resend_this_email_it_will_use_the_exactly_same_configuration_as_initially_and_might_fail_if_template_sender_or_client_have_been_edited_in_the_mean_time": "Do you really want to resend this email? It will use the same configuration as initially and might fail if template, sender or client have been edited in the mean time.",
     "export_to_pdf": "Export to PDF",
-    "resend_requested": "Resend Requested"
+    "resend_requested": "Resend Requested",
+    "failed_to_get_available_template_tags": "Failed to get available template tags",
+    "tags": "Tags",
+    "select_tags": "Select tags..."
 
 }

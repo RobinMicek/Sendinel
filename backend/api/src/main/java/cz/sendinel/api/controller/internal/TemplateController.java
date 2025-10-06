@@ -7,9 +7,12 @@ import cz.sendinel.api.dto.template.TemplateRequestDto;
 import cz.sendinel.api.dto.template.TemplateResponseDto;
 import cz.sendinel.api.dto.template.export.TemplateExportRequestDto;
 import cz.sendinel.api.dto.template.export.TemplateImportRequestDto;
+import cz.sendinel.api.dto.template.tags.TemplateTagResponseDto;
 import cz.sendinel.api.entity.Template;
+import cz.sendinel.api.entity.TemplateTag;
 import cz.sendinel.api.service.AppSettingsService;
 import cz.sendinel.api.service.TemplateService;
+import cz.sendinel.api.service.TemplateTagService;
 import cz.sendinel.api.util.MapperUtil;
 import cz.sendinel.api.util.RsqlUtil;
 import cz.sendinel.shared.config.Constants;
@@ -24,15 +27,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -52,13 +47,26 @@ import java.util.stream.Collectors;
 public class TemplateController extends InternalControllerBase {
 
     private final TemplateService templateService;
+    private final TemplateTagService templateTagService;
     private final AppSettingsService appSettingsService;
 
     @GetMapping
     @PreAuthorize("hasAuthority('TEMPLATES_READ')")
-    public ResponseEntity<PageResponseDto<TemplateResponseDto>> getTemplates(Pageable pageable, @RequestParam(required = false) String search) {
+    public ResponseEntity<PageResponseDto<TemplateResponseDto>> getTemplates(Pageable pageable, @RequestParam(required = false) String search, @RequestParam(required = false) UUID templateTagId) {
         Specification<Template> spec = RsqlUtil.toSpecification((search == null || search.isBlank())? "deletedOn==null" : String.format("(%s);deletedOn==null", search));
-        Page<Template> templatePage = templateService.getTemplates(pageable, spec);
+
+        Page<Template> templatePage;
+
+        // Limit to specified template tag
+        if (templateTagId != null) {
+            TemplateTag templateTag = templateTagService.getTag(templateTagId).orElseThrow(
+                    () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Tag not found")
+            );
+
+            templatePage = templateService.getTemplates(pageable, spec, templateTag);
+        } else {
+            templatePage = templateService.getTemplates(pageable, spec);
+        }
 
         // Map Page<Template> to Page<TemplateResponseDto>
         Page<TemplateResponseDto> dtoPage = templatePage.map(template -> MapperUtil.toDto(template, TemplateResponseDto.class));
@@ -69,7 +77,7 @@ public class TemplateController extends InternalControllerBase {
     // For dropdowns
     @GetMapping("/list")
     @PreAuthorize("hasAuthority('TEMPLATES_READ')")
-    public ResponseEntity<List<TemplateBasicsResponseDto>> getSendersList() {
+    public ResponseEntity<List<TemplateBasicsResponseDto>> getTemplatesList() {
         List<Template> templates = templateService.getAllTemplates();
 
         // Map List<Template> to List<TemplateBasicsResponseDto>
@@ -112,6 +120,20 @@ public class TemplateController extends InternalControllerBase {
         templateService.deleteTemplate(id, getLoggedInUser());
 
         return ResponseEntity.noContent().build();
+    }
+
+    // For dropdowns
+    @GetMapping("/tag")
+    @PreAuthorize("hasAuthority('TEMPLATES_READ')")
+    public ResponseEntity<List<TemplateTagResponseDto>> getTemplateTags() {
+        List<TemplateTag> tags = templateTagService.getAllTags();
+
+        // Map List<TemplateTag> to List<TemplateTagResponseDto>
+        List<TemplateTagResponseDto> response = tags.stream()
+                .map(tag -> MapperUtil.toDto(tag, TemplateTagResponseDto.class))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/export")

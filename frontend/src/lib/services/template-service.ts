@@ -1,15 +1,15 @@
 import type { PageResponse } from "@/types/dtos/page";
 import APIService from "./api-service";
-import type { TemplateBasicsResponse, TemplateExportRequest, TemplateImportRequest, TemplateRequest, TemplateResponse } from "@/types/dtos/template";
+import type { TemplateBasicsResponse, TemplateExportRequest, TemplateImportRequest, TemplateRequest, TemplateResponse, TemplateTagResponse } from "@/types/dtos/template";
 import type { BlobFileDownload as OctetStreamFileDownload } from "@/types/dtos/file";
 import { EXPORT_FILE_EXTENSION } from "@/config";
 import type { AxiosProgressEvent } from "axios";
 
 export default class TemplateService extends APIService {
-    async getAll(pageNumber: number = 0, pageSize: number = this.getPreferedDatatablePageSize(), sortBy: string = "", sortOrder: "asc" | "desc" | "" = "", searchString: string = "") {
-        const searchQuery = `name=like="*${searchString}*",description=like="*${searchString}*",subject=like="*${searchString}*"`
+    async getAll(pageNumber: number = 0, pageSize: number = this.getPreferedDatatablePageSize(), sortBy: string = "", sortOrder: "asc" | "desc" | "" = "", searchString: string = "", tag: TemplateTagResponse | null) {
+        let searchQuery = `name=like="*${searchString}*",description=like="*${searchString}*",subject=like="*${searchString}*"`
 
-        const res = await this.api.get(`/template?page=${pageNumber}&size=${pageSize}&sort=${sortBy},${sortOrder}&search=${encodeURIComponent(searchQuery)}`, {headers: this.getHeaders()})
+        const res = await this.api.get(`/template?page=${pageNumber}&size=${pageSize}&sort=${sortBy},${sortOrder}&search=${encodeURIComponent(searchQuery)}${tag ? "&templateTagId=" + tag.id : ""}`, {headers: this.getHeaders()})
         return res.data as PageResponse<TemplateResponse>
     }
 
@@ -35,6 +35,11 @@ export default class TemplateService extends APIService {
 
     async delete(id: string) {
         const res = await this.api.delete(`/template/${id}`, {headers: this.getHeaders()})
+    }
+
+    async getAllTags() {
+        const res = await this.api.get(`/template/tag`, {headers: this.getHeaders()})
+        return res.data as TemplateTagResponse[]
     }
 
     async export(templateExportRequest: TemplateExportRequest) {

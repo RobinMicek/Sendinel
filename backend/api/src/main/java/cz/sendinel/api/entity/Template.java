@@ -1,13 +1,7 @@
 package cz.sendinel.api.entity;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
@@ -16,6 +10,8 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.type.SqlTypes;
 
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -50,6 +46,14 @@ public class Template {
 
     @Column(name = "reply_to")
     private String replyTo;
+
+    @ManyToMany()
+    @JoinTable(
+            name = "templates_tags_rel",
+            joinColumns = @JoinColumn(name = "template"),
+            inverseJoinColumns = @JoinColumn(name = "tag")
+    )
+    private Set<TemplateTag> tags = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by")

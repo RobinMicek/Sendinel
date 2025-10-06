@@ -1,12 +1,15 @@
 package cz.sendinel.api.dto.template;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import cz.sendinel.api.dto.template.tags.TemplateTagRequestDto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -33,5 +36,8 @@ public class TemplateRequestDto {
     @Email
     @NotNull
     private String replyTo;
+
+    @NotNull
+    private Set<TemplateTagRequestDto> tags;
 
 }

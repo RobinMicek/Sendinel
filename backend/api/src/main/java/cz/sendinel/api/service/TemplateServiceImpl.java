@@ -1,15 +1,18 @@
 package cz.sendinel.api.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import cz.sendinel.shared.config.Constants;
 import cz.sendinel.api.dto.template.TemplateRequestDto;
 import cz.sendinel.api.entity.Template;
+import cz.sendinel.api.entity.TemplateTag;
 import cz.sendinel.api.entity.User;
 import cz.sendinel.api.exceptions.AlreadyExistsException;
 import cz.sendinel.api.exceptions.ResourceNotFoundException;
 import cz.sendinel.api.model.templateexport.TemplateExportMetaData;
 import cz.sendinel.api.model.templateexport.TemplateExportTemplateData;
 import cz.sendinel.api.repository.TemplateRepository;
+import cz.sendinel.shared.config.Constants;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.JoinType;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
@@ -24,24 +27,17 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.time.Instant;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class TemplateServiceImpl implements TemplateService {
 
     private final TemplateRepository templateRepository;
+    private final TemplateTagService templateTagService;
     private final ObjectMapper objectMapper;
 
     @Value("${app.app-version}")
@@ -74,6 +70,12 @@ public class TemplateServiceImpl implements TemplateService {
         template.setCreatedBy(createdBy);
         template.setUpdatedBy(createdBy);
 
+        // Tags
+        Set<TemplateTag> tags = templateRequestDto.getTags().stream()
+                .map(dto -> templateTagService.createTemplateTagFromDto(dto, createdBy))
+                .collect(Collectors.toSet());
+        template.setTags(tags);
+
         return createTemplate(template);
     }
 
@@ -97,6 +99,16 @@ public class TemplateServiceImpl implements TemplateService {
         return templateRepository.findAll(specification, pageable);
     }
 
+    @Override
+    public Page<Template> getTemplates(Pageable pageable, Specification<Template> specification, TemplateTag tag) {
+        specification = specification.and((root, query, cb) -> {
+            Join<Template, TemplateTag> tagJoin = root.join("tags", JoinType.INNER);
+            return cb.equal(tagJoin.get("id"), tag.getId());
+        });
+
+        return templateRepository.findAll(specification, pageable);
+    }
+
     @Transactional(rollbackFor = Exception.class)
     @Override
     public Template updateTemplate(UUID id, Template template) {
@@ -115,7 +127,14 @@ public class TemplateServiceImpl implements TemplateService {
         existingTemplate.setUpdatedBy(template.getUpdatedBy());
         existingTemplate.setUpdatedOn(Instant.now());
 
-        return templateRepository.save(existingTemplate);
+        existingTemplate.setTags(template.getTags());
+
+        Template savedTemplate = templateRepository.save(existingTemplate);
+
+        // Remove unused template tags
+        templateTagService.deleteOrphanedTags();
+
+        return savedTemplate;
     }
 
     @Override
@@ -131,6 +150,12 @@ public class TemplateServiceImpl implements TemplateService {
         template.setReplyTo(templateRequestDto.getReplyTo());
 
         template.setUpdatedBy(updatedBy);
+
+        // Tags
+        Set<TemplateTag> tags = templateRequestDto.getTags().stream()
+                .map(dto -> templateTagService.createTemplateTagFromDto(dto, updatedBy))
+                .collect(Collectors.toSet());
+        template.setTags(tags);
 
         return updateTemplate(id, template);
     }

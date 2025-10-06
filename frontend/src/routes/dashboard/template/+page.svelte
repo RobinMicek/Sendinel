@@ -14,8 +14,9 @@
     import { UserPermissionsEnum } from "@/types/enums/user-permissions-enum";
     import { goto } from "$app/navigation";
     import TemplateService from "@/services/template-service.js";
-    import type { TemplateResponse } from "@/types/dtos/template.js";
+    import type { TemplateResponse, TemplateTagResponse } from "@/types/dtos/template.js";
     import DatatableSearch from "@/components/datatable/datatable-search.svelte";
+    import Badge from "@/components/ui/badge/badge.svelte";
 
     const templateService = new TemplateService();
 
@@ -25,11 +26,26 @@
     let sortOrder: "asc" | "desc" = "asc"
     let search: string = ""
     let pageData: PageResponse<TemplateResponse>
+    let allTemplateTags: TemplateTagResponse[]
+    let selectedTag: TemplateTagResponse | null = null
 
-    async function getData(pageNumber: number, sortKey: string, sortOrder: "asc" | "desc", searchString: string = "") {
+        
+    async function getAllTemplateTags() {
         isLoading = true
         try {
-            const response = await templateService.getAll(pageNumber, undefined, sortKey, sortOrder, searchString);
+            const response = await templateService.getAllTags()
+            allTemplateTags = response
+        } catch (e) {
+            triggerAlert(m.failed_to_get_available_template_tags(), "", "error")    
+        } finally {
+            isLoading = false
+        }
+    }
+
+    async function getData(pageNumber: number, sortKey: string, sortOrder: "asc" | "desc", searchString: string = "", selectedTag: TemplateTagResponse | null) {
+        isLoading = true
+        try {
+            const response = await templateService.getAll(pageNumber, undefined, sortKey, sortOrder, searchString, selectedTag);
             pageData = response
             currentPageNumber = response.pageNumber
 
@@ -41,7 +57,8 @@
     }
 
     onMount(async () => {
-        await getData(currentPageNumber, sortKey, sortOrder)
+        await getData(currentPageNumber, sortKey, sortOrder, "", null)
+        await getAllTemplateTags()
     })
 </script>
 
@@ -58,11 +75,31 @@
     </Card.Header>  
     </Card.Root>
 
-    {#if !pageData || isLoading}
+    {#if !pageData || !allTemplateTags || isLoading}
         <Skeleton class="aspect-video" />
 
-    {:else}
-        <DatatableSearch bind:searchString={search} getData={searchString => getData(1, sortKey, sortOrder, searchString)} />
+    {:else}    
+        <DatatableSearch bind:searchString={search} getData={searchString => getData(1, sortKey, sortOrder, searchString, selectedTag)} />
+
+        {#if allTemplateTags.length > 0}
+            <div class="flex gap-6 justify-start overflow-y-scroll">
+                {#each allTemplateTags as tag}
+                    <Badge variant={`${selectedTag?.name === tag.name? "default": "secondary"}`} class="hover:cursor-pointer text-sm" onclick={async () => {                    
+                            if (selectedTag?.name === tag.name) {
+                                selectedTag = null                                
+                            } else {
+                                selectedTag = tag
+                            }
+
+                            await getData(1, sortKey, sortOrder, search, selectedTag);
+                        }}
+                    >
+                        {tag.name}
+                    </Badge>
+                {/each}
+            </div>
+        {/if}
+
         <DataTable
             data={pageData.content!}
             columns={columns}
@@ -71,13 +108,13 @@
             onSort={(key, nextOrder) => {
                 sortKey = key;
                 sortOrder = nextOrder;
-                getData(1, sortKey, sortOrder, search);
+                getData(1, sortKey, sortOrder, search, selectedTag);
             }}
         />
         <DatatableNav
             pageData={pageData}
             currentPageNumber={currentPageNumber}
-            getData={pageNumber => getData(pageNumber, sortKey, sortOrder, search)}
+            getData={pageNumber => getData(pageNumber, sortKey, sortOrder, search, selectedTag)}
         />
     {/if}
 

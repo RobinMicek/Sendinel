@@ -2,18 +2,26 @@
     import * as Tabs from "$lib/components/ui/tabs/index.js";
     import * as Code from '@/components/ui/code';
     import * as Card from "@/components/ui/card/index.js";
+    import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
     import Input from "@/components/ui/input/input.svelte";
     import Label from "@/components/ui/label/label.svelte";
     import { getLocalFormatedDate } from "@/utils/date-util";
     import Textarea from "@/components/ui/textarea/textarea.svelte";
     import { m } from "@/paraglide/messages";
-    import type { TemplateResponse } from "@/types/dtos/template";
+    import type { TemplateResponse, TemplateTagResponse } from "@/types/dtos/template";
     import { TemplateRequestGenerator } from "@/utils/template-request-generator-util";
     import type { SupportedLanguage } from "@/components/ui/code/shiki";
     import CopyToClipboardButton from "@/components/copy-to-clipboard/copy-to-clipboard-button.svelte";
+    import Button from "@/components/ui/button/button.svelte";
+    import { ChevronDown, Plus } from "@lucide/svelte";
+    import Checkbox from "@/components/ui/checkbox/checkbox.svelte";
+    import type { UserBasicsResponse } from "@/types/dtos/user";
 
     export let canEdit: boolean | undefined
     export let templateData: TemplateResponse
+    export let allTemplateTags: TemplateTagResponse[]
+
+    let newTagName: string = ""
 
     const templateRequestGenerator = new TemplateRequestGenerator(templateData)
 
@@ -22,6 +30,8 @@
         "typescript": templateRequestGenerator.generateTypeScript(),
         "bash": templateRequestGenerator.generateCurl()
     }
+
+      $: selectedTags = templateData.tags.map(t => t.name);
 </script> 
 
 <div class="flex flex-col gap-6">
@@ -44,7 +54,56 @@
                 <div class="flex flex-col items-start gap-2 md:col-span-2">
                     <Label for="description">{m.description()}</Label>
                     <Textarea id="description" class="h-32" placeholder={m.confirmation_of_new_order_with_order_id_and_list_of_purchased_items()} readonly={!canEdit} bind:value={templateData.description} />                        
-                </div>            
+                </div>
+
+                <div class="flex flex-col items-start gap-2 w-full md:col-span-2">
+                    <Label for="type">{m.tags()}</Label>
+
+                    <Popover>
+                        <PopoverTrigger class="w-full" disabled={!canEdit}>
+                            <Button variant="outline" class="w-full justify-between">
+                                {#if selectedTags.length > 0}
+                                    {selectedTags.join(", ")}
+                                {:else}
+                                    {m.select_tags()}
+                                {/if}
+                                <ChevronDown />
+                            </Button>
+                        </PopoverTrigger>
+
+                        <PopoverContent class="w-[var(--radix-popover-trigger-width)] p-2">
+                            <div class="flex flex-col gap-1">
+                                {#each allTemplateTags as tag}
+                                    <label class="flex items-center gap-4 cursor-pointer w-full mb-2">
+                                        <Checkbox
+                                            checked={selectedTags.includes(tag.name)}
+                                                onclick={() =>
+                                                    templateData.tags = selectedTags.includes(tag.name)
+                                                    ? templateData.tags.filter(x => x.name !== tag.name)
+                                                    : [...templateData.tags, { name: tag.name, createdBy: {} as UserBasicsResponse , createdOn: "", id: "" }]
+                                            }
+                                        />
+                                        <span>{tag.name}</span>
+                                    </label>
+                                {/each}
+
+                                <div class="flex gap-2">
+                                    <Input type="text" placeholder={m.order_confirmation()} bind:value={newTagName} />
+                                    <Button onclick={() => {
+                                            if (newTagName.length > 0) {
+                                                allTemplateTags = [...allTemplateTags, { name: newTagName, createdBy: {} as UserBasicsResponse , createdOn: "", id: "" }]
+                                            }
+
+                                            newTagName = ""
+                                        }}
+                                    >
+                                        <Plus />
+                                    </Button>
+                                </div>
+                            </div>
+                        </PopoverContent>
+                    </Popover>
+                </div>
             </div>
         </Card.Content>
     </Card.Root>

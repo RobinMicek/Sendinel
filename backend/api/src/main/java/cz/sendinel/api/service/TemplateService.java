@@ -2,6 +2,7 @@ package cz.sendinel.api.service;
 
 import cz.sendinel.api.dto.template.TemplateRequestDto;
 import cz.sendinel.api.entity.Template;
+import cz.sendinel.api.entity.TemplateTag;
 import cz.sendinel.api.entity.User;
 import cz.sendinel.api.model.templateexport.TemplateExportMetaData;
 import cz.sendinel.api.model.templateexport.TemplateExportTemplateData;
@@ -22,6 +23,8 @@ public interface TemplateService {
     List<Template> getAllTemplates();
     Page<Template> getTemplates(Pageable pageable);
     Page<Template> getTemplates(Pageable pageable, Specification<Template> specification);
+    Page<Template> getTemplates(Pageable pageable, Specification<Template> specification, TemplateTag tag);
+
     Template updateTemplate(UUID id, Template template);
     Template updateTemplateFromDto(UUID id, TemplateRequestDto templateRequestDto, User updatedBy);
     void deleteTemplate(Template template);

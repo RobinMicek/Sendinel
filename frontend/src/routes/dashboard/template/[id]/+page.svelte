@@ -11,7 +11,7 @@
     import { goto } from "$app/navigation";
     import { onMount } from "svelte";
     import Confirm from "@/components/confirm/confirm.svelte";
-    import type { TemplateRequest, TemplateResponse } from "@/types/dtos/template";
+    import type { TemplateRequest, TemplateResponse, TemplateTagResponse } from "@/types/dtos/template";
     import TemplateService from "@/services/template-service";
     import TabGeneral from "./tabs/tab-general.svelte";
     import TabEdit from "./tabs/tab-edit.svelte";
@@ -25,11 +25,14 @@
     let canEdit = userStore.get()?.role && hasPermission(userStore.get()!.role, UserPermissionsEnum.TEMPLATES_UPDATE)
     let canDelete = userStore.get()?.role && hasPermission(userStore.get()!.role, UserPermissionsEnum.TEMPLATES_DELETE)
     let templateData: TemplateResponse
+    let allTemplateTags: TemplateTagResponse[] 
 
     async function handleUpdate(id: string, templateUpdateRequest: TemplateRequest) {
         isLoading = true
-        try {            
-            const response = await templateService.update(id, templateUpdateRequest)   
+        try {
+            const response = await templateService.update(id, templateUpdateRequest)
+
+            await getAllTemplateTags()
 
             triggerAlert(m.template_successfully_updated(), "", "success")
         } catch (e) {
@@ -53,11 +56,23 @@
         }
     }
 
+    async function getAllTemplateTags() {
+        isLoading = true
+        try {
+            const response = await templateService.getAllTags()
+            allTemplateTags = response
+        } catch (e) {
+            triggerAlert(m.failed_to_get_available_template_tags(), "", "error")    
+        } finally {
+            isLoading = false
+        }
+    }
+
     async function getData(id: string) {
         isLoading = true
         try {
             const response = await templateService.get(id)
-
+            
             templateData = response
         } catch (e) {
             triggerAlert(m.failed_to_get_template(), "", "error")    
@@ -68,6 +83,7 @@
 
     onMount(async () => {
         await getData(data.id)
+        await getAllTemplateTags()
     })
 </script>
 
@@ -99,7 +115,7 @@
             </Tabs.List>
             
             <Tabs.Content value="general">
-                <TabGeneral canEdit={canEdit} bind:templateData={templateData} />
+                <TabGeneral canEdit={canEdit} bind:templateData={templateData} allTemplateTags={allTemplateTags} />
             </Tabs.Content>
 
             <Tabs.Content value="edit">

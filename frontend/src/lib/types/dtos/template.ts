@@ -14,6 +14,7 @@ export interface TemplateRequest {
   textRaw: string;
   htmlRaw: string;
   replyTo: string;
+  tags: TemplateTagRequest[];
 }
 
 export interface TemplateResponse {
@@ -25,11 +26,23 @@ export interface TemplateResponse {
   textRaw: string;
   htmlRaw: string;
   replyTo: string;
+  tags: TemplateTagResponse[];
   createdBy: UserBasicsResponse;
   updatedBy: UserBasicsResponse;
   createdOn: string; // Instant
   updatedOn: string; // Instant
   deletedOn: string | null; // Instant
+}
+
+export interface TemplateTagRequest {
+  name: string;
+}
+
+export interface TemplateTagResponse {
+  id: string; // UUID
+  name: string;
+  createdOn: string; // Instant
+  createdBy: UserBasicsResponse;
 }
 
 export interface TemplateExportRequest {

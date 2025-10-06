@@ -1,5 +1,7 @@
 <script lang="ts">
     import * as Card from "@/components/ui/card/index.js";
+    import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+    import Checkbox from "@/components/ui/checkbox/checkbox.svelte";
     import { Button } from "@/components/ui/button/index.js";
     import { m } from "@/paraglide/messages";    
     import Skeleton from "@/components/ui/skeleton/skeleton.svelte";
@@ -16,7 +18,7 @@
     import TemplateService from "@/services/template-service.js";
     import type { TemplateResponse, TemplateTagResponse } from "@/types/dtos/template.js";
     import DatatableSearch from "@/components/datatable/datatable-search.svelte";
-    import Badge from "@/components/ui/badge/badge.svelte";
+    import { Tags } from "@lucide/svelte";
 
     const templateService = new TemplateService();
 
@@ -79,26 +81,41 @@
         <Skeleton class="aspect-video" />
 
     {:else}    
-        <DatatableSearch bind:searchString={search} getData={searchString => getData(1, sortKey, sortOrder, searchString, selectedTag)} />
+        <div class="flex gap-2">            
+            {#if allTemplateTags.length > 0}
+                <Popover>
+                    <PopoverTrigger>
+                        <Button variant="outline">
+                            <Tags />
+                        </Button>
+                    </PopoverTrigger>
 
-        {#if allTemplateTags.length > 0}
-            <div class="flex gap-6 justify-start overflow-y-scroll">
-                {#each allTemplateTags as tag}
-                    <Badge variant={`${selectedTag?.name === tag.name? "default": "secondary"}`} class="hover:cursor-pointer text-sm" onclick={async () => {                    
-                            if (selectedTag?.name === tag.name) {
-                                selectedTag = null                                
-                            } else {
-                                selectedTag = tag
-                            }
+                    <PopoverContent>
+                        <div class="flex flex-col gap-1 max-h-128 overflow-y-scroll">
+                            {#each allTemplateTags as tag}
+                                <label class="flex items-center gap-4 cursor-pointer w-full gap-2">
+                                    <Checkbox
+                                        checked={selectedTag?.name === tag.name}
+                                        onclick={async () => {                    
+                                            if (selectedTag?.name === tag.name) {
+                                                selectedTag = null                                
+                                            } else {
+                                                selectedTag = tag
+                                            }
 
-                            await getData(1, sortKey, sortOrder, search, selectedTag);
-                        }}
-                    >
-                        {tag.name}
-                    </Badge>
-                {/each}
-            </div>
-        {/if}
+                                            await getData(1, sortKey, sortOrder, search, selectedTag);
+                                        }}
+                                    />
+                                    <span>{tag.name}</span>
+                                </label>
+                            {/each}
+                        </div>  
+                    </PopoverContent>
+                </Popover>                
+            {/if}
+
+            <DatatableSearch bind:searchString={search} getData={searchString => getData(1, sortKey, sortOrder, searchString, selectedTag)} />
+        </div>
 
         <DataTable
             data={pageData.content!}

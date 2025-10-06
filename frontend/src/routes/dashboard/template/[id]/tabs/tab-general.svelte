@@ -77,10 +77,10 @@
                                     <label class="flex items-center gap-4 cursor-pointer w-full mb-2">
                                         <Checkbox
                                             checked={selectedTags.includes(tag.name)}
-                                                onclick={() =>
-                                                    templateData.tags = selectedTags.includes(tag.name)
-                                                    ? templateData.tags.filter(x => x.name !== tag.name)
-                                                    : [...templateData.tags, { name: tag.name, createdBy: {} as UserBasicsResponse , createdOn: "", id: "" }]
+                                            onclick={() =>
+                                                templateData.tags = selectedTags.includes(tag.name)
+                                                ? templateData.tags.filter(x => x.name !== tag.name)
+                                                : [...templateData.tags, { name: tag.name, createdBy: {} as UserBasicsResponse , createdOn: "", id: "" }]
                                             }
                                         />
                                         <span>{tag.name}</span>

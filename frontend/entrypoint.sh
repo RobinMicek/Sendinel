@@ -10,5 +10,5 @@ if ! grep -q '<script src="/config.js"></script>' /usr/share/nginx/html/index.ht
     sed -i '/<\/head>/i <script src="/config.js"></script>' /usr/share/nginx/html/index.html
 fi
 
-# Start Nginx (or Bun static server)
+# Start Nginx
 exec nginx -g "daemon off;"

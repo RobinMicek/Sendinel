@@ -25,7 +25,8 @@
         "subject": "",
         "schema": {"type": "object", "properties": {}},
         "textRaw": "",
-        "htmlRaw": ""
+        "htmlRaw": "",
+        "tags": []
     }
 
     async function handleCreateTemplate(templateCreateRequest: TemplateRequest, generateExampleTemplate: boolean) {

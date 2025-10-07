@@ -49,7 +49,8 @@
         <Button
             disabled={disabled}        
             type="button"            
-            class={`hover:cursor-pointer ${fullWidth ? "w-full" : ""}`}        
+            class={`hover:cursor-pointer ${fullWidth ? "w-full" : ""}`}
+            onclick={(e) => {e.preventDefault()}}
         >
             {triggerText}
         </Button>

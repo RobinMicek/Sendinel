@@ -7,10 +7,6 @@ WORKDIR /app
 COPY bun.lock package.json ./
 RUN bun install --frozen-lockfile
 
-# Set API url
-ARG API_BASE_URL
-ENV VITE_API_BASE_URL=$API_BASE_URL
-
 # Copy the rest of the project and build
 COPY . .
 RUN bun run build

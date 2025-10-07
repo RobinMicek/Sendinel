@@ -151,18 +151,18 @@
             <Card.Content>
                 <div class="grid md:grid-cols-2 gap-6 w-full">
                     <div class="flex flex-col items-start gap-2">
-                        <Label for="created_by">{m.updated_on()}</Label>
-                        <Input id="created_by" type="text" readonly value={getLocalFormatedDate(userData?.updatedOn)} />
+                        <Label for="updated_by">{m.updated_on()}</Label>
+                        <Input id="updated_by" type="text" readonly value={getLocalFormatedDate(userData?.updatedOn)} />
                     </div>
 
                     <div class="flex flex-col items-start gap-2">
-                        <Label for="created_by">{m.updated_by()}</Label>
-                        <Input id="created_by" type="text" readonly value={userData?.updatedBy?.firstname + " " + userData?.updatedBy?.lastname} />
+                        <Label for="updated_on">{m.updated_by()}</Label>
+                        <Input id="updated_on" type="text" readonly value={userData?.updatedBy?.firstname + " " + userData?.updatedBy?.lastname} />
                     </div>
             
                     <div class="flex flex-col items-start gap-2">
-                        <Label for="created_by">{m.created_on()}</Label>
-                        <Input id="created_by" type="text" readonly value={getLocalFormatedDate(userData?.createdOn)} />
+                        <Label for="created_on">{m.created_on()}</Label>
+                        <Input id="created_on" type="text" readonly value={getLocalFormatedDate(userData?.createdOn)} />
                     </div>
 
                     <div class="flex flex-col items-start gap-2">

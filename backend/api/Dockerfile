@@ -10,22 +10,19 @@ WORKDIR /app
 
 # Copy root-level Gradle files.
 COPY ../settings.gradle.kts ./
-COPY ../gradle ./gradle
-COPY ../gradlew ../gradlew.bat ./
 
 # Copy the build files for each module
 COPY ../api/build.gradle.kts ./api/
 COPY ../shared/build.gradle.kts ./shared/
 
 # Download dependencies for all modules to leverage caching
-RUN ./gradlew dependencies --no-daemon
+RUN gradle dependencies --no-daemon
 
 # Copy the rest of the source code from the project root
 COPY ../. .
 
 # Build only the 'api' module's bootJar
-RUN chmod +x gradlew
-RUN ./gradlew :api:bootJar --no-daemon
+RUN gradle :api:bootJar --no-daemon
 
 
 # ---- Stage 2: Create the runtime image ----

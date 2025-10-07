@@ -17,9 +17,10 @@
         editorContent = updatedContent as JSONContent
     }
 </script>
+
 <Dialog.Root>
     <Dialog.Trigger>
-        <Button type="button" variant="outline">
+        <Button type="button" variant="outline" onclick={(e) => {e.preventDefault()}}>
             <Variable />
         </Button>
     </Dialog.Trigger>

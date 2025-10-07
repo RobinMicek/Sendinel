@@ -5,9 +5,10 @@
     import { Info } from "@lucide/svelte";
     import { APP_NAME } from "@/config";
 </script>
+
 <Dialog.Root>
     <Dialog.Trigger>
-        <Button type="button" variant="outline">
+        <Button type="button" variant="outline" onclick={(e) => {e.preventDefault()}}>
             <Info />
         </Button>
     </Dialog.Trigger>

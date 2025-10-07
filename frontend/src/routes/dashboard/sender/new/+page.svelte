@@ -29,7 +29,7 @@
         try {
             const response = await senderService.create(senderCreateRequest)
 
-            goto("/dashboard/sender/" + response.id)
+            await goto("/dashboard/sender/" + response.id)
         } catch (e) {        
             triggerAlert(m.failed_to_create_sender(), "", "error")
         } finally {

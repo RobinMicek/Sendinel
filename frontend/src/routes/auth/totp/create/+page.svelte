@@ -38,7 +38,7 @@
             const response = await authService.totpActivate(totpRequest)
 
             triggerAlert(m.totp_successfully_created(), "", "success")
-            goto("/auth/totp")
+            await goto("/auth/totp")
         } catch (e) {
             triggerAlert(m.failed_to_activate_totp(), "", "error")
             isLoading = false

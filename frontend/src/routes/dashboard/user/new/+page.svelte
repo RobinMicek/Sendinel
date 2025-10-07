@@ -29,7 +29,7 @@
         try {
             const response = await userService.create(userCreateRequest)
 
-            goto("/dashboard/user/" + response.id)
+            await goto("/dashboard/user/" + response.id)
         } catch (e) {        
             triggerAlert(m.failed_to_create_new_user_account(), "", "error")
         } finally {

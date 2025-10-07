@@ -26,7 +26,7 @@
 
             if (!statusResponse.exists || !statusResponse.activated) {
                 triggerAlert(m.totp_setup_is_not_completed_for_this_account(), "", "info")
-                goto("/auth/totp/create")
+                await goto("/auth/totp/create")
                 return
             }
         } catch (e) {
@@ -45,7 +45,7 @@
             const userResponse = await userService.me()
             userStore.set(userResponse)
             
-            goto("/")
+            await goto("/")
         } catch (e) {
             triggerAlert(m.failed_to_verify_totp(), "", "error")
             isLoading = false

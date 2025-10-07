@@ -26,7 +26,7 @@
         try {
             const response = await clientService.create(clientCreateRequest)
 
-            goto("/dashboard/client/" + response.id)
+            await goto("/dashboard/client/" + response.id)
         } catch (e) {        
             triggerAlert(m.failed_to_create_new_client(), "", "error")
         } finally {

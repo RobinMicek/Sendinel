@@ -41,7 +41,7 @@
 
             const response = await templateService.create(templateCreateRequest)
 
-            goto("/dashboard/template/" + response.id)
+            await goto("/dashboard/template/" + response.id)
         } catch (e) {        
             triggerAlert(m.failed_to_create_new_template(), "", "error")
         } finally {

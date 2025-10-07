@@ -17,6 +17,7 @@
 		"@shikijs/langs": "^3.8.1",
 		"@shikijs/themes": "^3.8.1",
 		"@sveltejs/adapter-auto": "^6.0.0",
+		"@sveltejs/adapter-static": "^3.0.10",
 		"@sveltejs/kit": "^2.22.0",
 		"@sveltejs/vite-plugin-svelte": "^6.0.0",
 		"@tailwindcss/forms": "^0.5.9",

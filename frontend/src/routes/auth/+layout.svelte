@@ -20,7 +20,7 @@
         <h1 class="font-semibold text-4xl">{APP_NAME}</h1>
     </div>
 
-    <Card.Root class="overflow-hidden p-0 w-3/5 2xl:w-1/2 h-2/3 2xl:h-3/5">
+    <Card.Root class="overflow-hidden p-0 w-full md:w-3/5 2xl:w-1/2 h-2/3 2xl:h-3/5">
         <Card.Content class="grid p-0 md:grid-cols-2 h-full">
 
             <slot />

@@ -16,6 +16,7 @@ import cz.sendinel.shared.enums.EmailStatusesEnum;
 import cz.sendinel.shared.models.email.EmailJobRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.jsoup.Jsoup;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -216,14 +217,8 @@ public class EmailServiceImpl implements EmailService {
         if (email.getTemplate().getHtmlRaw() != null && !email.getTemplate().getHtmlRaw().isEmpty()) {
             textToRender = email.getTemplate().getHtmlRaw();
 
-            // Add html tag if missing - rendering requires valid html
-            // I know that this is a dirty way to add it, but it works
-            if (!textToRender.contains("<html>")) {
-                textToRender =  "<html>" + textToRender;
-            }
-            if (!textToRender.contains("</html>")) {
-                textToRender = textToRender + "</html>";
-            }
+            // Jsoup will automatically wrap the content in <html>, <head>, and <body> tags if missing
+            textToRender = Jsoup.parse(textToRender).outerHtml();
         }
 
         try {

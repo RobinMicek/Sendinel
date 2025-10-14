@@ -49,6 +49,7 @@ dependencies {
 	implementation("com.openhtmltopdf:openhtmltopdf-core:1.0.10")
 	implementation("com.openhtmltopdf:openhtmltopdf-pdfbox:1.0.10")
 	implementation("cz.jirutka.rsql:rsql-parser:2.1.0")
+    implementation("org.jsoup:jsoup:1.18.1")
 
 	compileOnly("org.projectlombok:lombok")
 

@@ -1,7 +1,9 @@
 services:
 
   api:
-    image: ghcr.io/robinmicek/sendinel-api:latest
+    build:
+      context: ./backend
+      dockerfile: api/Dockerfile
     restart: always
 
     ports:
@@ -36,7 +38,9 @@ services:
         condition: service_healthy
 
   worker:
-    image: ghcr.io/robinmicek/sendinel-worker:latest
+    build:
+      context: ./backend
+      dockerfile: worker/Dockerfile
     restart: always
 
     env_file: ./.env
@@ -58,7 +62,9 @@ services:
         condition: service_healthy
 
   frontend:
-    image: ghcr.io/robinmicek/sendinel-frontend:latest
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
     restart: always
 
     ports:

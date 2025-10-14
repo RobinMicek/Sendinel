@@ -4,13 +4,12 @@ import cz.sendinel.api.entity.Email;
 import cz.sendinel.api.entity.EmailStatus;
 import cz.sendinel.shared.enums.EmailStatusesEnum;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -39,12 +38,28 @@ public class StatsRepositoryImpl implements StatsRepository {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Object[]> query = cb.createQuery(Object[].class);
         Root<EmailStatus> root = query.from(EmailStatus.class);
-        query.multiselect(root.get("status"), cb.count(root));
+
+        // Subquery to get the latest status
+        Subquery<Instant> subquery = query.subquery(Instant.class);
+        Root<EmailStatus> subRoot = subquery.from(EmailStatus.class);
+        subquery.select(cb.greatest(subRoot.<Instant>get("createdOn")));
+        subquery.where(cb.equal(subRoot.get("email"), root.get("email")));
+
+        Predicate latestPerEmail = cb.equal(root.get("createdOn"), subquery);
+
         if (spec != null) {
-            query.where(spec.toPredicate(root, query, cb));
+            Predicate specPredicate = spec.toPredicate(root, query, cb);
+            query.where(cb.and(latestPerEmail, specPredicate));
+        } else {
+            query.where(latestPerEmail);
         }
+
+        // Group by status
+        query.multiselect(root.get("status"), cb.countDistinct(root.get("email")));
         query.groupBy(root.get("status"));
+
         List<Object[]> results = em.createQuery(query).getResultList();
+
         return results.stream().collect(Collectors.toMap(
                 r -> (EmailStatusesEnum) r[0],
                 r -> (Long) r[1]

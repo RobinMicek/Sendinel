@@ -17,6 +17,7 @@ import cz.sendinel.shared.models.email.EmailJobRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -218,7 +219,9 @@ public class EmailServiceImpl implements EmailService {
             textToRender = email.getTemplate().getHtmlRaw();
 
             // Jsoup will automatically wrap the content in <html>, <head>, and <body> tags if missing
-            textToRender = Jsoup.parse(textToRender).outerHtml();
+            Document doc = Jsoup.parse(textToRender);
+            doc.outputSettings().syntax(Document.OutputSettings.Syntax.xml);
+            textToRender = doc.outerHtml();
         }
 
         try {

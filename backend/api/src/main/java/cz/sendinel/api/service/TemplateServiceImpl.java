@@ -198,6 +198,7 @@ public class TemplateServiceImpl implements TemplateService {
                     template.getName(),
                     template.getDescription(),
                     template.getSubject(),
+                    template.getReplyTo(),
                     template.getSchema(),
                     template.getTextRaw(),
                     template.getHtmlRaw(),
@@ -294,6 +295,7 @@ public class TemplateServiceImpl implements TemplateService {
             newTemplate.setName(importedTemplate.getName());
             newTemplate.setDescription(importedTemplate.getDescription());
             newTemplate.setSubject(importedTemplate.getSubject());
+            newTemplate.setReplyTo(importedTemplate.getReplyTo());
             newTemplate.setSchema(importedTemplate.getSchema());
             newTemplate.setTextRaw(importedTemplate.getTextRaw());
             newTemplate.setHtmlRaw(importedTemplate.getHtmlRaw());

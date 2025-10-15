@@ -16,6 +16,7 @@ public class TemplateExportTemplateData {
     private String name;
     private String description;
     private String subject;
+    private String replyTo;
     private JsonNode schema;
     private String textRaw;
     private String htmlRaw;

@@ -46,8 +46,8 @@ jobs:
           echo "Repository: $OWNER_LOWER/$REPO_LOWER"
           echo "Release tag: $RELEASE_TAG"
 
-          # Find all services with a build section in docker-compose.yaml
-          SERVICES=$(yq -r '.services | to_entries[] | select(.value.build) | .key' docker-compose.yaml)
+          # Find all services with a build section in docker-compose.local.yaml
+          SERVICES=$(yq -r '.services | to_entries[] | select(.value.build) | .key' docker-compose.local.yaml)
 
           if [ -z "$SERVICES" ]; then
             echo "No buildable services found. Exiting."
@@ -62,8 +62,8 @@ jobs:
 
           for SERVICE in $SERVICES; do
             SERVICE_LOWER=$(echo "$SERVICE" | tr '[:upper:]' '[:lower:]')
-            BUILD_CONTEXT=$(yq -r ".services[\"$SERVICE\"].build.context" docker-compose.yaml)
-            DOCKERFILE=$(yq -r ".services[\"$SERVICE\"].build.dockerfile" docker-compose.yaml)
+            BUILD_CONTEXT=$(yq -r ".services[\"$SERVICE\"].build.context" docker-compose.local.yaml)
+            DOCKERFILE=$(yq -r ".services[\"$SERVICE\"].build.dockerfile" docker-compose.local.yaml)
 
             if [ -z "$BUILD_CONTEXT" ] || [ "$BUILD_CONTEXT" = "null" ]; then
               echo "Skipping service $SERVICE_LOWER: no build context"

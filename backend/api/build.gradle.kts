@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "cz.sendinel"
-version = "0.0.1-SNAPSHOT"
+version = "v0.1.0"
 
 java {
 	toolchain {

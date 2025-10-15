@@ -1,5 +1,5 @@
 export const APP_NAME = "Sendinel"
-export const APP_VERSION_NUMBER = "0.0.1-SNAPSHOT"
+export const APP_VERSION_NUMBER = "v0.1.0"
 
 export const DEFAULT_DATATABLE_PAGE_SIZE = 10
 

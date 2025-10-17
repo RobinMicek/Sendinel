@@ -3,7 +3,7 @@ import { lastVisitedPageStore, oobeStatusStore, tokenStore, userStore } from '@/
 import { appSettingsStore } from '@/stores/store-factory.js';
 import AuthService from '@/services/auth-service';
 import AppSettingsService from '@/services/app-settings-service';
-import { isJwtExpired } from '@/utils/jwt-util.js';
+import { getJwtPayload, isJwtExpired } from '@/utils/jwt-util.js';
 
 export const ssr = false
 
@@ -34,8 +34,15 @@ export async function load({ url }) {
     if ((token == null || user == null || isJwtExpired(token)) && !path.startsWith("/auth")) {
         throw redirect(307, "/auth");
     }
+
+    // 4. If token is present but TOTP is not verified -> force /auth/totp
+    const jwtPayload = getJwtPayload(token!)
+    if (jwtPayload && jwtPayload.totp === false && !path.startsWith("/auth/totp")) {
+        throw redirect(307, "/auth/totp");
+    }
+
     
-    // 4. Ensure app settings are cached - needs to be after successful auth
+    // 5. Ensure app settings are cached - needs to be after successful auth
     if (appSettingsStore.get() == null) {
         try {
             const response = await appSettingsService.getSettings();
@@ -45,7 +52,7 @@ export async function load({ url }) {
         }
     }
 
-    // 5. Redirect / → last visited page or /dashboard
+    // 6. Redirect / → last visited page or /dashboard
     if (path === "/") {
         if (lastVisitedPageStore.get() != null) {
             throw redirect(307, lastVisitedPageStore.get() as string)

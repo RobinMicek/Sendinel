@@ -9,8 +9,11 @@
 
 <!-- Badges -->
   <p>
+    <a href="https://github.com/RobinMicek/Sendinel/releases/latest">
+      <img src="https://img.shields.io/github/v/release/RobinMicek/Sendinel?include_prereleases&sort=semver" alt="latest release" />
+    </a>
     <a href="">
-      <img src="https://img.shields.io/github/last-commit/RobinMicek/Sendinel" alt="last update" />
+      <img src="https://img.shields.io/github/last-commit/RobinMicek/Sendinel/develop" alt="last update" />
     </a>
     <a href="https://github.com/RobinMicek/Sendinel/blob/master/LICENSE">
       <img src="https://img.shields.io/github/license/RobinMicek/Sendinel.svg" alt="license" />

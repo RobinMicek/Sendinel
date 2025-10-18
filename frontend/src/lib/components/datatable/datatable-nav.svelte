@@ -8,6 +8,7 @@
     import { preferedDatatablePageSizeStore } from "@/stores/store-factory";
     import type { PageResponse } from "@/types/dtos/page";
     import { m } from "@/paraglide/messages";
+    import ButtonGroup from "../ui/button-group/button-group.svelte";
 
     export let pageData: PageResponse<unknown>;
 
@@ -42,7 +43,7 @@
     </Select.Root>
 
   <!-- Pagination buttons -->
-  <div class="flex gap-2 items-center">
+  <div class="flex gap-2 items-center">        
         <Button
             variant="ghost"
             onclick={() => getData(1)}
@@ -51,25 +52,28 @@
             <ArrowLeftToLine />
         </Button>
 
-        <Button
-            variant="outline"
-            onclick={() => getData(currentPageNumber - 1)}
-            disabled={pageData.first}
-        >
-            <ArrowLeft />
-        </Button>
+        <ButtonGroup>
+            <Button
+                variant="outline"
+                onclick={() => getData(currentPageNumber - 1)}
+                disabled={pageData.first}
+            >
+                <ArrowLeft />
+            </Button>
 
-        <Button variant="secondary" class="hover:bg-secondary">
-            {pageData.pageNumber} / {pageData.totalPages}
-        </Button>
+            <Button variant="secondary" class="hover:bg-secondary">
+                {pageData.pageNumber} / {pageData.totalPages}
+            </Button>
 
-        <Button
-            variant="outline"
-            onclick={() => getData(currentPageNumber + 1)}
-            disabled={pageData.last}
-        >
-            <ArrowRight />
-        </Button>
+            <Button
+                variant="outline"
+                onclick={() => getData(currentPageNumber + 1)}
+                disabled={pageData.last}
+            >
+                <ArrowRight />
+            </Button>
+
+        </ButtonGroup>
 
         <Button
             variant="ghost"

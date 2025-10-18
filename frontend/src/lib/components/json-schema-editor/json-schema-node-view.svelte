@@ -8,6 +8,7 @@
     import { Asterisk, Plus, Trash, Trash2 } from "@lucide/svelte";
     import Toggle from "../ui/toggle/toggle.svelte";
     import Confirm from "../confirm/confirm.svelte";
+    import ButtonGroup from "../ui/button-group/button-group.svelte";
 
 	export let node: JsonSchemaNode;
 	export let readonly: boolean = false;
@@ -72,39 +73,42 @@
         <!-- Node Name - Needs to update on escape, if you bind the value then it constantly unfocuses the input  -->
         <Input type="text" class="min-w-64" value={node.name} onblur={(event) => {node.name = (event.currentTarget as HTMLInputElement).value}} readonly={readonly || isFirst} />
 
-        <!-- Node Type -->
-        <Select.Root
-            type="single"
-            disabled={readonly || isFirst}
-            value={node.type}
-            onValueChange={(value) => {
-                node.type = value as "string" | "number" | "boolean" | "list" | "object"
-            }}
-        >
-            <Select.Trigger>
-                {{
-                    string: m.string(),
-                    number: m.number(),
-                    boolean: m.boolean(),
-                    list: m.list(),
-                    object: m.object(),
-                }[node.type]}
-            </Select.Trigger>
 
-            <Select.Content id="type">
-                <Select.Item value="string">{m.string()}</Select.Item>
-                <Select.Item value="number">{m.number()}</Select.Item>
-                <Select.Item value="boolean">{m.boolean()}</Select.Item>
-                <Select.Item value="list">{m.list()}</Select.Item>
-                <Select.Item value="object">{m.object()}</Select.Item>
-            </Select.Content>
-        </Select.Root>
+        <ButtonGroup>
+            <!-- Node Type -->
+            <Select.Root
+                type="single"
+                disabled={readonly || isFirst}
+                value={node.type}
+                onValueChange={(value) => {
+                    node.type = value as "string" | "number" | "boolean" | "list" | "object"
+                }}
+            >
+                <Select.Trigger>
+                    {{
+                        string: m.string(),
+                        number: m.number(),
+                        boolean: m.boolean(),
+                        list: m.list(),
+                        object: m.object(),
+                    }[node.type]}
+                </Select.Trigger>
+
+                <Select.Content id="type">
+                    <Select.Item value="string">{m.string()}</Select.Item>
+                    <Select.Item value="number">{m.number()}</Select.Item>
+                    <Select.Item value="boolean">{m.boolean()}</Select.Item>
+                    <Select.Item value="list">{m.list()}</Select.Item>
+                    <Select.Item value="object">{m.object()}</Select.Item>
+                </Select.Content>
+            </Select.Root>
 
 
-        <!-- Required -->
-        <Toggle class="hover:cursor-pointer" variant="outline" bind:pressed={node.required} disabled={readonly || isFirst}>
-            <Asterisk />
-        </Toggle>
+            <!-- Required -->
+            <Toggle class="hover:cursor-pointer checked:border-2" variant="outline" bind:pressed={node.required} disabled={readonly || isFirst}>
+                <Asterisk />
+            </Toggle>
+        </ButtonGroup>
     </div>
 
     

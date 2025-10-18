@@ -41,7 +41,7 @@ public class Sender {
     @Column(name = "type", length = 25)
     private SenderTypesEnum type;
 
-    @Column(name = "description")
+    @Column(name = "description", length = Integer.MAX_VALUE)
     private String description;
 
     @JdbcTypeCode(SqlTypes.JSON)

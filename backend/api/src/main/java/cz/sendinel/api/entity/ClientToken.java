@@ -32,7 +32,7 @@ public class ClientToken {
     @Column(name = "name", length = 50)
     private String name;
 
-    @Column(name = "description")
+    @Column(name = "description", length = Integer.MAX_VALUE)
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

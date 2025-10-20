@@ -180,7 +180,7 @@
     "migrate": "Migrate",
     "configuration_schema_successfully_migrated": "Configuration schema successfully migrated",
     "failed_to_migrate_configuration_schema": "Failed to migrate configuratio schema",
-    "your_configuration_schema_is_invalid": "Your configuration schema is invalid. It was probably created on an older version of {app_name} and is mising some fields. Before you can update this sender you will need to migrate it, until then you will not be able to update this sender and it may not work properly. Note that when you migrate the schema it will not be updated until you save changes. Your old value will be preserved.",
+    "your_configuration_schema_is_invalid": "Your configuration schema is invalid. It was probably created on an older version of {app_name} and is mising some fields. Before you can update this sender you will need to migrate it, until then you will not be able to update this sender and it may not work properly. Note that when you migrate the schema it will not be updated until you save changes. Your old values will be preserved.",
     "failed_to_get_templates": "Failed to get templates",
     "define_how_your_emails_look": "Define how your emails look",
     "reply_to": "Reply To",

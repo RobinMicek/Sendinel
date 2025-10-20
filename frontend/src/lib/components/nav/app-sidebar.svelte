@@ -62,7 +62,7 @@
 		],
 		navSecondary: [
 			{
-				title: "Help Me",
+				title: m.help_me(),
 				url: DOCUMENTATION_URL,
 				icon: Book,
 			}

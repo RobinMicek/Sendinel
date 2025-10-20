@@ -36,8 +36,8 @@
             tokenCreated = true
 
             triggerAlert(m.client_token_successfully_created(), "", "success")
-        } catch (e) {
-            triggerAlert(m.failed_to_create_client_token(), "", "error")
+        } catch (e: any) {
+            triggerAlert(m.failed_to_create_client_token(), e?.response?.data?.message, "error")
         } finally {
             isLoading = false
         }

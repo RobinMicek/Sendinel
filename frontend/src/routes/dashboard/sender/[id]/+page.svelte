@@ -40,8 +40,8 @@
             const response = await senderService.update(id, senderUpdateRequest)   
 
             triggerAlert(m.sender_successfully_updated(), "", "success")
-        } catch (e) {
-            triggerAlert(m.failed_to_update_sender(), "", "error")
+        } catch (e: any) {
+            triggerAlert(m.failed_to_update_sender(), e?.response?.data?.message, "error")
         } finally {
             isLoading = false
         }
@@ -54,8 +54,8 @@
 
             triggerAlert(m.sender_successfully_deleted(), "", "success")
             goto("/dashboard/sender")
-        } catch (e) {
-            triggerAlert(m.failed_to_delete_sender(), "", "error")
+        } catch (e: any) {
+            triggerAlert(m.failed_to_delete_sender(), e?.response?.data?.message, "error")
         } finally {
             isLoading = false
         }
@@ -67,8 +67,8 @@
             isInvalidConfigurationSchema = false
 
             triggerAlert(m.configuration_schema_successfully_migrated(), "", "success")
-        } catch (e) {
-            triggerAlert(m.failed_to_migrate_configuration_schema(), "", "error")
+        } catch (e: any) {
+            triggerAlert(m.failed_to_migrate_configuration_schema(), e?.response?.data?.message, "error")
         }
     }
 
@@ -81,8 +81,8 @@
 
             // Check if configuration schema is correct
             isInvalidConfigurationSchema = !isSenderConfigurationComplete(senderTypesMeta[senderData.type].configuration, senderData.configuration)
-        } catch (e) {
-            triggerAlert(m.failed_to_get_sender(), "", "error")    
+        } catch (e: any) {
+            triggerAlert(m.failed_to_get_sender(), e?.response?.data?.message, "error")    
         } finally {
             isLoading = false
         }

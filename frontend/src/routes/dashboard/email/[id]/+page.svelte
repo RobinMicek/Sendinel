@@ -49,8 +49,8 @@
 
             a.remove()
             window.URL.revokeObjectURL(fileUrl)
-        } catch (e) {
-            triggerAlert(m.failed_to_render_pdf(), "", "error")
+        } catch (e: any) {
+            triggerAlert(m.failed_to_render_pdf(), e?.response?.data?.message, "error")
         } finally {
             isExportToPdfButtonLoading = false;
         }
@@ -63,8 +63,8 @@
             emailData = response
             
             triggerAlert(m.email_successfully_resent(), "", "success")
-        } catch (e) {
-            triggerAlert(m.failed_to_resent_email(), "", "error") 
+        } catch (e: any) {
+            triggerAlert(m.failed_to_resent_email(), e?.response?.data?.message, "error") 
         } finally {
             isResendButtonLoading = false
         }
@@ -75,8 +75,8 @@
         try {
             const response = await emailService.get(id)
             emailData = response
-        } catch (e) {
-            triggerAlert(m.failed_to_get_email(), "", "error")   
+        } catch (e: any) {
+            triggerAlert(m.failed_to_get_email(), e?.response?.data?.message, "error")   
         } finally {
             isLoading = false
         }

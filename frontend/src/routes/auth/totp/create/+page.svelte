@@ -27,8 +27,8 @@
         try {
             const response = await authService.totpCreate()
             totpCreateInfo = response
-        } catch (e) {
-            triggerAlert(m.failed_to_create_totp())
+        } catch (e: any) {
+            triggerAlert(m.failed_to_create_totp(), e?.response?.data?.message, "error")
         }
     }
 
@@ -39,8 +39,8 @@
 
             triggerAlert(m.totp_successfully_created(), "", "success")
             await goto("/auth/totp")
-        } catch (e) {
-            triggerAlert(m.failed_to_activate_totp(), "", "error")
+        } catch (e: any) {
+            triggerAlert(m.failed_to_activate_totp(), e?.response?.data?.message, "error")
             isLoading = false
         }
     }

@@ -26,8 +26,8 @@
             const response = await statsService.get(statsRequest);
             statsData = response
 
-        } catch (e) {
-            triggerAlert(m.failed_to_load_stats_data(), "", "error")
+        } catch (e: any) {
+            triggerAlert(m.failed_to_load_stats_data(), e?.response?.data?.message, "error")
         } finally {
             isLoading = false
         }

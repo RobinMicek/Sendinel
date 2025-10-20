@@ -28,8 +28,8 @@
             triggerAlert(m.password_successfully_changed(), "", "success")
             
             goto("/dashboard")
-        } catch (e) {
-            triggerAlert(m.failed_to_change_password(), "", "error")
+        } catch (e: any) {
+            triggerAlert(m.failed_to_change_password(), e?.response?.data?.message, "error")
         } finally {
             isLoading = false
         }

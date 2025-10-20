@@ -34,8 +34,8 @@
             pageData = response
             currentPageNumber = response.pageNumber
 
-        } catch (e) {
-            triggerAlert(m.failed_to_get_clients(), "", "error")
+        } catch (e: any) {
+            triggerAlert(m.failed_to_get_clients(), e?.response?.data?.message, "error")
         } finally {
             isLoading = false
         }

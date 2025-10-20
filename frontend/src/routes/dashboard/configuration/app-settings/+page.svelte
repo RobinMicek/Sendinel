@@ -29,8 +29,8 @@
             appSettingsStore.set(response)
 
             triggerAlert(m.application_setting_successfully_updated(), "", "success")
-        } catch (e) {
-            triggerAlert(m.failed_to_update_application_settings(), "", "error")
+        } catch (e: any) {
+            triggerAlert(m.failed_to_update_application_settings(), e?.response?.data?.message, "error")
         } finally {
             isLoading = false
         }
@@ -41,8 +41,8 @@
         try {
             const response = await appSettingsService.getSettings();
             appSettingsData = response
-        } catch (e) {
-            triggerAlert(m.failed_to_get_app_settings(), "", "error")
+        } catch (e: any) {
+            triggerAlert(m.failed_to_get_app_settings(), e?.response?.data?.message, "error")
         } finally {
             isLoading = false
         }

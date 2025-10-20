@@ -25,8 +25,8 @@
             const response = await templateService.import(templateImportRequest, file, (percentage: number) => {uploadPercentage = percentage})
             
             triggerAlert(m.templates_successfully_imported(), "", "success")
-        } catch (e) {
-            triggerAlert(m.failed_to_import_templates(), "", "error")
+        } catch (e: any) {
+            triggerAlert(m.failed_to_import_templates(), e?.response?.data?.message, "error")
         } finally {
             isLoading = false
         }

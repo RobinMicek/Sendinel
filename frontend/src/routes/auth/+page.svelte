@@ -25,8 +25,8 @@
             tokenStore.set(response.jwtToken)
             
             await goto("/auth/totp")
-        } catch (e) {
-            triggerAlert(m.login_failed(), "", "error")
+        } catch (e: any) {
+            triggerAlert(m.login_failed(), e?.response?.data?.message, "error")
             isLoading = false
         }
     }

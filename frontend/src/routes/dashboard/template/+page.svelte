@@ -37,8 +37,8 @@
         try {
             const response = await templateService.getAllTags()
             allTemplateTags = response
-        } catch (e) {
-            triggerAlert(m.failed_to_get_available_template_tags(), "", "error")    
+        } catch (e: any) {
+            triggerAlert(m.failed_to_get_available_template_tags(), e?.response?.data?.message, "error")    
         } finally {
             isLoading = false
         }
@@ -51,8 +51,8 @@
             pageData = response
             currentPageNumber = response.pageNumber
 
-        } catch (e) {
-            triggerAlert(m.failed_to_get_templates(), "", "error")
+        } catch (e: any) {
+            triggerAlert(m.failed_to_get_templates(), e?.response?.data?.message, "error")
         } finally {
             isLoading = false
         }

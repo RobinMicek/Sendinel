@@ -39,8 +39,8 @@
             userData = response
 
             triggerAlert(m.user_successfully_updated(), "", "success")
-        } catch (e) {
-            triggerAlert(m.failed_to_update_user(), "", "error")
+        } catch (e: any) {
+            triggerAlert(m.failed_to_update_user(), e?.response?.data?.message, "error")
         } finally {
             isLoading = false
         }
@@ -53,8 +53,8 @@
 
             triggerAlert(m.user_successfully_deleted(), "", "success")
             goto("/dashboard/user")
-        } catch (e) {
-            triggerAlert(m.failed_to_delete_user(), "", "error")
+        } catch (e: any) {
+            triggerAlert(m.failed_to_delete_user(), e?.response?.data?.message, "error")
         } finally {
             isLoading = false
         }
@@ -66,8 +66,8 @@
             const response = await userService.deleteTotp(id)
 
             triggerAlert(m.totp_successfully_deleted(), "", "success")            
-        } catch (e) {
-            triggerAlert(m.failed_to_delete_totp(), "", "error")
+        } catch (e: any) {
+            triggerAlert(m.failed_to_delete_totp(), e?.response?.data?.message, "error")
         } finally {
             isLoading = false
         }
@@ -78,8 +78,8 @@
         try {
             const response = await userService.get(id);
             userData = response
-        } catch (e) {
-            triggerAlert(m.failed_to_get_user(), "", "error")    
+        } catch (e: any) {
+            triggerAlert(m.failed_to_get_user(), e?.response?.data?.message, "error")    
         } finally {
             isLoading = false
         }

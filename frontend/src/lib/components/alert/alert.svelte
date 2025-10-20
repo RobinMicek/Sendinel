@@ -8,7 +8,7 @@
     import AlertCircleIcon from "@lucide/svelte/icons/alert-circle";
 </script>
 
-<div class="fixed top-5 right-5 space-y-3 max-w-md">
+<div class="fixed top-5 right-5 space-y-3 max-w-1/2">
     {#each $alerts as alert (alert.id)}
         <div
                 in:fly={{ y: -20, duration: 300 }}

@@ -34,8 +34,8 @@
 
             triggerAlert(m.first_user_successfully_created(), "", "success")
             goto("/auth")
-        } catch (e) {
-            triggerAlert(m.failed_to_create_first_user(), "", "error")
+        } catch (e: any) {
+            triggerAlert(m.failed_to_create_first_user(), e?.response?.data?.message, "error")
             isLoading = false
         }
     }

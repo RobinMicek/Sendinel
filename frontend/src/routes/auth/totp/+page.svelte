@@ -29,8 +29,8 @@
                 await goto("/auth/totp/create")
                 return
             }
-        } catch (e) {
-            triggerAlert(m.failed_to_get_totp_status(), "", "error")
+        } catch (e: any) {
+            triggerAlert(m.failed_to_get_totp_status(), e?.response?.data?.message, "error")
         } finally {
             isLoading = false
         }
@@ -46,8 +46,8 @@
             userStore.set(userResponse)
             
             await goto("/")
-        } catch (e) {
-            triggerAlert(m.failed_to_verify_totp(), "", "error")
+        } catch (e: any) {
+            triggerAlert(m.failed_to_verify_totp(), e?.response?.data?.message, "error")
             isLoading = false
         }
     }

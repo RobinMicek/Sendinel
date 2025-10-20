@@ -39,8 +39,8 @@
 
             triggerAlert(m.totp_successfully_deleted(), "", "success")
             goto("/")
-        } catch (e) {
-            triggerAlert(m.failed_to_delete_totp(), "", "error")
+        } catch (e: any) {
+            triggerAlert(m.failed_to_delete_totp(), e?.response?.data?.message, "error")
         } finally {
             isLoading = false
         }

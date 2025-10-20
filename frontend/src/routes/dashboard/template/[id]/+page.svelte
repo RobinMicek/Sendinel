@@ -35,8 +35,8 @@
             await getAllTemplateTags()
 
             triggerAlert(m.template_successfully_updated(), "", "success")
-        } catch (e) {
-            triggerAlert(m.failed_to_update_template(), "", "error")
+        } catch (e: any) {
+            triggerAlert(m.failed_to_update_template(), e?.response?.data?.message, "error")
         } finally {
             isLoading = false
         }
@@ -49,8 +49,8 @@
 
             triggerAlert(m.template_successfully_deleted(), "", "success")
             goto("/dashboard/template")
-        } catch (e) {
-            triggerAlert(m.failed_to_delete_template(), "", "error")
+        } catch (e: any) {
+            triggerAlert(m.failed_to_delete_template(), e?.response?.data?.message, "error")
         } finally {
             isLoading = false
         }
@@ -61,8 +61,8 @@
         try {
             const response = await templateService.getAllTags()
             allTemplateTags = response
-        } catch (e) {
-            triggerAlert(m.failed_to_get_available_template_tags(), "", "error")    
+        } catch (e: any) {
+            triggerAlert(m.failed_to_get_available_template_tags(), e?.response?.data?.message, "error")    
         } finally {
             isLoading = false
         }
@@ -74,8 +74,8 @@
             const response = await templateService.get(id)
             
             templateData = response
-        } catch (e) {
-            triggerAlert(m.failed_to_get_template(), "", "error")    
+        } catch (e: any) {
+            triggerAlert(m.failed_to_get_template(), e?.response?.data?.message, "error")    
         } finally {
             isLoading = false
         }

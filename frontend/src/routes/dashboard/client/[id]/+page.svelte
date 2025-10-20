@@ -54,8 +54,8 @@
             const response = await clientService.update(id, clientUpdateRequest)   
 
             triggerAlert(m.client_successfully_updated(), "", "success")
-        } catch (e) {
-            triggerAlert(m.failed_to_update_client(), "", "error")
+        } catch (e: any) {
+            triggerAlert(m.failed_to_update_client(), e?.response?.data?.message, "error")
         } finally {
             isLoading = false
         }
@@ -68,8 +68,8 @@
 
             triggerAlert(m.client_successfully_deleted(), "", "success")
             goto("/dashboard/client")
-        } catch (e) {
-            triggerAlert(m.failed_to_delete_client(), "", "error")
+        } catch (e: any) {
+            triggerAlert(m.failed_to_delete_client(), e?.response?.data?.message, "error")
         } finally {
             isLoading = false
         }
@@ -84,8 +84,8 @@
             await getTokenData(clientId)
 
             triggerAlert(m.client_token_successfully_deleted(), "", "success")            
-        } catch (e) {
-            triggerAlert(m.failed_to_delete_client_token(), "", "error")
+        } catch (e: any) {
+            triggerAlert(m.failed_to_delete_client_token(), e?.response?.data?.message, "error")
         } finally {
             isLoading = false
         }
@@ -97,8 +97,8 @@
             const clienTokenResponse = await clientService.getAllTokens(id)
 
             clientTokenData = clienTokenResponse
-        } catch (e) {
-            triggerAlert(m.failed_to_get_client(), "", "error")    
+        } catch (e: any) {
+            triggerAlert(m.failed_to_get_client(), e?.response?.data?.message, "error")    
         } finally {
             isLoading = false
         }
@@ -118,8 +118,8 @@
             clientUpdateRequest.name = clientResponse.name
             clientUpdateRequest.description = clientResponse.description
             clientUpdateRequest.senderId = clientResponse.sender?.id
-        } catch (e) {
-            triggerAlert(m.failed_to_get_client(), "", "error")    
+        } catch (e: any) {
+            triggerAlert(m.failed_to_get_client(), e?.response?.data?.message, "error")    
         } finally {
             isLoading = false
         }

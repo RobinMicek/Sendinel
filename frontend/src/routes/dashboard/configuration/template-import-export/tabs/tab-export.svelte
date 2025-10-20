@@ -43,8 +43,8 @@
 
             a.remove()
             window.URL.revokeObjectURL(fileUrl)
-        } catch (e) {
-            triggerAlert(m.failed_to_export_templates(), "", "error")
+        } catch (e: any) {
+            triggerAlert(m.failed_to_export_templates(), e?.response?.data?.message, "error")
         } finally {
             isLoading = false
         }
@@ -55,8 +55,8 @@
         try {
             const response = await templateService.getAllBasics();
             templateData = response
-        } catch (e) {
-            triggerAlert(m.failed_to_get_templates(), "", "error")
+        } catch (e: any) {
+            triggerAlert(m.failed_to_get_templates(), e?.response?.data?.message, "error")
         } finally {
             isLoading = false
         }

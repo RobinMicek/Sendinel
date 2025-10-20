@@ -29,8 +29,8 @@
             pageData = response
             currentPageNumber = response.pageNumber
 
-        } catch (e) {
-            triggerAlert(m.failed_to_get_emails(), "", "error")
+        } catch (e: any) {
+            triggerAlert(m.failed_to_get_emails(), e?.response?.data?.message, "error")
         } finally {
             isLoading = false
         }

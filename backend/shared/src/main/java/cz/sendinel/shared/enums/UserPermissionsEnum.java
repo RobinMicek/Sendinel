@@ -15,6 +15,7 @@ public enum UserPermissionsEnum {
     USERS_UPDATE,
     USERS_DELETE,
     USERS_CHANGE_PASSWORD,
+    USERS_TOTP_DELETE,
 
     SENDERS_READ,
     SENDERS_CREATE,

@@ -42,4 +42,8 @@ export default class UserService extends APIService {
             const res = await this.api.post(`/user/${id}/change-password`, userChangePasswordRequest, {headers: this.getHeaders()})
         }
     }
+
+    async deleteTotp(id: string) {
+        const res = await this.api.delete(`/user/${id}/totp`, {headers: this.getHeaders()})
+    }
 }

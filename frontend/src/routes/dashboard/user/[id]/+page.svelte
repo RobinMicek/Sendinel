@@ -27,6 +27,7 @@
     let canEdit = userStore.get()?.role && hasPermission(userStore.get()!.role, UserPermissionsEnum.USERS_UPDATE)
     let canDelete = userStore.get()?.role && hasPermission(userStore.get()!.role, UserPermissionsEnum.USERS_DELETE) && userStore.get()?.id != data.id
     let canChangePassword = userStore.get()?.role && hasPermission(userStore.get()!.role, UserPermissionsEnum.USERS_DELETE) && userStore.get()?.id != data.id
+    let canDeleteTotp = userStore.get()?.role && hasPermission(userStore.get()!.role, UserPermissionsEnum.USERS_TOTP_DELETE) && userStore.get()?.id != data.id
     let userData: UserResponse
 
     async function handleUpdate(id: string, userUpdateRequest: UserUpdateRequest) {
@@ -57,6 +58,19 @@
         } finally {
             isLoading = false
         }
+    }
+
+    async function handleTotpDelete(id: string) {
+        isLoading = true
+        try {
+            const response = await userService.deleteTotp(id)
+
+            triggerAlert(m.totp_successfully_deleted(), "", "success")            
+        } catch (e) {
+            triggerAlert(m.failed_to_delete_totp(), "", "error")
+        } finally {
+            isLoading = false
+        }
     } 
 
     async function getData(id: string) {
@@ -81,8 +95,17 @@
 
     <div class="flex items-center gap-6">
         <ChangePassword
+            disabled={!canChangePassword}
             userId={data.id}
             triggerText={m.change_password()}            
+        />
+
+        <Confirm
+            disabled={!canDeleteTotp}
+            triggerText={m.delete_totp()}
+            triggerVariant="outline"
+            contentText={m.do_you_really_want_to_delete_user_totp()}
+            action={() => (handleTotpDelete(data.id))}
         />
 
         <Confirm

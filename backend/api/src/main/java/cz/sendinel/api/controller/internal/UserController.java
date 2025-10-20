@@ -1,6 +1,7 @@
 package cz.sendinel.api.controller.internal;
 
 import cz.sendinel.api.dto.user.UserChangePasswordRequestDto;
+import cz.sendinel.api.service.UserTotpService;
 import cz.sendinel.api.util.RsqlUtil;
 import cz.sendinel.shared.config.Constants;
 import cz.sendinel.api.controller.InternalControllerBase;
@@ -30,6 +31,7 @@ import java.util.UUID;
 public class UserController extends InternalControllerBase {
 
     private final UserService userService;
+    private final UserTotpService userTotpService;
 
     @GetMapping
     @PreAuthorize("hasAuthority('USERS_READ')")
@@ -94,6 +96,17 @@ public class UserController extends InternalControllerBase {
     @PreAuthorize("hasAuthority('USERS_CHANGE_PASSWORD')")
     public ResponseEntity<UserResponseDto> changePassword(@PathVariable UUID id, @Valid @RequestBody UserChangePasswordRequestDto userChangePasswordRequestDto) {
         userService.changePasswordFromDto(id, userChangePasswordRequestDto, getLoggedInUser());
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{id}/totp")
+    @PreAuthorize("hasAuthority('USERS_TOTP_DELETE')")
+    public ResponseEntity<Void> deleteTotp(@PathVariable UUID id) {
+        User user = userService.getUserById(id).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User does not exist")
+        );
+        userTotpService.deleteTotp(user);
 
         return ResponseEntity.noContent().build();
     }

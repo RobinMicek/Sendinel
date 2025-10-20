@@ -268,6 +268,7 @@
     "resend_requested": "Resend Requested",
     "failed_to_get_available_template_tags": "Failed to get available template tags",
     "tags": "Tags",
-    "select_tags": "Select tags..."
+    "select_tags": "Select tags...",
+    "do_you_really_want_to_delete_user_totp": "Do you really want to delete TOTP for this user? They will be prompted to create a new one on their next login."
 
 }

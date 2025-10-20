@@ -59,6 +59,7 @@ public enum UserRolesEnum {
                     UserPermissionsEnum.USERS_UPDATE,
                     UserPermissionsEnum.USERS_DELETE,
                     UserPermissionsEnum.USERS_CHANGE_PASSWORD,
+                    UserPermissionsEnum.USERS_TOTP_DELETE,
 
                     UserPermissionsEnum.CLIENTS_CREATE,
                     UserPermissionsEnum.CLIENTS_UPDATE,

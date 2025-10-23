@@ -192,7 +192,7 @@
                         </Table.Row>
                     </Table.Header>
                     <Table.Body>
-                        {#each emailData.emailStatuses.reverse() as emailStatus}
+                        {#each emailData.emailStatuses.sort((a, b) => new Date(b.createdOn).getTime() - new Date(a.createdOn).getTime()) as emailStatus}
                             <Table.Row>
                                 <Table.Cell class="font-medium">
                                     <DatatableBadgeColored text={emailStatusesMeta[emailStatus.status].translation} color={emailStatusesMeta[emailStatus.status].color} icon={emailStatusesMeta[emailStatus.status].icon} />

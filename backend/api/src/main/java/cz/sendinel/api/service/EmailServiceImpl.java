@@ -119,6 +119,13 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
+    public void trackEmailOpened(String trackCode, String note) {
+        getEmailByTrackCode(trackCode).ifPresent(
+                email -> emailStatusService.createStatus(EmailStatusesEnum.OPENED, note, email)
+        );
+    }
+
+    @Override
     public EmailJobRequest getJobRequestModel(Email email) {
         EmailJobRequest emailJobRequest = new EmailJobRequest();
 

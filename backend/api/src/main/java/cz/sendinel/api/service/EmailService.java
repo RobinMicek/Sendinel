@@ -26,5 +26,6 @@ public interface EmailService {
 
 
     void trackEmailOpened(String trackCode);
+    void trackEmailOpened(String trackCode, String note);
     File renderEmailToPDF(Email email);
 }

@@ -1,3 +1,16 @@
+## [0.2.0] - 2025-10-23
+
+### 🐛 Bug Fixes
+
+- Fixed sorting email statuses by created timestamp (FRONTEND) 
+- Switched all description columns to use text type (BACKEND) 
+- Redirect to totp verification on page reload when token is present but totp is not verified (FRONTEND) 
+
+### 🚀 Features
+
+- Added device info to opened status note (BACKEND) 
+- Added error messages to alerts (FRONTEND) 
+- Added ability for admins to remove totps for other users
 ## [0.1.0] - 2025-10-15
 
 ### 🐛 Bug Fixes

@@ -5,6 +5,7 @@ export interface UserBasicsResponse {
   id: string; // UUID
   firstname: string;
   lastname: string;
+  email: string;
 }
 
 // Full user response

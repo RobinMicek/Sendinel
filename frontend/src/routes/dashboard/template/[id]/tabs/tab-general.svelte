@@ -5,7 +5,6 @@
     import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
     import Input from "@/components/ui/input/input.svelte";
     import Label from "@/components/ui/label/label.svelte";
-    import { getLocalFormatedDate } from "@/utils/date-util";
     import Textarea from "@/components/ui/textarea/textarea.svelte";
     import { m } from "@/paraglide/messages";
     import type { TemplateResponse, TemplateTagResponse } from "@/types/dtos/template";
@@ -16,6 +15,7 @@
     import { ChevronDown, Plus } from "@lucide/svelte";
     import Checkbox from "@/components/ui/checkbox/checkbox.svelte";
     import type { UserBasicsResponse } from "@/types/dtos/user";
+    import CreatedByUpdatedBy from "@/components/created-by-updated-by/created-by-updated-by.svelte";
 
     export let canEdit: boolean | undefined
     export let templateData: TemplateResponse
@@ -141,33 +141,6 @@
         </Card.Content>
     </Card.Root>
 
+    <CreatedByUpdatedBy createdBy={templateData.createdBy} createdOn={templateData.createdOn} updatedBy={templateData.updatedBy} updatedOn={templateData.updatedOn} />
 
-    <Card.Root>
-        <Card.Header>
-            <Card.Title>{m.history()}</Card.Title>
-        </Card.Header>
-        <Card.Content>
-            <div class="grid md:grid-cols-2 gap-6 w-full">
-                <div class="flex flex-col items-start gap-2">
-                    <Label for="updated_on">{m.updated_on()}</Label>
-                    <Input id="updated_on" type="text" readonly value={getLocalFormatedDate(templateData?.updatedOn)} />
-                </div>
-
-                <div class="flex flex-col items-start gap-2">
-                    <Label for="updated_by">{m.updated_by()}</Label>
-                    <Input id="updated_by" type="text" readonly value={templateData?.updatedBy?.firstname + " " + templateData?.updatedBy?.lastname} />
-                </div>
-        
-                <div class="flex flex-col items-start gap-2">
-                    <Label for="created_on">{m.created_on()}</Label>
-                    <Input id="created_on" type="text" readonly value={getLocalFormatedDate(templateData?.createdOn)} />
-                </div>
-
-                <div class="flex flex-col items-start gap-2">
-                    <Label for="created_by">{m.created_by()}</Label>
-                    <Input id="created_by" type="text" readonly value={templateData?.createdBy?.firstname + " " + templateData?.createdBy?.lastname} />
-                </div>
-            </div>
-        </Card.Content>
-    </Card.Root>
 </div>

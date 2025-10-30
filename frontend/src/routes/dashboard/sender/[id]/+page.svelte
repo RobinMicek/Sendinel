@@ -11,7 +11,6 @@
     import { hasPermission } from "@/types/enums/user-roles-enum";
     import { m } from "@/paraglide/messages";
     import Skeleton from "@/components/ui/skeleton/skeleton.svelte";
-    import { getLocalFormatedDate } from "@/utils/date-util";
     import { triggerAlert } from "@/stores/alert-store";
     import { goto } from "$app/navigation";
     import { onMount } from "svelte";
@@ -23,6 +22,7 @@
     import Switch from "@/components/ui/switch/switch.svelte";
     import { APP_NAME } from "@/config";
     import { Info } from "@lucide/svelte";
+    import CreatedByUpdatedBy from "@/components/created-by-updated-by/created-by-updated-by.svelte";
 
     export let data: { id: string }
 
@@ -200,34 +200,7 @@
             </Card.Content>
         </Card.Root>
 
-        <Card.Root>
-            <Card.Header>
-                <Card.Title>{m.history()}</Card.Title>
-            </Card.Header>
-            <Card.Content>
-                <div class="grid md:grid-cols-2 gap-6 w-full">
-                    <div class="flex flex-col items-start gap-2">
-                        <Label for="updated_on">{m.updated_on()}</Label>
-                        <Input id="updated_on" type="text" readonly value={getLocalFormatedDate(senderData?.updatedOn)} />
-                    </div>
-
-                    <div class="flex flex-col items-start gap-2">
-                        <Label for="updated_by">{m.updated_by()}</Label>
-                        <Input id="updated_by" type="text" readonly value={senderData?.updatedBy?.firstname + " " + senderData?.updatedBy?.lastname} />
-                    </div>
-            
-                    <div class="flex flex-col items-start gap-2">
-                        <Label for="created_on">{m.created_on()}</Label>
-                        <Input id="created_on" type="text" readonly value={getLocalFormatedDate(senderData?.createdOn)} />
-                    </div>
-
-                    <div class="flex flex-col items-start gap-2">
-                        <Label for="created_by">{m.created_by()}</Label>
-                        <Input id="created_by" type="text" readonly value={senderData?.createdBy?.firstname + " " + senderData?.createdBy?.lastname} />
-                    </div>
-                </div>
-            </Card.Content>
-        </Card.Root>
+        <CreatedByUpdatedBy createdBy={senderData.createdBy} createdOn={senderData.createdOn} updatedBy={senderData.updatedBy} updatedOn={senderData.updatedOn} />
 
         <div class="w-full flex justify-center gap-6">
             <div></div>

@@ -28,6 +28,7 @@
     import DatatableBadgeColored from "@/components/datatable/datatable-badge-colored.svelte";
     import CreateClientToken from "./create-client-token.svelte";
     import { senderTypesMeta } from "@/types/enums/sender-types-enum";
+    import CreatedByUpdatedBy from "@/components/created-by-updated-by/created-by-updated-by.svelte";
 
     export let data: { id: string }
 
@@ -259,34 +260,7 @@
             </Card.Content>
         </Card.Root>
 
-        <Card.Root>
-            <Card.Header>
-                <Card.Title>{m.history()}</Card.Title>
-            </Card.Header>
-            <Card.Content>
-                <div class="grid md:grid-cols-2 gap-6 w-full">
-                    <div class="flex flex-col items-start gap-2">
-                        <Label for="updated_on">{m.updated_on()}</Label>
-                        <Input id="updated_on" type="text" readonly value={getLocalFormatedDate(clientData?.updatedOn)} />
-                    </div>
-
-                    <div class="flex flex-col items-start gap-2">
-                        <Label for="updated_by">{m.updated_by()}</Label>
-                        <Input id="updated_by" type="text" readonly value={clientData?.updatedBy?.firstname + " " + clientData?.updatedBy?.lastname} />
-                    </div>
-            
-                    <div class="flex flex-col items-start gap-2">
-                        <Label for="created_on">{m.created_on()}</Label>
-                        <Input id="created_on" type="text" readonly value={getLocalFormatedDate(clientData?.createdOn)} />
-                    </div>
-
-                    <div class="flex flex-col items-start gap-2">
-                        <Label for="created_by">{m.created_by()}</Label>
-                        <Input id="created_by" type="text" readonly value={clientData?.createdBy?.firstname + " " + clientData?.createdBy?.lastname} />
-                    </div>
-                </div>
-            </Card.Content>
-        </Card.Root>
+        <CreatedByUpdatedBy createdBy={clientData.createdBy} createdOn={clientData.createdOn} updatedBy={clientData.updatedBy} updatedOn={clientData.updatedOn} />
 
         <div class="w-full flex justify-center gap-6">
             <div></div>

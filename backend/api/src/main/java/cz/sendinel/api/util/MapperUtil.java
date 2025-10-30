@@ -48,11 +48,11 @@ public class MapperUtil {
 
         // Map createdBy / updatedBy safely using UserBasicsResponseDto
         dto.setCreatedBy(user.getCreatedBy() != null
-                ? new UserBasicsResponseDto(user.getCreatedBy().getId(), user.getCreatedBy().getFirstname(), user.getCreatedBy().getLastname())
+                ? new UserBasicsResponseDto(user.getCreatedBy().getId(), user.getCreatedBy().getFirstname(), user.getCreatedBy().getLastname(), user.getCreatedBy().getEmail())
                 : null);
 
         dto.setUpdatedBy(user.getUpdatedBy() != null
-                ? new UserBasicsResponseDto(user.getUpdatedBy().getId(), user.getUpdatedBy().getFirstname(), user.getUpdatedBy().getLastname())
+                ? new UserBasicsResponseDto(user.getUpdatedBy().getId(), user.getUpdatedBy().getFirstname(), user.getUpdatedBy().getLastname(), user.getUpdatedBy().getEmail())
                 : null);
 
         return dto;

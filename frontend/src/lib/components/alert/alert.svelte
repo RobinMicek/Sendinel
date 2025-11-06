@@ -14,30 +14,21 @@
                 in:fly={{ y: -20, duration: 300 }}
                 out:fly={{ y: -20, duration: 300 }}
         >
-            {#if alert.type === "success"}
-                <Alert.Root>
-                    <CheckCircle2Icon />
-                    <Alert.Title>{alert.title}</Alert.Title>
-                    {#if alert.description}
-                        <Alert.Description>{alert.description}</Alert.Description>
-                    {/if}
-                </Alert.Root>
-
-            {:else if alert.type === "info"}
-                <Alert.Root>
+            <Alert.Root variant={alert.type == "error" ? "destructive" : "default"}>
+                {#if alert.type === "success"}
+                    <CheckCircle2Icon />            
+                {:else if alert.type === "info"}
                     <InfoIcon />
-                    <Alert.Title>{alert.title}</Alert.Title>
-                </Alert.Root>
-
-            {:else if alert.type === "error"}
-                <Alert.Root variant="destructive">
+                {:else if alert.type === "error"}
                     <AlertCircleIcon />
-                    <Alert.Title>{alert.title}</Alert.Title>
-                    {#if alert.description}
-                        <Alert.Description>{alert.description}</Alert.Description>
-                    {/if}
-                </Alert.Root>
-            {/if}
+                {/if}
+
+                <Alert.Title>{alert.title}</Alert.Title>
+            
+                {#if alert.description}            
+                    <Alert.Description class="lowercase">{alert.description}</Alert.Description>        
+                {/if}
+            </Alert.Root>
         </div>
     {/each}
 </div>

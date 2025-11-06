@@ -14,6 +14,7 @@ sort_commits = "newest"
 commit_parsers = [
     { message = "^feat", group = "🚀 Features" },
     { message = "^fix", group = "🐛 Bug Fixes" },
+    { message = "^fix", group = "🏗️ Refactors" },
     { message = "^perf", group = "⚡ Performance" },
     { message = "^test", group = "🧪 Testing" },
     { message = "^chore", skip = true },

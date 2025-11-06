@@ -22,6 +22,9 @@
 
 </div>
 
+> [!WARNING]
+> This project is in early stages of development. It may contain bugs or have limited functionality.
+
 <!-- About the Project -->
 ## ⭐ About the Project
 Sendinel is a lightweight service for sending transactional emails with ease. Instead of wrestling with multiple email providers, SDKs, and configuration headaches, Sendinel simplifies email delivery to just a single POST request, and your message is on its way.

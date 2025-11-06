@@ -27,8 +27,8 @@
             const response = await clientService.create(clientCreateRequest)
 
             await goto("/dashboard/client/" + response.id)
-        } catch (e) {        
-            triggerAlert(m.failed_to_create_new_client(), "", "error")
+        } catch (e: any) {        
+            triggerAlert(m.failed_to_create_new_client(), e?.response?.data?.message, "error")
         } finally {
             isLoading = false
         }

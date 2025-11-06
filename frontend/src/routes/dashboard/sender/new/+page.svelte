@@ -30,8 +30,8 @@
             const response = await senderService.create(senderCreateRequest)
 
             await goto("/dashboard/sender/" + response.id)
-        } catch (e) {        
-            triggerAlert(m.failed_to_create_sender(), "", "error")
+        } catch (e: any) {        
+            triggerAlert(m.failed_to_create_sender(), e?.response?.data?.message, "error")
         } finally {
             isLoading = false
         }

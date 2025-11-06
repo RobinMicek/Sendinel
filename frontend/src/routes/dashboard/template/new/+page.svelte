@@ -42,8 +42,8 @@
             const response = await templateService.create(templateCreateRequest)
 
             await goto("/dashboard/template/" + response.id)
-        } catch (e) {        
-            triggerAlert(m.failed_to_create_new_template(), "", "error")
+        } catch (e: any) {        
+            triggerAlert(m.failed_to_create_new_template(), e?.response?.data?.message, "error")
         } finally {
             isLoading = false
         }

@@ -30,8 +30,8 @@
             const response = await userService.create(userCreateRequest)
 
             await goto("/dashboard/user/" + response.id)
-        } catch (e) {        
-            triggerAlert(m.failed_to_create_new_user_account(), "", "error")
+        } catch (e: any) {        
+            triggerAlert(m.failed_to_create_new_user_account(), e?.response?.data?.message, "error")
         } finally {
             isLoading = false
         }
